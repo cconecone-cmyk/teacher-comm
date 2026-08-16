@@ -45,7 +45,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
 
-  <!-- 頂部導覽列 (三個分頁按鈕) -->
+  <!-- 頂部導覽列 (三個主分頁) -->
   <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80 transition-all duration-300">
     <div class="max-w-2xl mx-auto px-3 sm:px-4 h-14 flex items-center justify-between gap-1">
       <div class="flex items-center space-x-1.5 shrink-0">
@@ -216,7 +216,7 @@
           </div>
           <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-2xl">
             <div class="text-xs font-bold text-amber-900 mb-1">🩺 關鍵體悟</div>
-            <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-semibold">
+            <p class="text-xs sm:text-amber-900 leading-relaxed font-semibold">
               主動聯繫的成本，遠低於被動處理的代價。<br>
               <span class="font-normal text-amber-800">主動 = 預防醫學（平時打預防針）；被動 = 急診室（發炎爆發搶救）。</span>
             </p>
@@ -603,113 +603,71 @@
       </div>
     </section>
 
-    <!-- ==================== 區塊三：覺察探索 (情緒卡片 + 薩提爾姿態自由填寫) ==================== -->
+    <!-- ==================== 區塊三：覺察探索 (情緒卡片直融入情境探索) ==================== -->
     <section id="section-explore" class="hidden space-y-5">
       
       <!-- 標題 Banner -->
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-lg">
         <div class="flex items-center justify-between mb-2">
           <span class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-semibold border border-indigo-400/30">
-            🧘 內在自我覺察工具
+            🧘 薩提爾冰山覺察工具
           </span>
-          <span class="text-xs text-indigo-300 font-mono">薩提爾模式</span>
+          <span class="text-xs text-indigo-300 font-mono">情境・情緒・姿態</span>
         </div>
-        <h2 class="text-xl sm:text-2xl font-bold mb-1">情緒卡片與溝通姿態探索</h2>
+        <h2 class="text-xl sm:text-2xl font-bold mb-1">情境情緒卡與溝通姿態探索</h2>
         <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed">
-          自由填寫您經歷的真實壓力情境，辨識內在情緒與應對姿態，看見自我寶藏！
+          在每一個具體壓力情境中，同時覺察「內在真實情緒」與「外在應對姿態」，看見自我寶藏！
         </p>
       </div>
 
       <!-- 頁籤內部導覽 -->
       <div class="flex items-center bg-white p-1 rounded-2xl border border-slate-200 shadow-sm text-xs font-bold">
-        <button id="exp-tab-emotion-btn" onclick="switchExploreStep('emotion')" class="flex-1 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1">
-          <span>🎴</span><span>1. 情緒卡片</span>
-        </button>
-        <button id="exp-tab-stance-btn" onclick="switchExploreStep('stance')" class="flex-1 py-2 rounded-xl transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1">
-          <span>🎭</span><span>2. 溝通姿態 (填空)</span>
+        <button id="exp-tab-input-btn" onclick="switchExploreStep('input')" class="flex-1 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1">
+          <span>📝</span><span>1. 填寫情境・情緒與姿態</span>
         </button>
         <button id="exp-tab-report-btn" onclick="switchExploreStep('report')" class="flex-1 py-2 rounded-xl transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1">
-          <span>🧭</span><span>3. 覺察羅盤</span>
+          <span>🧭</span><span>2. 覺察羅盤報告</span>
         </button>
       </div>
 
-      <!-- 子步驟一：情緒卡片 (可複選 + 身心部位) -->
-      <div id="step-emotion-container" class="space-y-4">
-        <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-              <span>🎴</span> 第一步：點選當下符合感受的情緒卡（可複選）
-            </h3>
-            <span class="text-[11px] text-slate-400" id="selected-emotion-count">已選 0 張</span>
-          </div>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            人往往同時有多種感受（例如「既生氣又委屈」）。點擊下方卡片即可自由複選。
-          </p>
-
-          <!-- 六大情緒分類網格 -->
-          <div class="space-y-3 pt-1" id="emotion-categories-wrapper"></div>
-
-          <!-- 身心部位與內在覺察輔助 -->
-          <div class="mt-4 pt-4 border-t border-slate-100 space-y-3">
-            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <span>🧘</span> 這個感覺在你身體的哪個部位最明顯？（單選/複選）
-            </div>
-            <div class="flex flex-wrap gap-1.5" id="body-parts-chips"></div>
-
-            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5 pt-1">
-              <span>💭</span> 這個感覺想告訴你什麼？（核心渴望/需要）
-            </div>
-            <div class="flex flex-wrap gap-1.5" id="insight-prompts-chips"></div>
-          </div>
-
-          <div class="pt-2 flex justify-end">
-            <button onclick="switchExploreStep('stance')" class="w-full sm:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all touch-btn">
-              下一步：填寫情境與勾選姿態 ➔
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 子步驟二：薩提爾溝通姿態 (情境填空 + 五大姿態複選) -->
-      <div id="step-stance-container" class="hidden space-y-4">
+      <!-- 步驟一：情境卡片清單 (情境填空 + 內在情緒卡複選 + 外在姿態複選) -->
+      <div id="step-input-container" class="space-y-4">
+        
         <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
-          
           <div>
             <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-              <span>🎭</span> 第二步：在不同情境中，勾選您「可能出現」的反應方式
+              <span>🎯</span> 探索您在不同壓力情境下的「內在情緒」與「外在姿態」
             </h3>
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-              人在壓力下常有不同應對姿態。請自由填寫具體經歷的壓力情境，並勾選符合的姿態（每題皆可複選多種姿態，亦可點擊下方新增多個情境）。
+              請在各情境中填寫具體經歷，並勾選該情境下湧現的<strong>情緒感受</strong>與可能採取的<strong>溝通姿態</strong>（皆可自由複選）。
             </p>
           </div>
 
           <!-- 動態情境卡片列表容器 -->
-          <div class="space-y-4" id="custom-scenarios-container"></div>
+          <div class="space-y-5" id="integrated-scenarios-container"></div>
 
           <!-- 新增情境按鈕 -->
-          <button onclick="addCustomScenarioCard()" class="w-full py-2.5 border-2 border-dashed border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-indigo-600 font-bold text-xs rounded-2xl transition-all flex items-center justify-center gap-1.5 touch-btn">
-            <span>➕</span><span>新增一個不同場域的情境（例如家庭、職場或親師）</span>
+          <button onclick="addCustomScenarioCard()" class="w-full py-3 border-2 border-dashed border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-indigo-600 font-bold text-xs rounded-2xl transition-all flex items-center justify-center gap-1.5 touch-btn">
+            <span>➕</span><span>新增另一個壓力情境（例如家庭、校園或職場）</span>
           </button>
 
-          <div class="pt-3 border-t border-slate-100 flex justify-between gap-2">
-            <button onclick="switchExploreStep('emotion')" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl transition-all">
-              ◀ 返回情緒卡
-            </button>
-            <button onclick="calculateAndShowReport()" class="flex-1 sm:flex-none px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all touch-btn">
-              ✨ 產出我的覺察羅盤報告 ➔
+          <div class="pt-3 border-t border-slate-100 flex justify-end">
+            <button onclick="calculateAndShowReport()" class="w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 text-white text-xs sm:text-sm font-bold rounded-2xl shadow-lg shadow-indigo-200 transition-all touch-btn flex items-center justify-center gap-2">
+              <span>✨</span><span>產出我的親師情緒與溝通羅盤報告 ➔</span>
             </button>
           </div>
         </div>
+
       </div>
 
-      <!-- 子步驟三：整合覺察羅盤與姿態寶藏報告 -->
+      <!-- 步驟二：整合覺察羅盤與姿態寶藏報告 -->
       <div id="step-report-container" class="hidden space-y-4">
         
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xl space-y-5" id="compass-card">
           
           <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
-              <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">個人化自我覺察</span>
+              <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">薩提爾冰山整合報告</span>
               <h3 class="text-lg font-bold text-slate-900 mt-1">🧭 我的親師情緒與溝通羅盤</h3>
             </div>
             <button onclick="resetExplore()" class="text-xs text-slate-400 hover:text-indigo-600 underline">
@@ -717,26 +675,15 @@
             </button>
           </div>
 
-          <!-- 1. 當前情緒與身心狀態統整 -->
-          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-            <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <span>🎴</span> 目前辨識到的情緒卡與身心印記：
-            </div>
-            <div class="flex flex-wrap gap-1.5 pt-1" id="report-selected-emotions">
-              <span class="text-xs text-slate-400">尚未選擇情緒卡</span>
-            </div>
-            <div class="text-xs text-slate-600 pt-1 flex items-start gap-1" id="report-body-message"></div>
-          </div>
-
-          <!-- 2. 您所填寫的情境與姿態清單 -->
-          <div class="space-y-2">
+          <!-- 1. 各情境「外在姿態 vs 內在情緒」冰山全貌 -->
+          <div class="space-y-3">
             <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <span>📝</span> 您所探索的壓力情境與應對姿態：
+              <span>🧊</span> 各情境的「外在姿態」與「內在情緒」對照：
             </h4>
-            <div class="space-y-2" id="report-custom-scenarios-summary"></div>
+            <div class="space-y-3" id="report-scenarios-breakdown"></div>
           </div>
 
-          <!-- 3. 溝通姿態分佈視覺化長條圖 -->
+          <!-- 2. 溝通姿態整體分佈長條圖 -->
           <div class="space-y-3 pt-2">
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
@@ -747,7 +694,7 @@
             <div class="space-y-2" id="stance-bars-wrapper"></div>
           </div>
 
-          <!-- 4. 姿態深度解讀與內在寶藏 -->
+          <!-- 3. 姿態深度解讀與內在寶藏 -->
           <div class="p-4 bg-amber-50/70 border border-amber-200/80 rounded-2xl space-y-2.5">
             <div class="font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
               <span>💎</span> 看見每種姿態中的「內在寶藏」
@@ -755,7 +702,7 @@
             <div class="space-y-2 text-xs text-amber-900 leading-relaxed" id="report-treasures-content"></div>
           </div>
 
-          <!-- 5. 一致性溝通指引 -->
+          <!-- 4. 一致性溝通指引 -->
           <div class="p-4 bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl space-y-2">
             <div class="font-bold text-xs sm:text-sm text-indigo-300 flex items-center gap-1.5">
               <span>🤝</span> 邁向「一致型溝通」的安頓心法
@@ -801,7 +748,6 @@
 
   <!-- JavaScript 交互邏輯 -->
   <script>
-    // 簡報資料 (Slide 0 ~ Slide 13)
     const slidesData = [
       { id: 0, title: "封面", subtitle: "如何做好親師溝通" },
       { id: 1, title: "學校日建立信任", subtitle: "三大核心任務與信任存摺" },
@@ -819,7 +765,6 @@
       { id: 13, title: "結語", subtitle: "溝通的本質：一起把孩子接住" }
     ];
 
-    // 50 題正式版題庫
     const fullQuizBank = [
   {
     "id": 1,
@@ -1473,127 +1418,121 @@
   }
 ];
 
-    // 六大基本情緒分類
+    // 六大基本情緒分類與細項詞彙
     const emotionCategories = [
       {
         category: "😊 喜悅",
         color: "emerald",
-        btnInactive: "bg-emerald-50/60 text-emerald-900 border-emerald-200 hover:bg-emerald-100/70",
+        btnInactive: "bg-emerald-50/60 text-emerald-900 border-emerald-200 hover:bg-emerald-100",
         words: ["快樂", "興奮", "滿足", "感激", "驕傲"]
       },
       {
         category: "😢 悲傷",
         color: "blue",
-        btnInactive: "bg-blue-50/60 text-blue-900 border-blue-200 hover:bg-blue-100/70",
+        btnInactive: "bg-blue-50/60 text-blue-900 border-blue-200 hover:bg-blue-100",
         words: ["失落", "委屈", "寂寞", "遺憾", "心碎"]
       },
       {
         category: "😠 憤怒",
         color: "rose",
-        btnInactive: "bg-rose-50/60 text-rose-900 border-rose-200 hover:bg-rose-100/70",
+        btnInactive: "bg-rose-50/60 text-rose-900 border-rose-200 hover:bg-rose-100",
         words: ["生氣", "挫折", "不滿", "憤恨", "煩躁"]
       },
       {
         category: "😨 恐懼",
         color: "amber",
-        btnInactive: "bg-amber-50/60 text-amber-900 border-amber-200 hover:bg-amber-100/70",
+        btnInactive: "bg-amber-50/60 text-amber-900 border-amber-200 hover:bg-amber-100",
         words: ["害怕", "擔心", "焦慮", "緊張", "不安"]
       },
       {
         category: "😣 厭惡",
         color: "purple",
-        btnInactive: "bg-purple-50/60 text-purple-900 border-purple-200 hover:bg-purple-100/70",
+        btnInactive: "bg-purple-50/60 text-purple-900 border-purple-200 hover:bg-purple-100",
         words: ["反感", "排斥", "不舒服", "嫌棄", "羞恥"]
       },
       {
         category: "😮 驚訝",
         color: "teal",
-        btnInactive: "bg-teal-50/60 text-teal-900 border-teal-200 hover:bg-teal-100/70",
+        btnInactive: "bg-teal-50/60 text-teal-900 border-teal-200 hover:bg-teal-100",
         words: ["震驚", "意外", "好奇", "困惑", "不知所措"]
       }
     ];
 
-    // 身心部位與覺察提問
+    // 身心部位選項
     const bodyPartsList = ["胸口悶脹", "喉嚨發緊", "肩膀緊繃", "胃部翻攪", "頭部脹痛", "手心發涼/冒汗", "呼吸短淺", "全身無力"];
-    const insightPromptsList = [
-      "提醒我需要喘口氣、設定界線",
-      "反映出我深層在乎孩子的安全與公平",
-      "讓我看見自己渴望被家長理解與支持",
-      "提醒我這件事已超出個人能力，需要團隊求援",
-      "反映出我害怕衝突升級的焦慮"
-    ];
 
-    // 薩提爾五大溝通姿態定義與簡介
+    // 薩提爾五大姿態
     const satirstancesDef = [
       {
         key: "placating",
         label: "討好型",
         icon: "🙇‍♂️",
-        desc: "迎合他人、過度和善、忽略自我需求，內心常感委屈與受傷。"
+        desc: "迎合他人、過度和善、忽略自我需求，內心常感委屈與受傷"
       },
       {
         key: "blaming",
         label: "指責型",
         icon: "🫵",
-        desc: "強硬批評、指責他人，內在可能隱藏害怕失控的焦慮與脆弱。"
+        desc: "強硬批評、指責他人，內在可能隱藏害怕失控的焦慮與脆弱"
       },
       {
         key: "super_reasonable",
         label: "超理智型",
         icon: "🧐",
-        desc: "過度客觀分析、忽略情感需求，以理性武裝防衛內在的孤單。"
+        desc: "過度客觀分析、忽略情感需求，以理性武裝防衛內在的孤單"
       },
       {
         key: "irrelevant",
         label: "打岔型",
         icon: "🤪",
-        desc: "以說笑、轉移話題逃避壓力，內在可能缺乏自信與確定感。"
+        desc: "以說笑、轉移話題逃避壓力，內在可能缺乏自信與確定感"
       },
       {
         key: "congruent",
         label: "一致型",
         icon: "🤝",
-        desc: "真實表達自我，同時關注對方與情境，真誠且自我負責。"
+        desc: "真實表達自我，同時關注對方與情境，真誠且自我負責"
       }
     ];
 
-    // 預設快速情境範例 Chips
+    // 快速範例情境
     const quickScenarioIdeas = [
-      "與家長電話爭執時",
+      "與家長電話溝通或收到質疑訊息時",
       "學生課堂當眾頂撞時",
       "被行政臨時交辦緊急高壓個案時",
       "工作被主管或督學指責時",
       "和家人或伴侶討論家事分工時"
     ];
 
-    // 全域狀態變數
+    // 全域變數
     let currentSlide = 0;
     let isFullView = false;
     let quizMode = 'random10';
     let activeQuizList = [];
     let userAnswers = {};
 
-    // 覺察探索狀態
-    let selectedEmotions = {};
-    let selectedBodyParts = [];
-    let selectedInsightPrompt = "";
-    
-    // 預設提供 3 個不同生活場域的情境插槽，供使用者直接填寫或修改
-    let userCustomScenarios = [
+    // 整合式自訂情境列表（每個情境包含：標題、所選情緒卡、身心部位、所選姿態）
+    let userIntegratedScenarios = [
       {
         id: 1,
         title: "與家長電話溝通或收到質疑訊息時",
-        selectedStances: []
+        selectedEmotions: ["焦慮", "委屈"],
+        selectedBodyParts: ["胸口悶脹"],
+        selectedStances: ["super_reasonable"]
       },
       {
         id: 2,
-        title: "與家人、伴侶討論家事或教養分歧時",
-        selectedStances: []
+        title: "學生在課堂當眾頂撞或拒絕配合管教時",
+        selectedEmotions: ["挫折", "生氣"],
+        selectedBodyParts: ["肩膀緊繃"],
+        selectedStances: ["blaming"]
       },
       {
         id: 3,
-        title: "工作上被主管要求或與同事意見不合時",
-        selectedStances: []
+        title: "與家人、伴侶討論家事或教養分歧時",
+        selectedEmotions: ["煩躁"],
+        selectedBodyParts: [],
+        selectedStances: ["placating"]
       }
     ];
 
@@ -1601,13 +1540,12 @@
       buildDirectory();
       initQuizList();
       buildQuiz();
-      buildEmotionSection();
-      renderCustomScenarios();
+      renderIntegratedScenarios();
       updateSlideView();
       setupScrollListener();
     });
 
-    // 主分頁切換 (講義 / 測驗 / 覺察探索)
+    // 切換三大分頁
     function switchMainTab(tab) {
       const slidesSec = document.getElementById('section-slides');
       const quizSec = document.getElementById('section-quiz');
@@ -1645,7 +1583,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ==================== 講義閱讀邏輯 ====================
+    // ==================== 講義邏輯 ====================
     function toggleViewMode() {
       isFullView = !isFullView;
       const btnText = document.getElementById('view-mode-text');
@@ -1740,7 +1678,7 @@
     function openDirectoryModal() { document.getElementById('dir-modal').classList.remove('hidden'); }
     function closeDirectoryModal() { document.getElementById('dir-modal').classList.add('hidden'); }
 
-    // ==================== 測驗模組 (50 題) ====================
+    // ==================== 測驗邏輯 ====================
     function setQuizMode(mode) {
       quizMode = mode;
       const randBtn = document.getElementById('mode-random-btn');
@@ -1881,33 +1819,26 @@
       resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // ==================== 覺察探索模組 ====================
+    // ==================== 覺察探索模組 (情緒卡置入情境) ====================
     function switchExploreStep(step) {
-      const emotionStep = document.getElementById('step-emotion-container');
-      const stanceStep = document.getElementById('step-stance-container');
+      const inputStep = document.getElementById('step-input-container');
       const reportStep = document.getElementById('step-report-container');
 
-      const btnEmotion = document.getElementById('exp-tab-emotion-btn');
-      const btnStance = document.getElementById('exp-tab-stance-btn');
+      const btnInput = document.getElementById('exp-tab-input-btn');
       const btnReport = document.getElementById('exp-tab-report-btn');
 
       const activeClass = "flex-1 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1";
       const inactiveClass = "flex-1 py-2 rounded-xl transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1";
 
-      emotionStep.classList.add('hidden');
-      stanceStep.classList.add('hidden');
+      inputStep.classList.add('hidden');
       reportStep.classList.add('hidden');
 
-      btnEmotion.className = inactiveClass;
-      btnStance.className = inactiveClass;
+      btnInput.className = inactiveClass;
       btnReport.className = inactiveClass;
 
-      if (step === 'emotion') {
-        emotionStep.classList.remove('hidden');
-        btnEmotion.className = activeClass;
-      } else if (step === 'stance') {
-        stanceStep.classList.remove('hidden');
-        btnStance.className = activeClass;
+      if (step === 'input') {
+        inputStep.classList.remove('hidden');
+        btnInput.className = activeClass;
       } else if (step === 'report') {
         reportStep.classList.remove('hidden');
         btnReport.className = activeClass;
@@ -1915,153 +1846,138 @@
       window.scrollTo({ top: document.getElementById('section-explore').offsetTop - 20, behavior: 'smooth' });
     }
 
-    // 建立情緒卡片 UI
-    function buildEmotionSection() {
-      const wrapper = document.getElementById('emotion-categories-wrapper');
-      wrapper.innerHTML = emotionCategories.map((cat, cIdx) => `
-        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-bold text-slate-800">${cat.category}</span>
-          </div>
-          <div class="flex flex-wrap gap-1.5">
-            ${cat.words.map(w => `
-              <button onclick="toggleEmotionWord('${w}', '${cat.category}')" id="emo-btn-${w}" class="px-3 py-1.5 rounded-xl text-xs font-medium border transition-all touch-btn ${cat.btnInactive}">
-                ${w}
-              </button>
-            `).join('')}
-          </div>
-        </div>
-      `).join('');
-
-      const bodyWrapper = document.getElementById('body-parts-chips');
-      bodyWrapper.innerHTML = bodyPartsList.map(bp => `
-        <button onclick="toggleBodyPart('${bp}')" id="bp-btn-${bp}" class="px-2.5 py-1 rounded-lg text-xs font-medium border border-slate-200 bg-white text-slate-600 hover:border-indigo-300 transition-all touch-btn">
-          ${bp}
-        </button>
-      `).join('');
-
-      const promptWrapper = document.getElementById('insight-prompts-chips');
-      promptWrapper.innerHTML = insightPromptsList.map(p => `
-        <button onclick="selectInsightPrompt('${p}')" id="prompt-btn-${p.slice(0, 4)}" class="w-full text-left p-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-700 hover:border-indigo-300 transition-all touch-btn">
-          ● ${p}
-        </button>
-      `).join('');
-    }
-
-    function toggleEmotionWord(word, catName) {
-      const btn = document.getElementById(`emo-btn-${word}`);
-      if (selectedEmotions[word]) {
-        delete selectedEmotions[word];
-        btn.className = "px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-700 transition-all touch-btn";
-      } else {
-        selectedEmotions[word] = { category: catName };
-        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold border border-indigo-600 bg-indigo-600 text-white shadow-sm transition-all touch-btn";
-      }
-      document.getElementById('selected-emotion-count').innerText = `已選 ${Object.keys(selectedEmotions).length} 張`;
-    }
-
-    function toggleBodyPart(bp) {
-      const btn = document.getElementById(`bp-btn-${bp}`);
-      const idx = selectedBodyParts.indexOf(bp);
-      if (idx > -1) {
-        selectedBodyParts.splice(idx, 1);
-        btn.className = "px-2.5 py-1 rounded-lg text-xs font-medium border border-slate-200 bg-white text-slate-600 hover:border-indigo-300 transition-all touch-btn";
-      } else {
-        selectedBodyParts.push(bp);
-        btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border border-teal-500 bg-teal-50 text-teal-900 shadow-sm transition-all touch-btn";
-      }
-    }
-
-    function selectInsightPrompt(p) {
-      selectedInsightPrompt = p;
-      insightPromptsList.forEach(item => {
-        const btn = document.getElementById(`prompt-btn-${item.slice(0, 4)}`);
-        if (item === p) {
-          btn.className = "w-full text-left p-2 rounded-xl text-xs font-bold border-2 border-indigo-500 bg-indigo-50 text-indigo-950 transition-all touch-btn";
-        } else {
-          btn.className = "w-full text-left p-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-700 transition-all touch-btn";
-        }
-      });
-    }
-
-    // ==================== 溝通姿態 (情境填空 + 姿態複選) ====================
-    function renderCustomScenarios() {
-      const container = document.getElementById('custom-scenarios-container');
-      container.innerHTML = userCustomScenarios.map((sc, scIdx) => `
-        <div class="p-4 sm:p-5 bg-slate-50 rounded-3xl border border-slate-200 space-y-3.5 transition-all shadow-sm" id="custom-sc-card-${sc.id}">
+    // 渲染整合式情境卡片 (情境描述 + 內在情緒卡 + 身心部位 + 溝通姿態)
+    function renderIntegratedScenarios() {
+      const container = document.getElementById('integrated-scenarios-container');
+      container.innerHTML = userIntegratedScenarios.map((sc, scIdx) => `
+        <div class="p-4 sm:p-5 bg-slate-50 rounded-3xl border border-slate-200 space-y-4 shadow-sm" id="sc-card-${sc.id}">
           
-          <!-- 情境標頭與刪除鈕 -->
-          <div class="flex items-center justify-between">
+          <!-- 1. 標題與刪除 -->
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/70">
             <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
               壓力情境 ${scIdx + 1}
             </span>
-            ${userCustomScenarios.length > 1 ? `
-              <button onclick="removeCustomScenarioCard(${sc.id})" class="text-xs text-rose-500 hover:text-rose-700 font-semibold px-2 py-0.5 rounded-md hover:bg-rose-50">
+            ${userIntegratedScenarios.length > 1 ? `
+              <button onclick="removeScenarioCard(${sc.id})" class="text-xs text-rose-500 hover:text-rose-700 font-semibold px-2 py-0.5 rounded-md hover:bg-rose-50">
                 ✕ 刪除此情境
               </button>
             ` : ''}
           </div>
 
-          <!-- 情境輸入框 -->
+          <!-- 2. 情境描述輸入框 -->
           <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">
-              ✏️ 請輸入具體壓力情境（例如：與家長電話爭執時、學生當眾頂撞時、被主管責備時）：
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">
+              ✏️ 具體情境描述（自由填寫）：
             </label>
             <input 
               type="text" 
-              id="sc-input-${sc.id}" 
               value="${sc.title}" 
-              oninput="updateScenarioTitle(${sc.id}, this.value)"
-              placeholder="例如：昨天和家長通話溝通學生缺交作業時..."
+              oninput="updateScTitle(${sc.id}, this.value)"
+              placeholder="例如：昨天和家長通話溝通缺交作業時、被主管責備時..."
               class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm text-slate-800 transition-all outline-none"
             />
+            <!-- 快速靈感 -->
+            <div class="flex flex-wrap items-center gap-1 text-[11px] mt-1.5">
+              <span class="text-slate-400 font-medium mr-0.5">💡 快速範例：</span>
+              ${quickScenarioIdeas.map(idea => `
+                <button onclick="setQuickIdea(${sc.id}, '${idea}')" class="px-2 py-0.5 bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 border border-slate-200 rounded-md transition-colors text-[10px]">
+                  ${idea}
+                </button>
+              `).join('')}
+            </div>
           </div>
 
-          <!-- 快速點選建議靈感 Chips -->
-          <div class="flex flex-wrap items-center gap-1 text-[11px]">
-            <span class="text-slate-400 font-medium mr-0.5">💡 快速範例：</span>
-            ${quickScenarioIdeas.map(idea => `
-              <button onclick="setQuickScenarioIdea(${sc.id}, '${idea}')" class="px-2 py-0.5 bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 border border-slate-200 rounded-md transition-colors text-[10px]">
-                ${idea}
-              </button>
-            `).join('')}
+          <!-- 3. 置入：內在真實情緒卡片 (可複選) -->
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-800 flex items-center gap-1">
+                <span>🎴</span><span>在此情境下，您的「內在真實情緒感受」是什麼？（可複選）</span>
+              </span>
+              <span class="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-full">
+                已選 ${sc.selectedEmotions ? sc.selectedEmotions.length : 0} 個
+              </span>
+            </div>
+
+            <!-- 6大類情緒詞彙折疊/展開網格 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${emotionCategories.map(cat => `
+                <div class="p-2.5 bg-slate-50/70 rounded-xl border border-slate-100">
+                  <div class="text-[11px] font-bold text-slate-700 mb-1.5">${cat.category}</div>
+                  <div class="flex flex-wrap gap-1">
+                    ${cat.words.map(w => {
+                      const isEmoSelected = sc.selectedEmotions && sc.selectedEmotions.includes(w);
+                      return `
+                        <button 
+                          onclick="toggleScEmotion(${sc.id}, '${w}')"
+                          class="px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all touch-btn ${
+                            isEmoSelected 
+                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm font-bold' 
+                              : 'bg-white text-slate-700 border-slate-200 hover:border-indigo-300'
+                          }"
+                        >
+                          ${w}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- 身心部位選擇 (可選) -->
+            <div class="pt-2 border-t border-slate-100">
+              <div class="text-[11px] font-bold text-slate-600 mb-1 flex items-center gap-1">
+                <span>🧘</span><span>身體哪個部位緊繃？（可複選）</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                ${bodyPartsList.map(bp => {
+                  const isBpSelected = sc.selectedBodyParts && sc.selectedBodyParts.includes(bp);
+                  return `
+                    <button 
+                      onclick="toggleScBodyPart(${sc.id}, '${bp}')"
+                      class="px-2 py-0.5 rounded-md text-[10px] border transition-all touch-btn ${
+                        isBpSelected 
+                          ? 'bg-teal-600 text-white border-teal-600 font-bold' 
+                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                      }"
+                    >
+                      ${bp}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
           </div>
 
-          <!-- 五大姿態複選選項 -->
-          <div class="space-y-2 pt-1">
-            <div class="text-[11px] font-bold text-slate-700 flex items-center justify-between">
-              <span>👇 針對此情境，勾選您「可能出現」的所有反應姿態（可複選）：</span>
+          <!-- 4. 外在應對的五大溝通姿態 (可複選 Checkbox) -->
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 space-y-2.5">
+            <div class="text-xs font-bold text-slate-800 flex items-center justify-between">
+              <span>🎭 針對此情境，您「外在可能出現」的反應姿態（可複選）：</span>
             </div>
             
-            <div class="space-y-2">
+            <div class="space-y-1.5">
               ${satirstancesDef.map(st => {
-                const isChecked = sc.selectedStances.includes(st.key);
+                const isStChecked = sc.selectedStances && sc.selectedStances.includes(st.key);
                 return `
                   <div 
-                    onclick="toggleCustomStanceCheckbox(${sc.id}, '${st.key}')"
-                    id="stance-box-${sc.id}-${st.key}"
-                    class="p-3 rounded-2xl border transition-all cursor-pointer touch-btn ${
-                      isChecked 
+                    onclick="toggleScStance(${sc.id}, '${st.key}')"
+                    class="p-2.5 rounded-xl border transition-all cursor-pointer touch-btn ${
+                      isStChecked 
                         ? 'border-2 border-indigo-600 bg-indigo-50/80 shadow-sm' 
-                        : 'border-slate-200 bg-white hover:border-indigo-300'
+                        : 'border-slate-200 bg-slate-50/60 hover:bg-white hover:border-indigo-300'
                     }"
                   >
-                    <div class="flex items-start gap-2.5">
+                    <div class="flex items-start gap-2">
                       <div class="w-4 h-4 rounded mt-0.5 border flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                        isChecked 
+                        isStChecked 
                           ? 'bg-indigo-600 border-indigo-600 text-white' 
-                          : 'border-slate-300 bg-slate-50 text-transparent'
-                      }" id="check-icon-${sc.id}-${st.key}">
+                          : 'border-slate-300 bg-white text-transparent'
+                      }">
                         ✓
                       </div>
                       <div class="flex-1">
-                        <div class="flex items-center gap-1 text-xs font-bold text-slate-900">
-                          <span>${st.icon}</span>
-                          <span>${st.label}</span>
-                        </div>
-                        <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
-                          ${st.desc}
-                        </p>
+                        <span class="text-xs font-bold text-slate-900">${st.icon} ${st.label}</span>
+                        <span class="text-[11px] text-slate-600 ml-1 leading-snug">${st.desc}</span>
                       </div>
                     </div>
                   </div>
@@ -2074,106 +1990,122 @@
       `).join('');
     }
 
-    function updateScenarioTitle(scId, val) {
-      const sc = userCustomScenarios.find(s => s.id === scId);
+    function updateScTitle(scId, val) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
       if (sc) sc.title = val;
     }
 
-    function setQuickScenarioIdea(scId, idea) {
-      const input = document.getElementById(`sc-input-${scId}`);
-      if (input) {
-        input.value = idea;
-        updateScenarioTitle(scId, idea);
+    function setQuickIdea(scId, idea) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (sc) {
+        sc.title = idea;
+        renderIntegratedScenarios();
       }
     }
 
-    function toggleCustomStanceCheckbox(scId, stanceKey) {
-      const sc = userCustomScenarios.find(s => s.id === scId);
+    function toggleScEmotion(scId, word) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
       if (!sc) return;
+      if (!sc.selectedEmotions) sc.selectedEmotions = [];
+      const idx = sc.selectedEmotions.indexOf(word);
+      if (idx > -1) sc.selectedEmotions.splice(idx, 1);
+      else sc.selectedEmotions.push(word);
+      renderIntegratedScenarios();
+    }
 
+    function toggleScBodyPart(scId, bp) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (!sc) return;
+      if (!sc.selectedBodyParts) sc.selectedBodyParts = [];
+      const idx = sc.selectedBodyParts.indexOf(bp);
+      if (idx > -1) sc.selectedBodyParts.splice(idx, 1);
+      else sc.selectedBodyParts.push(bp);
+      renderIntegratedScenarios();
+    }
+
+    function toggleScStance(scId, stanceKey) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (!sc) return;
+      if (!sc.selectedStances) sc.selectedStances = [];
       const idx = sc.selectedStances.indexOf(stanceKey);
-      if (idx > -1) {
-        sc.selectedStances.splice(idx, 1);
-      } else {
-        sc.selectedStances.push(stanceKey);
-      }
-      renderCustomScenarios();
+      if (idx > -1) sc.selectedStances.splice(idx, 1);
+      else sc.selectedStances.push(stanceKey);
+      renderIntegratedScenarios();
     }
 
     function addCustomScenarioCard() {
       const newId = Date.now();
-      userCustomScenarios.push({
+      userIntegratedScenarios.push({
         id: newId,
         title: "",
+        selectedEmotions: [],
+        selectedBodyParts: [],
         selectedStances: []
       });
-      renderCustomScenarios();
+      renderIntegratedScenarios();
       setTimeout(() => {
-        const newCard = document.getElementById(`custom-sc-card-${newId}`);
+        const newCard = document.getElementById(`sc-card-${newId}`);
         if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
     }
 
-    function removeCustomScenarioCard(scId) {
-      if (userCustomScenarios.length <= 1) return;
-      userCustomScenarios = userCustomScenarios.filter(s => s.id !== scId);
-      renderCustomScenarios();
+    function removeScenarioCard(scId) {
+      if (userIntegratedScenarios.length <= 1) return;
+      userIntegratedScenarios = userIntegratedScenarios.filter(s => s.id !== scId);
+      renderIntegratedScenarios();
     }
 
     // 計算並生成視覺化覺察報告
     function calculateAndShowReport() {
-      // 1. 渲染所選情緒卡
-      const emoContainer = document.getElementById('report-selected-emotions');
-      const emoKeys = Object.keys(selectedEmotions);
-      if (emoKeys.length === 0) {
-        emoContainer.innerHTML = `<span class="text-xs text-slate-500 italic font-medium">未選取特定情緒卡（平靜安穩）</span>`;
-      } else {
-        emoContainer.innerHTML = emoKeys.map(k => `
-          <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-lg border border-indigo-200 flex items-center gap-1">
-            <span>✨</span><span>${k}</span>
-          </span>
-        `).join('');
-      }
-
-      // 渲染身心部位與訊息
-      const bodyMsgEl = document.getElementById('report-body-message');
-      let bodyText = "";
-      if (selectedBodyParts.length > 0) {
-        bodyText += `<strong>身心緊繃部位：</strong>${selectedBodyParts.join('、')}。<br>`;
-      }
-      if (selectedInsightPrompt) {
-        bodyText += `<strong>內在感受提醒：</strong>「${selectedInsightPrompt}」`;
-      }
-      if (!bodyText) {
-        bodyText = `<span class="text-slate-400 text-xs">身體感覺整體放鬆安適。</span>`;
-      }
-      bodyMsgEl.innerHTML = bodyText;
-
-      // 2. 渲染各情境摘要清單
-      const scSummaryEl = document.getElementById('report-custom-scenarios-summary');
-      scSummaryEl.innerHTML = userCustomScenarios.map((sc, idx) => {
+      // 1. 各情境「外在姿態 vs 內在情緒」冰山對照
+      const breakdownEl = document.getElementById('report-scenarios-breakdown');
+      breakdownEl.innerHTML = userIntegratedScenarios.map((sc, idx) => {
         const titleText = sc.title.trim() || `情境 ${idx + 1}（未命名）`;
-        const stanceLabels = sc.selectedStances.map(stKey => {
+        const emoList = sc.selectedEmotions && sc.selectedEmotions.length > 0 ? sc.selectedEmotions : ["平靜安穩"];
+        const bpList = sc.selectedBodyParts && sc.selectedBodyParts.length > 0 ? sc.selectedBodyParts.join('、') : "無特別緊繃";
+        const stanceLabels = (sc.selectedStances || []).map(stKey => {
           const def = satirstancesDef.find(d => d.key === stKey);
           return def ? `${def.icon} ${def.label}` : stKey;
         });
 
         return `
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
-            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5 pb-1.5 border-b border-slate-200">
               <span class="w-5 h-5 rounded bg-indigo-600 text-white flex items-center justify-center text-[10px]">${idx + 1}</span>
-              <span>${titleText}</span>
+              <span class="text-sm">${titleText}</span>
             </div>
-            <div class="flex flex-wrap gap-1 pt-1">
-              ${stanceLabels.length > 0 ? stanceLabels.map(l => `
-                <span class="px-2 py-0.5 bg-white text-indigo-900 border border-indigo-200 rounded-md font-medium text-[11px]">${l}</span>
-              `).join('') : '<span class="text-slate-400 italic">未勾選姿態</span>'}
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+              <!-- 內在情緒冰山底層 -->
+              <div class="p-2.5 bg-indigo-50/70 rounded-xl border border-indigo-100 space-y-1">
+                <span class="text-[11px] font-bold text-indigo-900 flex items-center gap-1">
+                  <span>🎴</span> 內在情緒感受：
+                </span>
+                <div class="flex flex-wrap gap-1">
+                  ${emoList.map(e => `<span class="px-2 py-0.5 bg-indigo-600 text-white rounded text-[10px] font-medium">${e}</span>`).join('')}
+                </div>
+                <div class="text-[10px] text-indigo-700 pt-0.5">
+                  <strong>緊繃部位：</strong>${bpList}
+                </div>
+              </div>
+
+              <!-- 外在應對姿態冰山頂層 -->
+              <div class="p-2.5 bg-amber-50/70 rounded-xl border border-amber-100 space-y-1">
+                <span class="text-[11px] font-bold text-amber-900 flex items-center gap-1">
+                  <span>🎭</span> 外在應對姿態：
+                </span>
+                <div class="flex flex-wrap gap-1">
+                  ${stanceLabels.length > 0 
+                    ? stanceLabels.map(l => `<span class="px-2 py-0.5 bg-amber-600 text-white rounded text-[10px] font-bold">${l}</span>`).join('')
+                    : '<span class="text-slate-400 italic text-[10px]">未勾選姿態</span>'}
+                </div>
+              </div>
             </div>
           </div>
         `;
       }).join('');
 
-      // 3. 統計 5 種姿態總次數
+      // 2. 統計 5 種姿態總次數
       const counts = {
         placating: 0,
         blaming: 0,
@@ -2183,8 +2115,8 @@
       };
 
       let totalSelected = 0;
-      userCustomScenarios.forEach(sc => {
-        sc.selectedStances.forEach(st => {
+      userIntegratedScenarios.forEach(sc => {
+        (sc.selectedStances || []).forEach(st => {
           if (counts[st] !== undefined) {
             counts[st]++;
             totalSelected++;
@@ -2194,11 +2126,11 @@
 
       // 渲染長條圖
       const stanceMeta = [
-        { key: "placating", name: "🙇‍♂️ 討好型", color: "from-blue-500 to-indigo-500", desc: "過度和善、忽略自己需求" },
-        { key: "blaming", name: "🫵 指責型", color: "from-rose-500 to-amber-500", desc: "強硬批判、防衛保護自己" },
-        { key: "super_reasonable", name: "🧐 超理智型", color: "from-purple-500 to-indigo-600", desc: "過度理性客觀、忽略情感連結" },
-        { key: "irrelevant", name: "🤪 打岔型", color: "from-teal-500 to-emerald-500", desc: "幽默說笑、轉移話題逃避壓力" },
-        { key: "congruent", name: "🤝 一致型", color: "from-emerald-500 to-teal-600", desc: "真實表達感受、兼顧自我他人與情境" }
+        { key: "placating", name: "🙇‍♂️ 討好型", color: "from-blue-500 to-indigo-500" },
+        { key: "blaming", name: "🫵 指責型", color: "from-rose-500 to-amber-500" },
+        { key: "super_reasonable", name: "🧐 超理智型", color: "from-purple-500 to-indigo-600" },
+        { key: "irrelevant", name: "🤪 打岔型", color: "from-teal-500 to-emerald-500" },
+        { key: "congruent", name: "🤝 一致型", color: "from-emerald-500 to-teal-600" }
       ];
 
       const barsWrapper = document.getElementById('stance-bars-wrapper');
@@ -2218,7 +2150,7 @@
         `;
       }).join('');
 
-      // 4. 渲染姿態寶藏
+      // 3. 渲染姿態寶藏
       const treasuresEl = document.getElementById('report-treasures-content');
       let treasureHtml = "";
       if (counts.placating > 0) {
@@ -2243,47 +2175,34 @@
     }
 
     function copyCompassSummary() {
-      const emoKeys = Object.keys(selectedEmotions);
-      const scListText = userCustomScenarios.map((sc, i) => {
+      const scListText = userIntegratedScenarios.map((sc, i) => {
         const title = sc.title.trim() || `情境 ${i+1}`;
-        const stLabels = sc.selectedStances.map(k => {
+        const emos = (sc.selectedEmotions || []).join('、') || '平靜';
+        const stLabels = (sc.selectedStances || []).map(k => {
           const def = satirstancesDef.find(d => d.key === k);
           return def ? def.label : k;
-        }).join('、');
-        return `  ${i+1}. 【${title}】➔ ${stLabels || '無'}`;
+        }).join('、') || '無';
+        return `  ${i+1}. 【${title}】\n     - 內在情緒：${emos}\n     - 外在姿態：${stLabels}`;
       }).join('\n');
 
-      const text = `【親師自我覺察小卡】\n● 當前情緒：${emoKeys.join('、') || '平靜安適'}\n● 身心部位：${selectedBodyParts.join('、') || '無特別緊繃'}\n● 內在提醒：${selectedInsightPrompt || '保持自我覺察'}\n● 壓力情境與姿態：\n${scListText}\n● 核心座右銘：接納情緒，看見寶藏，溫和堅定邁向一致型溝通！`;
+      const text = `【親師冰山自我覺察小卡】\n${scListText}\n● 核心座右銘：接納情緒，看見寶藏，溫和堅定邁向一致型溝通！`;
       navigator.clipboard.writeText(text).then(() => {
         alert("已成功複製自我覺察小卡內容！");
       });
     }
 
     function resetExplore() {
-      selectedEmotions = {};
-      selectedBodyParts = [];
-      selectedInsightPrompt = "";
-      userCustomScenarios = [
+      userIntegratedScenarios = [
         {
           id: 1,
           title: "與家長電話溝通或收到質疑訊息時",
-          selectedStances: []
-        },
-        {
-          id: 2,
-          title: "與家人、伴侶討論家事或教養分歧時",
-          selectedStances: []
-        },
-        {
-          id: 3,
-          title: "工作上被主管要求或與同事意見不合時",
+          selectedEmotions: [],
+          selectedBodyParts: [],
           selectedStances: []
         }
       ];
-      buildEmotionSection();
-      renderCustomScenarios();
-      document.getElementById('selected-emotion-count').innerText = "已選 0 張";
-      switchExploreStep('emotion');
+      renderIntegratedScenarios();
+      switchExploreStep('input');
     }
   </script>
 </body>
