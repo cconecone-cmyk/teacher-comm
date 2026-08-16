@@ -16,6 +16,18 @@
           fontFamily: {
             sans: ['"Noto Sans TC"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
           }
         }
       }
@@ -46,17 +58,19 @@
         </div>
       </div>
 
+      <!-- 模式切換鈕 -->
       <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/60">
         <button id="nav-slides-btn" onclick="switchMainTab('slides')" class="px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm">
           📖 講義閱讀
         </button>
         <button id="nav-quiz-btn" onclick="switchMainTab('quiz')" class="px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 flex items-center gap-1">
           ✍️ 實戰測驗
-          <span id="quiz-badge" class="px-1.5 py-0.2 text-[10px] bg-amber-100 text-amber-700 font-bold rounded-full">40題庫</span>
+          <span id="quiz-badge" class="px-1.5 py-0.2 text-[10px] bg-amber-100 text-amber-700 font-bold rounded-full">50題庫</span>
         </button>
       </div>
     </div>
 
+    <!-- 閱讀進度條 -->
     <div id="reading-progress-container" class="w-full bg-slate-100 h-1">
       <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-teal-500 h-1 w-0 transition-all duration-300"></div>
     </div>
@@ -538,11 +552,11 @@
           <span class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-semibold border border-indigo-400/30">
             🎯 親師溝通實戰題庫
           </span>
-          <span id="quiz-progress-text" class="text-xs font-mono text-indigo-300">總題庫共 40 題</span>
+          <span id="quiz-progress-text" class="text-xs font-mono text-indigo-300">總題庫共 50 題</span>
         </div>
         <h2 class="text-xl sm:text-2xl font-bold mb-1">親師溝通實戰測驗</h2>
         <p class="text-xs sm:text-sm text-indigo-200 mb-4 leading-relaxed">
-          結合校園真實情境、法規時限與 AI 輔助守則，測驗你的現場應對功力！
+          考驗現場法規判斷、溝通層次辨析、AI 資安界線與系統求援心態！
         </p>
 
         <!-- 模式切換與隨機抽題控制面板 -->
@@ -551,8 +565,8 @@
             <button id="mode-random-btn" onclick="setQuizMode('random10')" class="px-3 py-1.5 rounded-xl font-bold transition-all bg-white text-indigo-900 shadow-sm">
               🎲 隨機 10 題實戰
             </button>
-            <button id="mode-all-btn" onclick="setQuizMode('all40')" class="px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all">
-              📚 40 題完整通關
+            <button id="mode-all-btn" onclick="setQuizMode('all50')" class="px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all">
+              📚 50 題完整通關
             </button>
           </div>
           <button onclick="reshuffleAndRestart()" class="px-2.5 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs font-bold rounded-xl border border-indigo-400/30 flex items-center gap-1 transition-all touch-btn">
@@ -620,802 +634,35 @@
       { id: 13, title: "結語", subtitle: "溝通的本質：一起把孩子接住" }
     ];
 
-    // 40 題完整題庫資料庫
+    // 50 題高難度題庫
     const fullQuizBank = [
   {
     "id": 1,
-    "tag": "⚖️ 法規與通報時限",
-    "question": "體育課打球時，小豪被三位同學嘲笑身材並故意推擠摔倒擦傷。放學後家長傳訊表示孩子長期遭同儕排擠與取綽號，不敢上學。身為導師在知悉這項霸凌疑慮後，法定通報時限為何？",
+    "tag": "⚖️ 法規・通報起算時點",
+    "question": "週五晚間 10 點導師在班級群組看見家長反映孩子疑似遭同儕恐嚇勒索。關於 24 小時法定通報時效的起算點，下列何者正確？",
     "options": [
-      "於知悉後 24 小時內向學校通報並完成校安通報",
-      "先在班內私下調查 3 天，確定屬實後再通報",
-      "於知悉後 48 小時內向學務處通報即可",
-      "等下週一雙方家長到校面談確認後，若無和解再通報"
+      "下週一上午 8 點學校上班時起算",
+      "召開班級個案防制會議後起算",
+      "週五晚間 10 點導師知悉時起算",
+      "向雙方當事人查證屬實後起算"
     ],
-    "correct": 0,
-    "explanation": "依《校園霸凌防制準則》，學校教職員工知悉校園霸凌或疑似校園霸凌事件時，應於「24 小時內」依法進行校安通報。切勿私下查證而延誤通報時限。"
+    "correct": 2,
+    "explanation": "依校安及法定通報規範，通報時限自教育人員「知悉」疑似事件當下即起算 24 小時，不得以假日或尚未查證為由延後起算。"
   },
   {
     "id": 2,
-    "tag": "⚖️ 性平法規與專業倫理",
-    "question": "九年級學生常於放學後私下留校向某實習老師吐露心事，並有牽手、互傳親暱文字與曖昧互動情形。依 2024 年全面施行之《性別平等教育法》及相關法規，下列敘述何者正確？",
+    "tag": "⚖️ 法規・性平專業倫理",
+    "question": "國三學生在畢業前夕向兼任社團教練告白並發展親密交往關係。依現行《性別平等教育法》，校方應如何處置？",
     "options": [
-      "只要雙方均屬自願且未涉及金錢對價，學校即無權干涉",
-      "嚴禁教職員工與學生發展違反專業倫理之情感關係（如師生戀），知悉後應依法於 24 小時內進行性平通報",
-      "實習老師並非正式編制教師，故不受性平法規範",
-      "為保護實習老師前途，應先由導師私下告誡，無須通報"
+      "屬私人情感，畢業後不予追究",
+      "24 小時內通報並啟動調查程序",
+      "交由家長與教練私下協議處理",
+      "僅需由學務處口頭告誡該教練"
     ],
     "correct": 1,
-    "explanation": "《性別平等教育法》嚴禁教職員工（含實習教師、社團教練等）與學生發展違反專業倫理之關係。一旦知悉，任何人均有 24 小時法定通報義務。"
+    "explanation": "性平法嚴禁教職員工（含兼任、社團教練）與學生發展違反專業倫理之情感關係，知悉即須於 24 小時內依法通報並調查。"
   },
   {
-    "id": 3,
-    "tag": "⚖️ 兒少保護法定責任",
-    "question": "早自習批改聯絡簿時，導師發現小美手臂有多處明顯瘀青，且神情極度畏縮。私下關心後，小美透露昨晚父親酗酒後持衣架抽打。導師當下應採取的合法處置為？",
-    "options": [
-      "先打電話責備家長不當管教，若家長態度惡劣再通報",
-      "依《兒童及少年福利與權益保障法》第 53 條，於知悉 24 小時內通報社政與校安系統",
-      "拍照存證後發在個人社群平台尋求大眾輿論協助",
-      "尊重家庭隱私，僅在班級聯絡簿上委婉提醒家長「孩子需要愛」"
-    ],
-    "correct": 1,
-    "explanation": "教師為《兒少法》法定責任通報人員，知悉兒少遭受家暴、虐待或疏忽照顧時，必須於 24 小時內通報，不得以家庭私事為由隱匿。"
-  },
-  {
-    "id": 4,
-    "tag": "⚖️ 通報本質與責任保障",
-    "question": "發生同儕金錢借貸與言語恐嚇事件，受害學生家長到校哭訴，但再三哀求老師：「請老師私下幫我們跟對方要錢就好，拜託絕對不要通報學校，我怕孩子被貼標籤。」此時老師最適切的回應是？",
-    "options": [
-      "答應家長私下解決，以維持親師之間的信任感",
-      "說明「校安通報是教育系統內部的保護機制，並非對外公開，通報能引進專業資源共同守護孩子安全」，依法進行通報",
-      "嚴厲斥責家長缺乏法律常識",
-      "既然家長已明確拒絕，老師依法即可免除通報責任"
-    ],
-    "correct": 1,
-    "explanation": "通報義務為公法責任，不能因家長要求而免除。應向家長說明「通報 ≠ 對外公開」，是保護學生權益並啟動跨處室保護資源的法定防護網。"
-  },
-  {
-    "id": 5,
-    "tag": "⚖️ 重大危機校安通報",
-    "question": "深夜 11 點，導師在班級幹部回報中得知某同學在 IG 限時動態發布帶有強烈自我傷害意念的文字與割腕工具照片。此時導師的第一步應為何？",
-    "options": [
-      "等明天早上到校第一節課再找該生談話",
-      "立即通報學務處主任/組長與輔導室，啟動校安通報及危機應變聯繫，並設法聯繫家長確保學生當下人身安全",
-      "直接在該生 IG 留言按讚以示關心",
-      "認為這只是青少年博取關注的手段，不予理會"
-    ],
-    "correct": 1,
-    "explanation": "涉及自傷/自殘危機屬嚴重校安事件，必須第一時間通報行政端並聯手家長確保人身安全，切勿等待或單打獨鬥。"
-  },
-  {
-    "id": 6,
-    "tag": "⚖️ 通報心態與防護機制",
-    "question": "新進教師常因擔心「通報會不會讓行政覺得我班級經營很爛」、「家長會不會怪我把事情鬧大」而猶豫不決。研習中強調的正確通報思維是什麼？",
-    "options": [
-      "能自己壓下來處理好的老師才算有能力",
-      "「有疑慮，先通報學校組長、主任；通報是保護孩子，也是保護你自己」",
-      "只有法院判決確定有罪的案件才需要通報",
-      "通報是推卸責任給處室的做法"
-    ],
-    "correct": 1,
-    "explanation": "校安通報是教育體系賦予教師與學生的防護盾牌。通報能留下完整的處置紀錄與求援軌跡，避免日後因延遲通報被追究失職行政懲處。"
-  },
-  {
-    "id": 7,
-    "tag": "⚖️ 行為偏差管教依據",
-    "question": "班上某生長期無故遲到、課堂屢次頂撞任課老師、午休私自翻牆外出買飲料。針對此類一般常規行為偏差，教師輔導管教的主要法規依據為何？",
-    "options": [
-      "《刑法》",
-      "《學校訂定教師輔導與管教學生辦法注意事項》",
-      "《性別平等教育法》",
-      "《個人資料保護法》"
-    ],
-    "correct": 1,
-    "explanation": "一般課堂常規、遲到、違規行為應遵循《學校訂定教師輔導與管教學生辦法注意事項》，採取比例原則、教育性導向的正向管教措施。"
-  },
-  {
-    "id": 8,
-    "tag": "⚖️ 延遲通報法律後果",
-    "question": "若學校教職員工知悉學生疑似遭受性騷擾或校園霸凌，卻基於「校譽考量」或「誤以為雙方只是在玩」而未於 24 小時內依法通報，該名教師可能面臨何種後果？",
-    "options": [
-      "只要事後補口頭道歉即可免責",
-      "構成失職事由，面臨主管機關依法裁處罰鍰，並移送教師考核委員會議處",
-      "法律規定只有校長需要負責，導師無法律責任",
-      "只要學生家長不提告，教育局就不會追究"
-    ],
-    "correct": 1,
-    "explanation": "法定通報責任具有法律強制力，隱匿或延遲通報將面臨《性平法》、《兒少法》或《霸凌防制準則》之法定罰鍰與行政懲處。"
-  },
-  {
-    "id": 9,
-    "tag": "🧰 溝通工具選擇策略",
-    "question": "研習中傳授的工具選擇口訣為「輕事用文字、重事用電話、大事一定面談」。下列哪一項事件的處置管道選擇最為恰當？",
-    "options": [
-      "學生在校打群架受傷且家長揚言提告 ➔ 傳 LINE 訊息簡短告知",
-      "學生段考成績退步 3 分 ➔ 立即要求家長請假到校面談",
-      "學生突發在校發高燒送醫 ➔ 打電話通知並給予關心，事後文字 summary",
-      "提醒家長下週二要交戶外教學回條 ➔ 召開三方正式個案面談會"
-    ],
-    "correct": 2,
-    "explanation": "緊急或需要溫度的突發事件（如送醫、受傷）應即時通話，並於通話後留下文字摘要；例行小事用文字通知，重大事件才啟動面談。"
-  },
-  {
-    "id": 10,
-    "tag": "🧰 LINE 溝通風險防範",
-    "question": "在現代親師溝通中，許多教師習慣使用 LINE 或通訊軟體。針對 LINE 溝通的特性與風險，下列指引何者最正確？",
-    "options": [
-      "文字溝通親切無距離，因此可以隨意使用大量網路流行語與個人主觀猜測",
-      "LINE 訊息極易被家長截圖外流或斷章取義，措辭務必客觀中性；遇情緒字眼應改以電話或面談應對",
-      "為了展現熱忱，半夜 1 點收到家長訊息也應立刻秒回",
-      "只要收回訊息，家長就無法當作法律或投訴佐證"
-    ],
-    "correct": 1,
-    "explanation": "通訊軟體截圖成本極低，每一句文字都應視為公開紀錄。非工作時間宜設自動回覆建立界線，複雜情緒務必抽離文字改用電話或面談。"
-  },
-  {
-    "id": 11,
-    "tag": "🧰 通話後文字摘要功能",
-    "question": "導師與家長通了 30 分鐘電話，詳細溝通了學生近期沉迷手機與不交作業的輔導方案，雙方達成由家長暫時保管手機的共識。通話結束後，導師為何最好再發一則簡短的文字 Summary？",
-    "options": [
-      "為了向家長索取通話紀錄費",
-      "留下白紙黑字紀錄，確認雙方共識，避免日後記憶落差或各說各話",
-      "證明老師講話很有威嚴",
-      "滿足教育局每週必須發送簡訊的行政要求"
-    ],
-    "correct": 1,
-    "explanation": "電話具備情緒溫度，但缺乏文字存證。通話後補上一段客觀摘要（如「感謝今日通話，我們共同約定由家長協助……」），是保護雙方並確立共識的最佳實踐。"
-  },
-  {
-    "id": 12,
-    "tag": "🧰 面談第三人原則",
-    "question": "某家長因不滿導師對同儕衝突的處理，已連續兩週在網路上發文抗議，本次是「第三次」要求到校與導師單獨對質。導師在安排面談時，下列哪項做法最為必要？",
-    "options": [
-      "獨自一人在無人教室與家長閉門懇談，以示誠意",
-      "邀請學年主任、學務處同仁或輔導老師作為「第三人」共同列席並詳實記錄",
-      "拒絕家長入校，直接封鎖家長電話",
-      "找班上幾位學生一起到場幫老師助陣罵家長"
-    ],
-    "correct": 1,
-    "explanation": "針對重大或同議題第三次以上的溝通，務必避免「一對一單獨閉門應對」，應邀請處室主管或輔導同仁列席，確保對話客觀、安全並有第三方紀錄。"
-  },
-  {
-    "id": 13,
-    "tag": "🧰 聯絡簿書寫倫理",
-    "question": "學生在校課堂常睡覺、不寫筆記。導師欲在聯絡簿留言請家長協助。下列哪一種寫法最符合專業溝通原則？",
-    "options": [
-      "「貴子弟上課像條蟲、下課像條龍，毫無羞恥心，請家長自己管好！」",
-      "「小宇今日第三、四節課精神不濟睡著，課堂筆記未完成。已在校提醒並關心其作息，請家長今晚協助確認就寢時間。」",
-      "「小宇就是故意擺爛不聽話，家長再不配合我就要記他警告。」",
-      "什麼都不要寫，免得被家長投訴"
-    ],
-    "correct": 1,
-    "explanation": "聯絡簿是孩子會親眼閱讀的媒介，應陳述「客觀事實（時間、具體行為）」並提出具體合作建議，嚴禁使用羞辱、諷刺或情緒性定性字眼。"
-  },
-  {
-    "id": 14,
-    "tag": "🧰 抱怨長信回覆策略",
-    "question": "深夜收到家長寄來近千字的長篇 Email，信中充滿情緒化字眼，質疑段考題目過難、導師不公、甚至揚言向督學投訴。導師最適切的回應策略是？",
-    "options": [
-      "漏夜回信一千字逐條駁斥家長的所有指控",
-      "隔日上班時間先以溫和中性文字確認收悉，同理家長焦慮，並約定時間改以「電話」或「到校面談」進行具體說明",
-      "直接將信件轉寄給全班家長評評理",
-      "裝作沒看到直接刪除信件"
-    ],
-    "correct": 1,
-    "explanation": "面對文字情緒強烈的長信，用文字長篇互槓只會升高衝突。應先中性接納情緒，並將溝通場域轉移至電話或面對面，降溫後再對焦事實。"
-  },
-  {
-    "id": 15,
-    "tag": "🗣️ 對話四層次辨析",
-    "question": "家長在電話中對老師說：「老師，我家小孩很善良，他會去罵同學髒話，肯定是全班都在故意排擠他、找他麻煩！」請問「全班都在故意排擠他」這句話屬於對話四層次中的哪一層？",
-    "options": [
-      "事實（Fact）",
-      "立場（Position）",
-      "觀點（Opinion）",
-      "信仰（Belief）"
-    ],
-    "correct": 2,
-    "explanation": "「覺得大家在排擠他/找麻煩」是個人主觀詮釋與因果推論，缺乏可驗證的客觀證據，屬於「觀點（Opinion）」"
-  },
-  {
-    "id": 16,
-    "tag": "🗣️ 對話四層次辨析",
-    "question": "在釐清走廊碰撞衝突時，下列哪一段導師的陳述最純粹屬於「事實（Fact）」層次？",
-    "options": [
-      "「阿明今天下課在走廊橫衝直撞，態度非常囂張。」",
-      "「阿明在 10:15 第二節下課時，於二年三班門口以跑步速度撞上小華，導致小華右膝擦傷。」",
-      "「我覺得阿明根本就是看小華不順眼才故意撞他的。」",
-      "「阿明這種學生就是缺乏家庭教養。」"
-    ],
-    "correct": 1,
-    "explanation": "「事實」必須是客觀、中立、可驗證的人事時地物與具體行為，不包含任何情緒推論或主觀評價。"
-  },
-  {
-    "id": 17,
-    "tag": "🗣️ 對話四層次辨析",
-    "question": "親師對話中，家長強調「我只希望我的孩子在學校不要被任何人欺負、開開心心長大」；導師則強調「我必須維持全班 30 位同學在課堂上的受教權與安全秩序」。這兩段話分別體現了對話四層次中的哪一層？",
-    "options": [
-      "事實（Fact）",
-      "立場（Position）",
-      "觀點（Opinion）",
-      "信仰（Belief）"
-    ],
-    "correct": 1,
-    "explanation": "「立場」是由彼此的角色與責任所決定的關注點——家長在乎個別孩子的感受與安全，教師在乎群體秩序與公平常規。"
-  },
-  {
-    "id": 18,
-    "tag": "🗣️ 對話四層次辨析",
-    "question": "某家長對導師說：「老師你不用跟我講品格或同儕相處，在這個社會上『唯有分數高才是贏家，成績差的就是廢物』。」這句話屬於對話四層次中的哪一層？",
-    "options": [
-      "事實（Fact）",
-      "立場（Position）",
-      "觀點（Opinion）",
-      "信仰（Belief）"
-    ],
-    "correct": 3,
-    "explanation": "「信仰」是深層、根深蒂固的價值觀與人生哲學（如功利主義、弱肉強食觀念），很難在單次對話中被撼動。"
-  },
-  {
-    "id": 19,
-    "tag": "🗣️ 溝通心法與信仰禁忌",
-    "question": "研習中特別提醒：「最不該在第一通電話就試圖去碰對方的『信仰層（Belief）』。」其主要原因為何？",
-    "options": [
-      "因為信仰層是違法的，不能討論",
-      "信仰層牽涉對方的核心價值與人生尊嚴，在未建立信任基礎前直接挑戰對方的世界觀，只會引發激烈防衛與對立",
-      "因為老師沒有心理師證照所以不能聊價值觀",
-      "因為教育局規定第一通電話只能講 3 分鐘"
-    ],
-    "correct": 1,
-    "explanation": "在沒有足夠信任存摺的情況下，直接批評或試圖扭轉對方的深層信仰（如「你這種教養觀念完全錯了」），必然會引爆衝突。應先對焦事實與建立關係。"
-  },
-  {
-    "id": 20,
-    "tag": "🗣️ 內在覺察三部曲",
-    "question": "當家長在電話另一端劈頭大罵「你們學校老師到底有沒有在教書？」時，導師察覺自己心跳加快、雙手發抖、胸口有一股強烈的反駁與委屈衝動。此時導師當下最該做的是？",
-    "options": [
-      "立刻大聲吼回去證明自己沒有錯",
-      "覺察自己的生理緊繃與情緒，深呼吸一口氣，穩住自己：「我現在感到被攻擊，先深呼吸接住自己，不急著在情緒頂點反駁」",
-      "立刻掛斷電話並把對方設為黑名單",
-      "當場在電話中痛哭讓家長感到愧疚"
-    ],
-    "correct": 1,
-    "explanation": "對話覺察三部曲：覺察生理（呼吸心跳）➔ 覺察心理（被攻擊感）➔ 釐清感受。先接住自己的情緒，才能專業應對他人情緒。"
-  },
-  {
-    "id": 21,
-    "tag": "🗣️ 同理立場與回歸事實",
-    "question": "家長氣憤地說：「我家孩子被選為值日生根本是被全班針對霸凌！」導師若要運用「同理立場 ➔ 回歸事實」的技巧，下列哪句回應最得體？",
-    "options": [
-      "「你想太多了吧，當個值日生叫什麼霸凌？」",
-      "「我非常理解媽媽心疼孩子、擔心他在班上受委屈的心情（同理立場）。我們班的值日生是由座號每週輪流擔任，這週剛好輪到 15~18 號（回歸事實），孩子今天表現得很認真。」",
-      "「請您拿出被霸凌的法定證據再來跟我說。」",
-      "「既然您這麼說，那以後您小孩永遠不要做任何班務好了。」"
-    ],
-    "correct": 1,
-    "explanation": "先接住家長「保護孩子的心情（立場）」，再溫和堅定地說明「客觀制度與輪流機制（事實）」，能有效化解對立。"
-  },
-  {
-    "id": 22,
-    "tag": "🗣️ 拆解學生情緒變形",
-    "question": "學生回家向家長哭訴：「數學老師今天在課堂上故意當眾羞辱我、罵我是笨蛋！」家長怒不可遏打來質問。導師應如何引導家長看見四層次？",
-    "options": [
-      "直接跟家長說「你小孩都在說謊不要信他」",
-      "同理家長聽聞後的震驚與心疼，並客觀說明課堂實際情境（老師當時是在黑板講解題目並提醒算式），協助家長拆解孩子因受挫產生的「觀點」與課堂「事實」",
-      "叫數學老師親自打電話去跟家長對罵",
-      "為了息事寧人，代替數學老師向家長認錯道歉"
-    ],
-    "correct": 1,
-    "explanation": "孩子常因挫折或羞愧將感受「變形」為受害者敘事。導師應同理家長情緒，客觀還原課堂事實，協助拼出全貌。"
-  },
-  {
-    "id": 23,
-    "tag": "🔄 學校日核心目標",
-    "question": "開學初的「學校日（家長日）」，新進教師往往花費 90% 的時間在唸投影簡報上的課程進度。研習中強調，學校日最關鍵的核心戰略思維應為何？",
-    "options": [
-      "展現自己的學歷與嚴厲威嚴，震懾全場家長",
-      "不只是單向報告會，而是定調「教育合夥人」合作關係、建立「信任存摺」與溝通默契的起跑點",
-      "盡快在 10 分鐘內結束放家長回家",
-      "要求全體家長簽署「絕不投訴切結書」"
-    ],
-    "correct": 1,
-    "explanation": "學校日的真諦是「建立信任存摺」與「定調合夥心態」。開學初把原則、聯繫管道與教學願景講清楚，後續遇到突發狀況時的溝通阻力將減半。"
-  },
-  {
-    "id": 24,
-    "tag": "🔄 預防醫學思維實踐",
-    "question": "研習名言「主動聯繫 = 預防醫學；被動處理 = 急診室」。下列哪位老師的行為最符合「預防醫學」的精神？",
-    "options": [
-      "等學生累積缺交作業達 15 次被記警告後，才通知家長",
-      "平時在學生有些微進步或出現異常苗頭時（如連兩天精神不濟），便主動簡短關心家長與肯定學生",
-      "只要家長沒主動找老師，老師就一整學期完全不聯絡",
-      "等家長打電話到校長室投訴後，才趕快召開家庭訪視"
-    ],
-    "correct": 1,
-    "explanation": "平時主動關心、肯定微小進步，就像定期打預防針；等到問題嚴重發炎、家長爆發投訴時才搶救，往往需要付出極大的心力與行政代價。"
-  },
-  {
-    "id": 25,
-    "tag": "🔄 訊息過濾器與變形者",
-    "question": "小明在校與同學爭搶籃球引發拉扯，被學務處依常規糾正。小明回家後向父母說：「我只是站在旁邊看，學務處主任就衝出來抓我衣服還恐嚇我。」這種現象反映了三方拉扯中的何種本質？",
-    "options": [
-      "學生天生邪惡，必須嚴厲重罰",
-      "學生是訊息的「過濾器」也是「變形者」，常會避重就輕以逃避處罰或尋求同情",
-      "家長故意教導孩子說謊",
-      "學校行政處置一定有重大瑕疵"
-    ],
-    "correct": 1,
-    "explanation": "孩子在面對責難時，基於自我保護本能，傳遞訊息時常會過濾對自己不利的情節或放大他人反應。親師溝通必須意識到這層心理機制。"
-  },
-  {
-    "id": 26,
-    "tag": "🔄 拼出全貌思維",
-    "question": "當親師雙方因某起走廊推擠事件各執一詞時，導師秉持何種溝通心態最能促成正向結果？",
-    "options": [
-      "「今天一定要逼對方承認是誰先動手的，我一定要贏」",
-      "「老師看到的是學校現場，家長看到的是家庭反饋；溝通的目的不是論輸贏，而是拼出事件全貌以協助孩子成長」",
-      "「只要家長態度強硬，我就全盤退讓」",
-      "「立刻聯絡律師準備提告以釐清法律責任」"
-    ],
-    "correct": 1,
-    "explanation": "三方的訊息來源不同，溝通的核心不是「我對你錯」的法庭審判，而是透過對話「拼出全貌」，進而開啟良性輔導循環。"
-  },
-  {
-    "id": 27,
-    "tag": "🔄 建立溝通邊界與默契",
-    "question": "為了避免日後因聯絡時間認知不同產生摩擦，導師在開學初期向家長說明聯繫規範，下列何者最得體且專業？",
-    "options": [
-      "「我下班後手機一律關機，家長有事請自求多福」",
-      "「歡迎家長在平日 08:00~17:30 透過學校分機或官方管道聯繫；若為晚間緊急突發安全事件，可於聯絡簿專線留言，非工作時間訊息將於次日上班優先回覆」",
-      "「隨時 24 小時都可以打我私人手機，半夜也沒關係」",
-      "「除非學校失火，否則家長請勿聯繫老師」"
-    ],
-    "correct": 1,
-    "explanation": "建立專業界線並非拒絕溝通，而是清楚告知合適時段與緊急應變管道，兼顧教師身心健康與親師即時通報需求。"
-  },
-  {
-    "id": 28,
-    "tag": "🔄 教育合夥人心態",
-    "question": "在處理學生嚴重沉迷手遊導致課業落後時，下列哪一種親師對話導向最符合「教育合夥人」的真諦？",
-    "options": [
-      "審查對立型：「你們當家長的到底有沒有在盯？小孩養成這樣都是你們放縱的！」",
-      "推卸放棄型：「反正他在學校我也管不動，你們自己看著辦吧。」",
-      "合作賦能型：「我們都非常希望孩子能找回學習節奏。想跟爸爸媽媽討論，我們在學校和在家裡如何同步配合，一起幫孩子設定合適的限制？」",
-      "威脅警告型：「再不改善我就直接送少年法庭處理。」"
-    ],
-    "correct": 2,
-    "explanation": "「教育合夥人」意味著親師站在同一陣線共同面對「問題」，而非親師彼此對立指責。"
-  },
-  {
-    "id": 29,
-    "tag": "🤖 AI 資安與個資紅線",
-    "question": "導師欲使用 ChatGPT 或 Claude 等生成式 AI 協助草擬一封給全班家長的通知信，信中提及某位學生的違規事件。下列操作何者「嚴重違反」規範？",
-    "options": [
-      "在 Prompt（提示詞）中將學生姓名代換為「A生」或「某同學」",
-      "將學生的真實中文全名、身分證字號或特殊家庭病歷直接貼入公開 AI 平台",
-      "請 AI 檢查草稿中是否含有主觀責備或情緒化文字",
-      "請 AI 提供「溫和堅定」與「正式嚴肅」兩種不同語氣版本"
-    ],
-    "correct": 1,
-    "explanation": "使用公開 AI 工具嚴禁輸入學生真實姓名、身分證、照片或敏感個資，必須嚴格遵守《個人資料保護法》與校園資安政策（進行去識別化）。"
-  },
-  {
-    "id": 30,
-    "tag": "🤖 AI 角色定位：助手非代理人",
-    "question": "研習強調「AI 是助手，不是代理人」。下列哪一種工作情境「不適合」完全交由 AI 替代？",
-    "options": [
-      "協助將繁瑣的時間軸與記事要點整理成條列式脈絡",
-      "產出面對面晤談時可以使用的開放式引導提問清單",
-      "涉及法律層級之性平調查正式申復回函，不經專業法規審視直接交由 AI 生成並發出",
-      "潤飾文字以降低親師溝通訊息的火藥味"
-    ],
-    "correct": 2,
-    "explanation": "AI 無法承擔法律責任，涉及法律程序、正式行政處分或調查報告的回覆，必須依循校內法規審查，絕不可直接由 AI 代理。"
-  },
-  {
-    "id": 31,
-    "tag": "🤖 最後一句話必須是你的",
-    "question": "口訣：「AI 幫你想得更全，但最後一句話，必須是你的。」這句話在教學現場的深層實踐意涵是什麼？",
-    "options": [
-      "AI 寫完之後，老師隨便改一個標點符號就可以交差",
-      "AI 產出的內容可能存在幻覺或偏離現場情境，教師必須負起專業把關責任，融入教育溫度與真實脈絡後再發送",
-      "AI 寫的文字太完美，老師必須故意改得很口語才不會被抓",
-      "任何文字發送前都必須向校長報告"
-    ],
-    "correct": 1,
-    "explanation": "生成式 AI 能提供周全的視角與草稿，但只有現場教師才真正了解學生的特質與當下的溫度。最終責任與人際信任始終在於教師本身。"
-  },
-  {
-    "id": 32,
-    "tag": "🤖 AI 情緒過濾應用",
-    "question": "導師收到家長情緒極度激動的 LINE 留言，感到非常憤怒與委屈。此時導師如何善用 AI 作為「情緒緩衝墊」？",
-    "options": [
-      "請 AI 寫一段世界上最惡毒的話回嗆家長",
-      "將家長訊息（去識別化後）輸入 AI，請 AI「過濾情緒性字眼，提取家長的核心訴求，並草擬一封中性同理、說明客觀事實的回覆」",
-      "讓 AI 冒充家長與自己對罵發洩",
-      "請 AI 直接駭入家長的手機刪除訊息"
-    ],
-    "correct": 1,
-    "explanation": "AI 是極佳的「情緒轉譯器」，能幫助教師在被激怒時抽離情緒，迅速提取對方的實質關切點，並產出冷靜專業的溝通草稿。"
-  },
-  {
-    "id": 33,
-    "tag": "🤖 AI 引導式提問稿設計",
-    "question": "案例①中，導師為了讓學生能誠實向家長說明真相，利用 AI 產出引導問題清單。這種做法的主要優勢為何？",
-    "options": [
-      "可以像檢察官審問犯人一樣逼學生認罪",
-      "透過 AI 簡化、口語化的開放式提問設計，降低學生的防衛心，引導學生自己練習有條理地表達事實",
-      "讓學生戴上耳機直接跟 AI 對話",
-      "節省老師時間，老師可以去做自己的事"
-    ],
-    "correct": 1,
-    "explanation": "AI 能協助設計富有層次的引導式問句（由淺入深、非批判性），幫助教師在晤談時引導學生自我覺察並開口表達。"
-  },
-  {
-    "id": 34,
-    "tag": "🤖 文字紀錄法律責任",
-    "question": "2024 年性平法規上路後，校園調查門檻與紀錄要求更加嚴格。關於使用 AI 產生的親師對話紀錄，下列觀念何者正確？",
-    "options": [
-      "只要標註「此內容由 AI 生成」，該文字在法律與調查程序中就完全不具效力",
-      "任何由教師發出或留存的文字紀錄（無論是否經 AI 輔助產出），在法律與行政調查中均可能成為正式依據，教師須負完全責任",
-      "AI 生成的內容具有智慧財產權保護，調查小組無權調閱",
-      "只要事後刪除對話紀錄就不會被調查"
-    ],
-    "correct": 1,
-    "explanation": "凡由教師發送或簽名確認的文字，即代表教師的專業作為。AI 產出不能作為卸責理由，所有文字均受法規檢驗。"
-  },
-  {
-    "id": 35,
-    "tag": "🌱 管教觸及信仰層之轉念",
-    "question": "案例④ J生事件中，學生堅信「成績好就可以特權為所欲為」，老師換座位、約談、親師配合皆無效。面對此種深層瓶頸，專業成熟的教師應抱持何種心態？",
-    "options": [
-      "感到極度挫敗，認定自己是個失敗的老師",
-      "誠實面對「不是每個案例都能立即見效」；承認教師個人能力有限，尋求輔導與行政系統支援，是專業成熟的展現",
-      "為了證明自己厲害，決定跟學生硬碰硬戰到底",
-      "放任該生不管，甚至鼓勵其他同學排擠他"
-    ],
-    "correct": 1,
-    "explanation": "深層價值觀的轉變需要時間與系統性介入。承認個人的有限性並非無能，而是避免職業倦怠、引進團隊力量的成熟表徵。"
-  },
-  {
-    "id": 36,
-    "tag": "🌱 成績換特權文化省思",
-    "question": "班上有幾位成績優異的學生經常在課堂干擾他人，家長甚至表示「只要我孩子段考前三名，他在班上愛怎樣就怎樣」。這種文化會對班級帶來何種深遠危害？",
-    "options": [
-      "能激勵其他同學更努力讀書搶前三名",
-      "強化了「成績情緒勒索大人」的扭曲價值觀，破壞班級公平底線，讓常規管教徹底失效",
-      "有助於提升全校的升學率",
-      "讓老師可以少管幾位學生，減輕負擔"
-    ],
-    "correct": 1,
-    "explanation": "成績不能凌駕於人際尊重與公眾秩序之上。若放任「成績換特權」，將使孩子誤以為利益可取代規則，造成更嚴重的信仰層偏差。"
-  },
-  {
-    "id": 37,
-    "tag": "🌱 心態四部曲實踐",
-    "question": "在經歷一場精疲力竭但處置得宜的親師衝突後，導師順利完成了通報與行政流程，但內心仍久久無法平復，不斷焦慮「家長以後會不會討厭我」。此時導師最需要修練的步驟是？",
-    "options": [
-      "接受它",
-      "面對它",
-      "處理它",
-      "放下它"
-    ],
-    "correct": 3,
-    "explanation": "在「接受、面對、處理」皆盡力而為後，教師必須學會「放下它」——將事情與自我價值脫鉤，避免將情緒內耗帶回家中，維持長期身心健康。"
-  },
-  {
-    "id": 38,
-    "tag": "🌱 共好循環 vs 內耗循環",
-    "question": "研習中對比了親師溝通的「共好循環」與「內耗循環」。下列何者是陷入「內耗循環」的典型特徵？",
-    "options": [
-      "彼此有共同的教育目標，小事溝通順暢，信任逐步累積",
-      "彼此防衛猜忌、互相推卸責任，導致任何一件雞毛蒜皮的小事都升級演變成重大衝突",
-      "遇到問題時主動通報並尋求跨處室支援",
-      "定期透過聯絡簿肯定學生的微小進步"
-    ],
-    "correct": 1,
-    "explanation": "內耗循環中，親師失去信任，每一句話都被視為敵意攻擊；唯有建立共好心態，才能讓親師合作成為正向資產。"
-  },
-  {
-    "id": 39,
-    "tag": "🌱 提早求援的專業本質",
-    "question": "許多新進教師遇到難纏個案時，往往「獨自硬撐」不敢開口向主任或前輩求救。研習中如何定義「提早求援」？",
-    "options": [
-      "提早求援代表該教師抗壓性太低",
-      "提早求援不是無能，而是高度專業的展現；教育是「團隊作戰」，不是「英雄獨秀」",
-      "提早求援會讓自己年終考績被打乙等",
-      "只有快要被告上法院時才能求援"
-    ],
-    "correct": 1,
-    "explanation": "及早結合學務處、輔導室、社工師與資深導師的力量，能讓問題在萌芽階段獲得系統性處置，是保護學生與教師的最專業選擇。"
-  },
-  {
-    "id": 40,
-    "tag": "🌱 溝通的終極本質",
-    "question": "研習結語強調「溝通的本質不是我贏你輸，而是我們一起把孩子接住」。這句話給教育工作者最重要的信念指引是？",
-    "options": [
-      "在每一次親師對談中，老師一定要爭取辯論的勝利",
-      "親師雙方的共同使命是守護孩子的安全與成長；當個人力量有限接不住時，請堅定相信系統、善用體系資源共同承接",
-      "只要把孩子接住，老師受多少委屈都必須默默吞下去",
-      "學生若不領情，就應該立即放棄"
-    ],
-    "correct": 1,
-    "explanation": "教育的終極目標是學生的健全成長。放下對立輸贏，以系統性力量與跨處室團隊共同為孩子築起安全網，正是親師溝通的最高境界。"
-  }
-];
+    "id
 
-    let currentSlide = 0;
-    let isFullView = false;
-    let quizMode = 'random10';
-    let activeQuizList = [];
-    let userAnswers = {};
-
-    window.addEventListener('DOMContentLoaded', () => {
-      buildDirectory();
-      initQuizList();
-      buildQuiz();
-      updateSlideView();
-      setupScrollListener();
-    });
-
-    function switchMainTab(tab) {
-      const slidesSec = document.getElementById('section-slides');
-      const quizSec = document.getElementById('section-quiz');
-      const slidesBtn = document.getElementById('nav-slides-btn');
-      const quizBtn = document.getElementById('nav-quiz-btn');
-      const progressContainer = document.getElementById('reading-progress-container');
-
-      if (tab === 'slides') {
-        slidesSec.classList.remove('hidden');
-        quizSec.classList.add('hidden');
-        slidesBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg bg-white text-indigo-600 shadow-sm';
-        quizBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 flex items-center gap-1';
-        progressContainer.style.opacity = '1';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        slidesSec.classList.add('hidden');
-        quizSec.classList.remove('hidden');
-        quizBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg bg-white text-indigo-600 shadow-sm flex items-center gap-1';
-        slidesBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900';
-        progressContainer.style.opacity = '0';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    function toggleViewMode() {
-      isFullView = !isFullView;
-      const btnText = document.getElementById('view-mode-text');
-      const btnIcon = document.getElementById('view-mode-icon');
-      const pagination = document.getElementById('slide-pagination');
-      const slideCards = document.querySelectorAll('.slide-card');
-
-      if (isFullView) {
-        btnText.innerText = "切換為「單頁卡片」";
-        btnIcon.innerText = "🎴";
-        pagination.classList.add('hidden');
-        slideCards.forEach(card => card.classList.remove('hidden'));
-        document.getElementById('current-slide-indicator').innerText = "長卷模式 (全 14 頁)";
-      } else {
-        btnText.innerText = "切換為「長卷瀏覽」";
-        btnIcon.innerText = "📑";
-        pagination.classList.remove('hidden');
-        updateSlideView();
-      }
-    }
-
-    function changeSlide(direction) {
-      const total = slidesData.length;
-      currentSlide = Math.max(0, Math.min(total - 1, currentSlide + direction));
-      updateSlideView();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function jumpToSlide(index) {
-      currentSlide = index;
-      if (isFullView) toggleViewMode();
-      updateSlideView();
-      closeDirectoryModal();
-      switchMainTab('slides');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function updateSlideView() {
-      if (isFullView) return;
-      const slideCards = document.querySelectorAll('.slide-card');
-      slideCards.forEach((card, idx) => {
-        if (idx === currentSlide) card.classList.remove('hidden');
-        else card.classList.add('hidden');
-      });
-
-      const total = slidesData.length;
-      document.getElementById('current-slide-indicator').innerText = `Slide ${currentSlide} / ${total - 1}`;
-      document.getElementById('page-counter-text').innerText = `${currentSlide + 1} / ${total}`;
-      document.getElementById('prev-slide-btn').disabled = (currentSlide === 0);
-
-      const nextBtn = document.getElementById('next-slide-btn');
-      if (currentSlide === total - 1) {
-        nextBtn.innerHTML = "🎯 去測驗 ▶";
-        nextBtn.onclick = () => switchMainTab('quiz');
-      } else {
-        nextBtn.innerHTML = "下一張 ▶";
-        nextBtn.onclick = () => changeSlide(1);
-      }
-
-      const pct = ((currentSlide + 1) / total) * 100;
-      document.getElementById('progress-bar').style.width = pct + '%';
-    }
-
-    function setupScrollListener() {
-      window.addEventListener('scroll', () => {
-        if (!isFullView) return;
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (totalHeight <= 0) return;
-        const progress = (window.scrollY / totalHeight) * 100;
-        document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, progress)) + '%';
-      });
-    }
-
-    function buildDirectory() {
-      const container = document.getElementById('dir-list-container');
-      container.innerHTML = slidesData.map((item, idx) => `
-        <button onclick="jumpToSlide(${idx})" class="w-full text-left p-3 rounded-xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/60 transition-all flex items-center justify-between group">
-          <div class="flex items-center space-x-3">
-            <span class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white flex items-center justify-center text-xs font-bold text-slate-600 transition-colors">
-              ${idx}
-            </span>
-            <div>
-              <p class="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-indigo-900">${item.title}</p>
-              <p class="text-[11px] text-slate-400 group-hover:text-indigo-600">${item.subtitle}</p>
-            </div>
-          </div>
-          <span class="text-xs text-slate-400 group-hover:text-indigo-600 font-mono">➔</span>
-        </button>
-      `).join('');
-    }
-
-    function openDirectoryModal() { document.getElementById('dir-modal').classList.remove('hidden'); }
-    function closeDirectoryModal() { document.getElementById('dir-modal').classList.add('hidden'); }
-
-    // 測驗邏輯
-    function setQuizMode(mode) {
-      quizMode = mode;
-      const randBtn = document.getElementById('mode-random-btn');
-      const allBtn = document.getElementById('mode-all-btn');
-
-      if (mode === 'random10') {
-        randBtn.className = 'px-3 py-1.5 rounded-xl font-bold transition-all bg-white text-indigo-900 shadow-sm';
-        allBtn.className = 'px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all';
-      } else {
-        allBtn.className = 'px-3 py-1.5 rounded-xl font-bold transition-all bg-white text-indigo-900 shadow-sm';
-        randBtn.className = 'px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all';
-      }
-      reshuffleAndRestart();
-    }
-
-    function initQuizList() {
-      if (quizMode === 'random10') {
-        const shuffled = [...fullQuizBank].sort(() => 0.5 - Math.random());
-        activeQuizList = shuffled.slice(0, 10);
-      } else {
-        activeQuizList = [...fullQuizBank];
-      }
-    }
-
-    function reshuffleAndRestart() {
-      userAnswers = {};
-      document.getElementById('quiz-result-card').classList.add('hidden');
-      initQuizList();
-      buildQuiz();
-      document.getElementById('quiz-progress-text').innerText = `已抽選 ${activeQuizList.length} 題（題庫共 40 題）`;
-      window.scrollTo({ top: document.getElementById('section-quiz').offsetTop - 20, behavior: 'smooth' });
-    }
-
-    function buildQuiz() {
-      const container = document.getElementById('quiz-items-container');
-      container.innerHTML = activeQuizList.map((q, qIndex) => `
-        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm transition-all" id="quiz-card-${qIndex}">
-          <div class="flex items-center justify-between mb-2.5">
-            <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-lg">
-              第 ${qIndex + 1} 題 / 共 ${activeQuizList.length} 題
-            </span>
-            <span class="text-[11px] font-semibold text-slate-400">${q.tag}</span>
-          </div>
-          <h4 class="text-sm sm:text-base font-bold text-slate-900 mb-3.5 leading-relaxed">${q.question}</h4>
-          <div class="space-y-2">
-            ${q.options.map((opt, optIndex) => `
-              <button onclick="selectOption(${qIndex}, ${optIndex})" id="opt-${qIndex}-${optIndex}" class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition-all text-xs sm:text-sm font-medium text-slate-700 flex items-start gap-2.5 touch-btn">
-                <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 text-slate-500" id="circle-${qIndex}-${optIndex}">
-                  ${String.fromCharCode(65 + optIndex)}
-                </span>
-                <span class="flex-1 leading-snug">${opt}</span>
-              </button>
-            `).join('')}
-          </div>
-          <div id="feedback-${qIndex}" class="hidden mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm"></div>
-        </div>
-      `).join('');
-    }
-
-    function selectOption(qIndex, selectedOptIndex) {
-      if (userAnswers[qIndex] !== undefined) return;
-      const q = activeQuizList[qIndex];
-      userAnswers[qIndex] = selectedOptIndex;
-      const isCorrect = (selectedOptIndex === q.correct);
-
-      for (let i = 0; i < q.options.length; i++) {
-        const btn = document.getElementById(`opt-${qIndex}-${i}`);
-        const circle = document.getElementById(`circle-${qIndex}-${i}`);
-        btn.disabled = true;
-
-        if (i === q.correct) {
-          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold flex items-start gap-2.5";
-          circle.className = "w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
-          circle.innerHTML = "✓";
-        } else if (i === selectedOptIndex && !isCorrect) {
-          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-medium flex items-start gap-2.5";
-          circle.className = "w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
-          circle.innerHTML = "✕";
-        } else {
-          btn.className = "w-full text-left p-3.5 rounded-2xl border border-slate-100 bg-slate-50/50 text-slate-400 flex items-start gap-2.5 opacity-60";
-        }
-      }
-
-      const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
-      feedbackDiv.classList.remove('hidden');
-      if (isCorrect) {
-        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
-        feedbackDiv.innerHTML = `<div class="font-bold flex items-center gap-1 text-emerald-800 mb-1"><span>🎉</span> 回答正確！</div><p class="text-xs text-emerald-950 leading-relaxed">${q.explanation}</p>`;
-      } else {
-        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-rose-50 border border-rose-200 text-rose-900";
-        feedbackDiv.innerHTML = `<div class="font-bold flex items-center gap-1 text-rose-800 mb-1"><span>💡</span> 解析說明（正確答案為 ${String.fromCharCode(65 + q.correct)}）</div><p class="text-xs text-rose-950 leading-relaxed">${q.explanation}</p>`;
-      }
-
-      const answeredCount = Object.keys(userAnswers).length;
-      const totalCount = activeQuizList.length;
-      document.getElementById('quiz-progress-text').innerText = `已作答 ${answeredCount} / ${totalCount} 題`;
-
-      if (answeredCount === totalCount) {
-        let correctCount = 0;
-        activeQuizList.forEach((item, idx) => {
-          if (userAnswers[idx] === item.correct) correctCount++;
-        });
-        const score = Math.round((correctCount / totalCount) * 100);
-        showQuizResult(score, correctCount, totalCount);
-      }
-    }
-
-    function showQuizResult(score, correctCount, totalCount) {
-      const resultCard = document.getElementById('quiz-result-card');
-      resultCard.classList.remove('hidden');
-      document.getElementById('result-score').innerText = `${score} 分`;
-
-      let icon = "🏆";
-      let title = "親師溝通大師！";
-      let feedback = "";
-
-      if (score === 100) {
-        icon = "🌟";
-        title = "滿分通關！親師溝通大師";
-        feedback = `太棒了！您在本次 ${totalCount} 題實戰測驗中全對！您對國中校園法規通報時限、對話四層次辨識、AI 應用安全界線及親師生應對心態皆具備非常清晰成熟的判斷力！`;
-      } else if (score >= 80) {
-        icon = "🎖️";
-        title = "表現優異！專業親師導航者";
-        feedback = `非常出色！您答對了 ${correctCount} / ${totalCount} 題。您已充分掌握親師溝通的核心心態與實戰工具，遇到複雜個案時記得秉持「提早求援、團隊作戰」的原則！`;
-      } else if (score >= 60) {
-        icon = "💪";
-        title = "基礎扎實！持續精進實戰力";
-        feedback = `您答對了 ${correctCount} / ${totalCount} 題。已具備良好的溝通概念！建議回頭複習「法規通報24小時地圖」與「對話四層次」，能讓現場應對更胸有成竹。`;
-      } else {
-        icon = "🌱";
-        title = "研習起步走！多看案例累積經驗";
-        feedback = `您答對了 ${correctCount} / ${totalCount} 題。別灰心！親師溝通是一門需要不斷練習與反思的藝術。建議隨時點擊「換一組題目」多加練習！`;
-      }
-
-      document.getElementById('result-icon').innerText = icon;
-      document.getElementById('result-title').innerText = title;
-      document.getElementById('result-feedback').innerText = feedback;
-      resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  </script>
-</body>
-</html>
+http://googleusercontent.com/action_card_content/560be7ac-8359-4223-b763-4bf343fcb297
