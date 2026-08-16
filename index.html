@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>如何做好親師溝通｜新進教師研習互動手冊＆隨堂測驗</title>
+  <!-- Google Fonts & Tailwind Play CDN for crisp UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            },
+            accent: {
+              teal: '#0d9488',
+              amber: '#d97706',
+              rose: '#e11d48',
+              emerald: '#059669',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom mobile UI enhancements */
+    body {
+      -webkit-tap-highlight-color: transparent;
+      font-feature-settings: "palt" 1;
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom, 1.5rem);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .slide-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .badge-glow {
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    /* Touch animation */
+    .touch-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80 transition-all duration-300">
+    <div class="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-indigo-200">
+          師
+        </div>
+        <div>
+          <h1 class="text-xs text-slate-500 font-medium">新進教師研習手冊</h1>
+          <p class="text-sm font-bold text-slate-900 leading-tight">如何做好親師溝通</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs / Mode Switcher -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/60">
+        <button id="nav-slides-btn" onclick="switchMainTab('slides')" class="px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm">
+          📖 講義閱讀
+        </button>
+        <button id="nav-quiz-btn" onclick="switchMainTab('quiz')" class="px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">
+          ✍️ 實戰測驗
+          <span id="quiz-badge" class="ml-1 px-1.5 py-0.2 text-[10px] bg-amber-100 text-amber-700 font-bold rounded-full">10題</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress indicator -->
+    <div id="reading-progress-container" class="w-full bg-slate-100 h-1">
+      <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-teal-500 h-1 w-0 transition-all duration-300"></div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-4 safe-bottom">
+
+    <!-- ==================== SECTION: SLIDES / READING ==================== -->
+    <section id="section-slides" class="space-y-4">
+      
+      <!-- Quick View Controls (Slide by Slide vs Full Feed) -->
+      <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-2xl border border-slate-200/70 shadow-sm text-xs text-slate-600">
+        <div class="flex items-center space-x-2">
+          <span class="font-bold text-slate-700" id="current-slide-indicator">Slide 0 / 13</span>
+          <span class="text-slate-300">|</span>
+          <button onclick="toggleViewMode()" id="view-mode-btn" class="text-indigo-600 font-semibold hover:underline flex items-center space-x-1">
+            <span id="view-mode-icon">📑</span>
+            <span id="view-mode-text">切換為「完整長卷瀏覽」</span>
+          </button>
+        </div>
+        <button onclick="openDirectoryModal()" class="text-slate-600 hover:text-indigo-600 font-medium flex items-center space-x-1 bg-slate-50 px-2 py-1 rounded-lg border border-slate-200">
+          <span>☰ 目錄跳轉</span>
+        </button>
+      </div>
+
+      <!-- SLIDE CARDS WRAPPER -->
+      <div id="slides-container" class="space-y-4">
+        
+        <!-- Slide 0: 封面 -->
+        <article class="slide-card bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden" data-slide="0">
+          <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="inline-flex items-center space-x-1.5 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-semibold tracking-wide text-indigo-200 mb-4">
+            <span>🌟</span><span>新進教師研習專用</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2 leading-tight">
+            如何做好親師溝通
+          </h2>
+          <p class="text-indigo-200 text-sm sm:text-base font-medium mb-6">
+            心態、技巧和實戰案例｜AI 時代的教師做法
+          </p>
+          <div class="pt-4 border-t border-white/10 flex flex-wrap gap-2 text-xs">
+            <span class="bg-indigo-700/60 px-2.5 py-1 rounded-md text-indigo-100">🤝 建立信任</span>
+            <span class="bg-indigo-700/60 px-2.5 py-1 rounded-md text-indigo-100">⚖️ 法規義務</span>
+            <span class="bg-indigo-700/60 px-2.5 py-1 rounded-md text-indigo-100">🧰 工具箱</span>
+            <span class="bg-indigo-700/60 px-2.5 py-1 rounded-md text-indigo-100">🤖 AI 輔助</span>
+            <span class="bg-indigo-700/60 px-2.5 py-1 rounded-md text-indigo-100">🛡️ 尋求協助</span>
+          </div>
+        </article>
+
+        <!-- Slide 1: 學校日建立信任 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="1">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 1</span>
+            <span class="text-xs text-slate-400 font-mono">開學起跑點</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🏫</span> 學校日建立信任
+          </h3>
+          
+          <div class="space-y-3 mb-4">
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+              <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-indigo-700">
+                <span>1️⃣</span> 定調合作關係
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                傳遞「我們是教育合夥人，目標一致是讓孩子成為更好的人」的合作心態，而非對立或審查。
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+              <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-teal-700">
+                <span>2️⃣</span> 建立溝通邊界與默契
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                說明親師聯繫管道與合適聯絡時間，預先建立原則與界線。
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+              <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-amber-700">
+                <span>3️⃣</span> 展現專業與教學願景
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                清楚說明教學理念、評量標準與常規要求，降低家長開學初期的不安全感與焦慮。
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-indigo-50/80 border-l-4 border-indigo-500 p-3.5 rounded-r-2xl">
+            <div class="text-xs font-bold text-indigo-900 flex items-center gap-1 mb-1">
+              <span>💡</span> 關鍵思維
+            </div>
+            <p class="text-xs sm:text-sm text-indigo-800 leading-relaxed font-medium">
+              學校日不只是「單向報告會」，而是「建立信任存摺」的起點。開學第一步把期待講清楚，後續遇到問題時溝通阻力減半。
+            </p>
+          </div>
+        </article>
+
+        <!-- Slide 2: 開場 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="2">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 2</span>
+            <span class="text-xs text-slate-400 font-mono">背景脈絡</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🔥</span> 開場：為什麼我們今天要談「溝通」？
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <div class="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-100">
+              <div class="text-xs font-bold text-rose-700 mb-1">🏛️ 以前的家長</div>
+              <p class="text-xs sm:text-sm text-rose-900 italic font-medium">
+                衝到學校：「我要找看不起我和我小孩的人。」
+              </p>
+            </div>
+            <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-100">
+              <div class="text-xs font-bold text-amber-700 mb-1">📱 現在的家長</div>
+              <p class="text-xs sm:text-sm text-amber-900 italic font-medium">
+                傳 LINE 訊息：「若情況沒改善，要告霸凌。」
+              </p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-100/80 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 text-center mb-4">
+            👉 同樣是焦慮，表達方式變了，老師的應對也必須升級。
+          </div>
+
+          <div class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+            <div class="flex items-start gap-2">
+              <span class="text-indigo-500 font-bold">●</span>
+              <span><strong>訊息變多了，但「真正的理解」變少了</strong>：文字溝通少了語氣與表情，容易擴大誤解。</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">●</span>
+              <span><strong>法律意識抬頭，每一句話都可能被截圖</strong>：隨時保持專業與客觀文字紀錄。</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-teal-500 font-bold">●</span>
+              <span><strong>AI 進入教學現場</strong>：是提升親師效能的助力，也是新的責任與界線挑戰。</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Slide 3: 溝通發起點 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="3">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 3</span>
+            <span class="text-xs text-slate-400 font-mono">策略思維</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🎯</span> 溝通發起點：從哪裡開始？
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <!-- 主動聯繫 -->
+            <div class="bg-teal-50/60 p-4 rounded-2xl border border-teal-200/80">
+              <div class="flex items-center gap-1.5 font-bold text-teal-800 text-sm mb-2">
+                <span class="px-2 py-0.5 bg-teal-600 text-white text-[11px] rounded-md">主動聯繫</span>
+                <span>老師發起</span>
+              </div>
+              <ul class="text-xs sm:text-sm text-teal-900 space-y-1.5 list-disc list-inside">
+                <li>補救教學（作業未交）</li>
+                <li>事件（有無違反校規）</li>
+                <li>關心近況、肯定進步</li>
+                <li>班務需求與活動協作</li>
+              </ul>
+            </div>
+
+            <!-- 被動聯繫 -->
+            <div class="bg-rose-50/60 p-4 rounded-2xl border border-rose-200/80">
+              <div class="flex items-center gap-1.5 font-bold text-rose-800 text-sm mb-2">
+                <span class="px-2 py-0.5 bg-rose-600 text-white text-[11px] rounded-md">被動聯繫</span>
+                <span>家長發起</span>
+              </div>
+              <ul class="text-xs sm:text-sm text-rose-900 space-y-1.5 list-disc list-inside">
+                <li>詢問成績／在校態度</li>
+                <li>反映同儕相處問題</li>
+                <li>投訴／申訴／質疑處置</li>
+                <li>法律語言（如揚言告霸凌）</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-2xl">
+            <div class="text-xs font-bold text-amber-900 flex items-center gap-1 mb-1">
+              <span>🩺</span> 關鍵體悟：預防醫學 vs 急診室
+            </div>
+            <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-semibold">
+              主動聯繫的成本，遠低於被動處理的代價。<br>
+              <span class="text-amber-800 font-normal">主動 = 預防醫學（平時打預防針）；被動 = 急診室（發炎爆發搶救）。</span>
+            </p>
+          </div>
+        </article>
+
+        <!-- Slide 4: 三方拉扯關係 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 4</span>
+            <span class="text-xs text-slate-400 font-mono">系統視角</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🔄</span> 三方拉扯關係：師、親、生的動態
+          </h3>
+
+          <div class="p-4 bg-slate-900 text-white rounded-2xl mb-4 text-center">
+            <p class="text-xs text-slate-400 font-mono mb-1">Core Tension</p>
+            <div class="text-sm sm:text-base font-bold text-indigo-300">
+              老師 ↕ 【在意：態度／成績】 ↕ 家長、學生
+            </div>
+          </div>
+
+          <div class="space-y-2 mb-4 text-xs sm:text-sm">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-2.5">
+              <span class="text-base">👨‍🏫</span>
+              <div>
+                <strong class="text-slate-900">老師端：</strong>
+                <span class="text-slate-600">從「上課現場」觀察學生（學習專注度、同儕人際互動、常規秩序）。</span>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-2.5">
+              <span class="text-base">👨‍👩‍👧</span>
+              <div>
+                <strong class="text-slate-900">家長端：</strong>
+                <span class="text-slate-600">從「孩子回家說」聽取訊息（發生什麼事、別人怎樣、作業多寡）。</span>
+              </div>
+            </div>
+            <div class="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100 flex items-start gap-2.5">
+              <span class="text-base">🎒</span>
+              <div>
+                <strong class="text-indigo-900">學生端：</strong>
+                <span class="text-indigo-800">是訊息的<strong>過濾器</strong>，也是<strong>變形者</strong>（避重就輕、尋求認同或轉移焦點）。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-indigo-50 border border-indigo-200 p-3.5 rounded-2xl text-center">
+            <p class="text-xs text-indigo-600 font-bold mb-0.5">💡 核心本質</p>
+            <p class="text-xs sm:text-sm font-extrabold text-indigo-950">
+              溝通的目的不是「找到真相」，而是「拼出全貌」。
+            </p>
+            <p class="text-[11px] text-slate-500 mt-1">老師看到的、家長聽到的、學生說的，永遠不是同一件事。</p>
+          </div>
+        </article>
+
+        <!-- Slide 5: 法規地圖 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-1 rounded-lg">Slide 5 🚨 重點</span>
+            <span class="text-xs text-slate-400 font-mono">法規與通報</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>⚖️</span> 法規地圖：國中事件分類與通報義務
+          </h3>
+          <p class="text-xs text-rose-600 font-semibold mb-3">
+            ⚠️ 提醒：下列標註「必通報」的事件，不通報可能構成失職事由，面臨相關罰則！
+          </p>
+
+          <!-- Responsive Accordion/Cards for Regulation -->
+          <div class="space-y-2.5 text-xs sm:text-sm">
+            
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900">📚 學習問題</span>
+                <span class="text-[11px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-medium">校內機制</span>
+              </div>
+              <p class="text-slate-600 text-xs"><strong>樣態：</strong>作業未交、成績低落、學習意願不佳</p>
+              <p class="text-slate-500 text-xs mt-0.5"><strong>處置：</strong>啟動校內輔導與補救教學機制</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900">🚶 行為偏差</span>
+                <span class="text-[11px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-medium">管教辦法</span>
+              </div>
+              <p class="text-slate-600 text-xs"><strong>樣態：</strong>遲到、頂撞、午休消失、違反校規</p>
+              <p class="text-slate-500 text-xs mt-0.5"><strong>法規：</strong>《學校訂定教師輔導與管教學生辦法注意事項》</p>
+            </div>
+
+            <div class="p-3 bg-rose-50/80 rounded-2xl border border-rose-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-rose-900 flex items-center gap-1">🛑 校園霸凌</span>
+                <span class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">🚨 必通報 (24hr)</span>
+              </div>
+              <p class="text-rose-950 text-xs"><strong>樣態：</strong>取綽號、流言、排擠、肢體衝突、網路/通訊軟體霸凌</p>
+              <p class="text-rose-800 text-xs mt-0.5"><strong>法規：</strong>《校園霸凌防制準則》知悉後立即通報（24 小時內）</p>
+            </div>
+
+            <div class="p-3 bg-rose-50/80 rounded-2xl border border-rose-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-rose-900 flex items-center gap-1">🌸 性平事件</span>
+                <span class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">🚨 必通報 (24hr)</span>
+              </div>
+              <p class="text-rose-950 text-xs"><strong>樣態：</strong>性騷擾、性霸凌、不當追求、權勢性騷、違反專業倫理（師生戀）</p>
+              <p class="text-rose-800 text-xs mt-0.5"><strong>法規：</strong>《性別平等教育法》知悉後 24 小時內法定通報</p>
+            </div>
+
+            <div class="p-3 bg-rose-50/80 rounded-2xl border border-rose-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-rose-900 flex items-center gap-1">🛡️ 兒少保護</span>
+                <span class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">🚨 必通報 (24hr)</span>
+              </div>
+              <p class="text-rose-950 text-xs"><strong>樣態：</strong>受虐、目睹家暴、疏忽照顧、不當對待</p>
+              <p class="text-rose-800 text-xs mt-0.5"><strong>法規：</strong>《兒童及少年福利與權益保障法》§53，24 小時內通報</p>
+            </div>
+
+            <div class="p-3 bg-rose-50/80 rounded-2xl border border-rose-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-rose-900 flex items-center gap-1">⚠️ 嚴重偏差／違法</span>
+                <span class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">🚨 校安通報</span>
+              </div>
+              <p class="text-rose-950 text-xs"><strong>樣態：</strong>藥物濫用、自傷/自殘意念、校內外犯罪行為</p>
+              <p class="text-rose-800 text-xs mt-0.5"><strong>機制：</strong>校安通報系統，必要時警政、社政跨單位介入</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900">🏠 親職功能不全</span>
+                <span class="text-[11px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-medium">輔導室轉介</span>
+              </div>
+              <p class="text-slate-600 text-xs"><strong>樣態：</strong>家長不配合、教養嚴重落差、失聯</p>
+              <p class="text-slate-500 text-xs mt-0.5"><strong>處置：</strong>輔導室介入、社工與跨單位個案轉介</p>
+            </div>
+
+          </div>
+
+          <div class="mt-4 p-3.5 bg-slate-900 text-white rounded-2xl text-xs sm:text-sm">
+            <div class="font-bold text-amber-400 mb-1 flex items-center gap-1">
+              <span>📌</span> 判斷口訣與重要正確認知
+            </div>
+            <p class="font-medium text-slate-200 leading-relaxed mb-2">
+              「有疑慮，先通報學校組長、主任；通報是保護孩子，也是保護你自己。」
+            </p>
+            <p class="text-[11px] text-slate-400 border-t border-slate-800 pt-1.5">
+              💡 <strong>校安通報 ≠ 對家長公開</strong>，是教育系統內的法定紀錄與保護機制，不用害怕被家長責怪而不敢通報。
+            </p>
+          </div>
+        </article>
+
+        <!-- Slide 6: 溝通工具箱 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="6">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 6</span>
+            <span class="text-xs text-slate-400 font-mono">實戰工具</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🧰</span> 溝通工具箱：什麼時候用什麼？
+          </h3>
+
+          <div class="space-y-2.5 text-xs sm:text-sm">
+            
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <div class="flex items-center justify-between font-bold text-slate-900 mb-1">
+                <span>📝 聯絡本</span>
+                <span class="text-xs text-indigo-600">例行通知、輕度提醒</span>
+              </div>
+              <p class="text-slate-600 text-xs">
+                <strong>注意：</strong>留下白紙黑字，但孩子會親眼看到，避免使用羞辱性或情緒化字眼。
+              </p>
+            </div>
+
+            <div class="p-3 bg-teal-50/70 rounded-2xl border border-teal-200">
+              <div class="flex items-center justify-between font-bold text-teal-900 mb-1">
+                <span>📞 電話</span>
+                <span class="text-xs text-teal-700">需要溫度、突發緊急事件</span>
+              </div>
+              <p class="text-teal-800 text-xs">
+                <strong>注意：</strong>講完電話後，宜用文字簡短 summary（留存共識與客觀紀錄）。
+              </p>
+            </div>
+
+            <div class="p-3 bg-amber-50/70 rounded-2xl border border-amber-200">
+              <div class="flex items-center justify-between font-bold text-amber-900 mb-1">
+                <span>💬 LINE／簡訊</span>
+                <span class="text-xs text-amber-700">非正式、快速事務確認</span>
+              </div>
+              <p class="text-amber-800 text-xs">
+                <strong>注意：</strong>截圖外流風險最高！措辭務必中性；非工作時間宜設自動回覆；涉及複雜情緒時務必改為電話或面談。
+              </p>
+            </div>
+
+            <div class="p-3 bg-blue-50/70 rounded-2xl border border-blue-200">
+              <div class="flex items-center justify-between font-bold text-blue-900 mb-1">
+                <span>✉️ Email</span>
+                <span class="text-xs text-blue-700">正式紀錄、複雜事件說明</span>
+              </div>
+              <p class="text-blue-800 text-xs">
+                <strong>注意：</strong>主旨明確、條理清晰，必要時副本學務處或相關處室留存。
+              </p>
+            </div>
+
+            <div class="p-3 bg-purple-50/70 rounded-2xl border border-purple-200">
+              <div class="flex items-center justify-between font-bold text-purple-900 mb-1">
+                <span>👥 親自當面</span>
+                <span class="text-xs text-purple-700">重大事件、同議題第3次以上</span>
+              </div>
+              <p class="text-purple-800 text-xs">
+                <strong>注意：</strong>務必找第三人在場（如年級導師、輔導老師或學務處行政同仁陪同），切勿單獨應對。
+              </p>
+            </div>
+
+          </div>
+
+          <div class="mt-4 p-3.5 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-2xl text-center shadow-md">
+            <p class="text-xs text-indigo-200 font-semibold mb-0.5">🎯 工具選擇口訣</p>
+            <p class="text-sm sm:text-base font-extrabold tracking-wide">
+              「輕事用文字、重事用電話、大事一定面談。」
+            </p>
+          </div>
+        </article>
+
+        <!-- Slide 7: 對話四層次 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="7">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 7</span>
+            <span class="text-xs text-slate-400 font-mono">溝通心法</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🗣️</span> 說什麼？對話的四個層次
+          </h3>
+
+          <div class="space-y-2 mb-4">
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-2.5">
+              <span class="px-2 py-0.5 bg-emerald-600 text-white text-xs rounded-md font-bold shrink-0">1. 事實</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="text-emerald-950">Fact：可以被客觀驗證的</strong>
+                <p class="text-emerald-800 text-xs mt-0.5">時間、地點、具體行為、人證物證（溝通最穩固的基石）。</p>
+              </div>
+            </div>
+
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-2xl flex items-start gap-2.5">
+              <span class="px-2 py-0.5 bg-blue-600 text-white text-xs rounded-md font-bold shrink-0">2. 立場</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="text-blue-950">Position：角色立場決定的</strong>
+                <p class="text-blue-800 text-xs mt-0.5">老師關心班級常規與同儕公平、家長關心孩子的情緒與感受。</p>
+              </div>
+            </div>
+
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-2.5">
+              <span class="px-2 py-0.5 bg-amber-600 text-white text-xs rounded-md font-bold shrink-0">3. 觀點</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="text-amber-950">Opinion：個人主觀解讀的</strong>
+                <p class="text-amber-800 text-xs mt-0.5">「我覺得他是故意的」、「他一定很討厭我們」——需要抽離情緒還原事實。</p>
+              </div>
+            </div>
+
+            <div class="p-3 bg-rose-50 border border-rose-200 rounded-2xl flex items-start gap-2.5">
+              <span class="px-2 py-0.5 bg-rose-600 text-white text-xs rounded-md font-bold shrink-0">4. 信仰</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="text-rose-950">Belief：深層價值觀與信念</strong>
+                <p class="text-rose-800 text-xs mt-0.5">根深蒂固的人生觀（如「成績才是一切」）。⚠️ 最不該在第一通電話就試圖硬碰或改變。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 內在覺察 -->
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs sm:text-sm">
+            <div class="font-bold text-slate-800 mb-1.5 flex items-center gap-1">
+              <span>🧘</span> 對話時同步覺察「自己與對方」的三重狀態：
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="bg-white p-2 rounded-xl border border-slate-200">
+                <p class="font-bold text-indigo-700">🫀 生理</p>
+                <p class="text-slate-500 text-[11px] mt-0.5">心跳、呼吸、肩膀緊繃？</p>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-slate-200">
+                <p class="font-bold text-teal-700">🧠 心理</p>
+                <p class="text-slate-500 text-[11px] mt-0.5">被攻擊感、反駁衝動？</p>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-slate-200">
+                <p class="font-bold text-amber-700">💭 想法感受</p>
+                <p class="text-slate-500 text-[11px] mt-0.5">我現在到底在氣什麼？</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Slide 8: 案例實戰① -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="8">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 8</span>
+            <span class="text-xs text-slate-400 font-mono">實戰案例 1</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>📝</span> 案例實戰①：師主動關心，意外揭露真相
+          </h3>
+
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 mb-3 text-xs sm:text-sm">
+            <p class="text-slate-600 mb-1"><strong>背景：</strong>處理例行班務時，老師主動額外關心 O 同學近況。</p>
+            <p class="text-slate-700">
+              <strong>事件鋪陳：</strong>O 家長說「週末 O 與 Y 同學一起出去」。老師主動傳訊給 Y 家長，Y 家長感到困惑；隔日 Y 同學澄清並透露「O 其實是跟其他人出去」。
+            </p>
+          </div>
+
+          <div class="space-y-2 mb-3">
+            <div class="text-xs font-bold text-indigo-700">🛠️ 應對三步驟：</div>
+            <div class="p-2.5 bg-indigo-50/60 rounded-xl text-xs text-indigo-950 flex items-start gap-2">
+              <span class="font-bold bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded text-[10px]">步驟 1</span>
+              <span><strong>問 AI 如何處理</strong> → 用 AI 草擬客觀中性的安撫 O 家長文字。</span>
+            </div>
+            <div class="p-2.5 bg-indigo-50/60 rounded-xl text-xs text-indigo-950 flex items-start gap-2">
+              <span class="font-bold bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded text-[10px]">步驟 2</span>
+              <span>請家長先<strong>按兵不動</strong>，由老師旁敲側擊 O 同學（紀錄保持客觀事實，避免主觀定性）。</span>
+            </div>
+            <div class="p-2.5 bg-indigo-50/60 rounded-xl text-xs text-indigo-950 flex items-start gap-2">
+              <span class="font-bold bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded text-[10px]">步驟 3</span>
+              <span>用 <strong>AI 問題稿做引導式詢問</strong>（簡化、口語化），讓 O 同學自己練習向家長誠實表達。</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl text-xs sm:text-sm text-teal-900 font-medium">
+            ✨ <strong>結論：</strong>事件不可能有三方完美的解答，但能開啟溝通的良性循環，以達共好。
+          </div>
+        </article>
+
+        <!-- Slide 9: 案例實戰②③ -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="9">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-1 rounded-lg">Slide 9 🚨</span>
+            <span class="text-xs text-slate-400 font-mono">實戰案例 2 & 3</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🛡️</span> 案例實戰②③：家長文字傳訊「要告同學霸凌」
+          </h3>
+
+          <div class="space-y-2 mb-3 text-xs sm:text-sm">
+            <div class="p-2.5 bg-rose-50/60 rounded-xl border border-rose-100">
+              <strong class="text-rose-900">案例② E生：</strong>同學們互取綽號，孩子不想來學校。
+            </div>
+            <div class="p-2.5 bg-rose-50/60 rounded-xl border border-rose-100">
+              <strong class="text-rose-900">案例③ C生：</strong>同學間流言蜚語，孩子不想來學校。
+            </div>
+            <div class="p-2 bg-slate-900 text-white rounded-lg text-center text-xs font-mono">
+              兩位家長共同訊息：「情況若沒改善，要告同學霸凌。」
+            </div>
+          </div>
+
+          <div class="bg-indigo-50/80 p-3.5 rounded-2xl border border-indigo-200 mb-3 text-xs sm:text-sm">
+            <div class="font-bold text-indigo-900 mb-2">⚡ 5 步處理標準程序（先問 AI 共同擬定）：</div>
+            <ol class="space-y-1.5 list-decimal list-inside text-indigo-950 font-medium">
+              <li><strong>情緒安撫與安全隔離</strong>：第一時間接住自己情緒、再處理對方情緒。</li>
+              <li><strong>回報學務處並討論程序</strong>：啟動行政支援，確認法規通報期程。</li>
+              <li><strong>個案/關係人訪談紀錄</strong>：按影響程度排序，客觀做筆記。</li>
+              <li><strong>致電說明處置程序</strong>：給予家長明確支持與流程透明度。</li>
+              <li><strong>追蹤與輔導</strong>：結合班內可信任同儕力量與三級輔導系統。</li>
+            </ol>
+          </div>
+        </article>
+
+        <!-- Slide 10: 案例實戰④ -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="10">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg">Slide 10</span>
+            <span class="text-xs text-slate-400 font-mono">實戰案例 4</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🧩</span> 案例實戰④：J 生事件——當溝通不見效果
+          </h3>
+
+          <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+              <p class="font-bold text-slate-800">行為樣態</p>
+              <ul class="text-slate-600 list-disc list-inside mt-1 space-y-0.5">
+                <li>午休缺席</li>
+                <li>干擾課堂</li>
+                <li>私下偷換座位</li>
+              </ul>
+            </div>
+            <div class="bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+              <p class="font-bold text-rose-800">介入嘗試（無效）</p>
+              <ul class="text-rose-700 list-disc list-inside mt-1 space-y-0.5">
+                <li>多次溝通家長配合</li>
+                <li>換座位、個別約談</li>
+                <li>聯絡簿警告——均無效</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-3 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl text-xs sm:text-sm text-amber-950 mb-3">
+            <p class="font-bold">⚠️ 為什麼無效？挖到「信仰層」：</p>
+            <p class="mt-1 italic">
+              學生內心深層信念：「大人講的規則不重要，他們只看成績。反正我成績好，我就可以做自己。」
+            </p>
+          </div>
+
+          <div class="space-y-1.5 text-xs text-slate-700">
+            <p><strong>💡 啟示與心態轉念：</strong></p>
+            <p>● 親師管教若未觸及孩子的價值觀，再多技巧只是表面功夫。</p>
+            <p>● 「成績換特權」的文化，讓孩子學會用成績情緒勒索大人。</p>
+            <div class="p-2.5 bg-slate-900 text-white rounded-xl font-medium mt-1">
+              🌱 <strong>誠實面對：</strong>不是每個案例都能立即見效。承認教師能力有限，尋求系統支援，才是專業老師的真正成熟。
+            </div>
+          </div>
+        </article>
+
+        <!-- Slide 11: AI 輔助界線 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="11">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded-lg">Slide 11 🤖</span>
+            <span class="text-xs text-slate-400 font-mono">AI 工具素養</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🤖</span> AI 輔助界線：AI 是助手，不是代理人
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3 text-xs sm:text-sm">
+            <!-- AI 可以做 -->
+            <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200">
+              <div class="font-bold text-emerald-800 mb-1.5 flex items-center gap-1">
+                <span>✅</span> AI 可以做：
+              </div>
+              <ul class="text-emerald-950 space-y-1 list-disc list-inside">
+                <li>整理事件脈絡（時間軸）</li>
+                <li>草擬中性的安撫文字</li>
+                <li>產出引導式問題清單</li>
+                <li>檢查訊息是否有情緒字眼</li>
+                <li>多版本譯寫（軟硬語氣切換）</li>
+              </ul>
+            </div>
+
+            <!-- AI 不可以做 -->
+            <div class="p-3 bg-rose-50 rounded-2xl border border-rose-200">
+              <div class="font-bold text-rose-800 mb-1.5 flex items-center gap-1">
+                <span>❌</span> AI 不可以做：
+              </div>
+              <ul class="text-rose-950 space-y-1 list-disc list-inside">
+                <li><strong>輸入學生真實姓名</strong>（違個資法）</li>
+                <li>取代你的現場專業判斷</li>
+                <li>不經檢視直接複製貼上發送</li>
+                <li>處理法律層級的正式回覆</li>
+                <li>取代面對面溝通的真實溫度</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-100 rounded-xl text-xs text-slate-700 mb-3 leading-relaxed">
+            ⚖️ <strong>特別提醒：</strong>2024 年全面施行《性別平等教育法》，嚴禁教職員工與學生發展違反專業倫理之情感關係（如師生戀）；認定門檻更低、責任更重，任何文字紀錄（含 AI 產出內容）均可能成為調查依據。
+          </div>
+
+          <div class="p-3 bg-slate-900 text-white rounded-xl text-center text-xs sm:text-sm font-bold">
+            💡 口訣：「AI 幫你想得更全，但最後一句話，必須是你的。」
+          </div>
+        </article>
+
+        <!-- Slide 12: 心態收束 -->
+        <article class="slide-card bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm" data-slide="12">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Slide 12</span>
+            <span class="text-xs text-slate-400 font-mono">心態維護</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <span>🌱</span> 心態收束：溝通然後呢？
+          </h3>
+
+          <div class="flex items-center justify-between bg-slate-100 p-2.5 rounded-2xl text-xs sm:text-sm font-bold text-slate-800 text-center mb-4">
+            <span class="flex-1 py-1 bg-white rounded-lg shadow-sm">接受它</span>
+            <span class="text-slate-400">➔</span>
+            <span class="flex-1 py-1 bg-white rounded-lg shadow-sm">面對它</span>
+            <span class="text-slate-400">➔</span>
+            <span class="flex-1 py-1 bg-white rounded-lg shadow-sm">處理它</span>
+            <span class="text-slate-400">➔</span>
+            <span class="flex-1 py-1 bg-white rounded-lg shadow-sm">放下它</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 text-xs sm:text-sm">
+            <div class="p-3 bg-teal-50 border border-teal-200 rounded-2xl">
+              <div class="font-bold text-teal-900 mb-1">🌟 共好（良性循環）</div>
+              <p class="text-teal-800">三方有共同目標 ➔ 信任持續積累 ➔ 下次更容易溝通合作。</p>
+            </div>
+            <div class="p-3 bg-rose-50 border border-rose-200 rounded-2xl">
+              <div class="font-bold text-rose-900 mb-1">⚠️ 惡化（內耗循環）</div>
+              <p class="text-rose-800">彼此內耗指責 ➔ 信任歸零 ➔ 每件小事都升級變成大事。</p>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-amber-500 text-slate-950 rounded-2xl font-semibold text-xs sm:text-sm">
+            <div class="font-extrabold flex items-center gap-1 mb-1">
+              <span>🚨</span> 尋求協助要提早！
+            </div>
+            <p class="leading-relaxed">
+              提早求援不是無能，是專業！<br>
+              學務處、輔導室、學年主任、資深前輩、個案會議（含社工/心理師/少輔會）——這是團隊作戰，不是英雄獨秀。
+            </p>
+          </div>
+        </article>
+
+        <!-- Slide 13: 結語 -->
+        <article class="slide-card bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 shadow-xl" data-slide="13">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-white/10 px-2.5 py-1 rounded-lg">Slide 13</span>
+            <span class="text-xs text-indigo-300 font-mono">總結座右銘</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white mb-3">
+            🕊️ 溝通的本質
+          </h3>
+
+          <div class="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 mb-4 text-center">
+            <p class="text-sm text-indigo-200">不是「我贏你輸」，</p>
+            <p class="text-lg sm:text-xl font-extrabold text-white mt-1">
+              是「我們一起，把孩子接住」。
+            </p>
+            <p class="text-xs text-indigo-300 mt-2">
+              ——但接不住的時候，請相信系統，請尋求協助。
+            </p>
+          </div>
+
+          <div class="space-y-1.5 text-xs sm:text-sm font-bold text-indigo-100 mb-6 bg-indigo-950/70 p-3.5 rounded-2xl border border-indigo-800">
+            <div class="flex justify-between items-center py-1 border-b border-indigo-900">
+              <span>📌 預防 vs 補救</span><span class="text-teal-300">主動 ＞ 被動</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-indigo-900">
+              <span>📌 溝通對焦</span><span class="text-teal-300">事實 ＞ 觀點</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-indigo-900">
+              <span>📌 親師心態</span><span class="text-teal-300">共好 ＞ 對立</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-indigo-900">
+              <span>📌 法規紅線</span><span class="text-amber-300">通報 ＞ 私了</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span>📌 專業成熟</span><span class="text-amber-300">提早求援 ＞ 獨自硬撐</span>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button onclick="switchMainTab('quiz')" class="w-full py-3.5 px-6 bg-gradient-to-r from-indigo-500 to-teal-500 hover:from-indigo-600 hover:to-teal-600 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg shadow-indigo-500/30 transition-all touch-btn">
+              🎯 閱讀完畢！立即開始隨堂實戰測驗 →
+            </button>
+            <p class="text-xs text-slate-400 mt-2">謝謝大家｜問答時間 Q&A</p>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- BOTTOM SLIDE PAGINATION CONTROLS (Active in Slide-by-slide mode) -->
+      <div id="slide-pagination" class="sticky bottom-3 z-30 flex items-center justify-between bg-white/95 backdrop-blur-md p-2.5 rounded-2xl border border-slate-200 shadow-lg">
+        <button id="prev-slide-btn" onclick="changeSlide(-1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl transition-all touch-btn disabled:opacity-30 disabled:pointer-events-none">
+          ◀ 上一張
+        </button>
+        <span id="page-counter-text" class="text-xs font-bold text-slate-700">1 / 14</span>
+        <button id="next-slide-btn" onclick="changeSlide(1)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-indigo-200 transition-all touch-btn">
+          下一張 ▶
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECTION: QUIZ / PRACTICE ==================== -->
+    <section id="section-quiz" class="hidden space-y-4">
+      
+      <!-- Quiz Header Banner -->
+      <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-lg">
+        <div class="flex items-center justify-between mb-2">
+          <span class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-semibold border border-indigo-400/30">
+            🎯 實戰情境隨堂測驗
+          </span>
+          <span id="quiz-progress-text" class="text-xs font-mono text-indigo-300">共 10 題</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold mb-1">親師溝通實戰測驗</h2>
+        <p class="text-xs sm:text-sm text-indigo-200">
+          結合校園真實情境、法規時限與 AI 輔助守則，測驗你的親師溝通功力！
+        </p>
+      </div>
+
+      <!-- Quiz Card Container (Dynamic) -->
+      <div id="quiz-items-container" class="space-y-4">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Quiz Summary / Result Card (Hidden until all completed) -->
+      <div id="quiz-result-card" class="hidden bg-white rounded-3xl p-6 border border-slate-200 shadow-xl text-center space-y-4">
+        <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner" id="result-icon">
+          🏆
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-900" id="result-title">測驗完成！</h3>
+          <p class="text-sm text-slate-500 mt-1" id="result-subtitle">你的親師溝通實戰分數</p>
+          <div class="text-4xl font-extrabold text-indigo-600 my-2" id="result-score">0 / 100</div>
+          <p class="text-xs sm:text-sm text-slate-700 max-w-md mx-auto leading-relaxed" id="result-feedback"></p>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row gap-2 justify-center">
+          <button onclick="resetQuiz()" class="py-2.5 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl transition-all">
+            🔄 重新測驗
+          </button>
+          <button onclick="switchMainTab('slides')" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all">
+            📖 回到講義複習重點
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- DIRECTORY MODAL (目錄跳轉) -->
+  <div id="dir-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-5 max-h-[80vh] flex flex-col shadow-2xl animate-in fade-in duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h4 class="font-bold text-slate-900 text-base">📑 研習簡報目錄跳轉</h4>
+        <button onclick="closeDirectoryModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200">
+          ✕
+        </button>
+      </div>
+      <div class="overflow-y-auto py-2 space-y-1.5 flex-1 pr-1" id="dir-list-container">
+        <!-- List generated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // Slide Titles Data
+    const slidesData = [
+      { id: 0, title: "封面", subtitle: "如何做好親師溝通" },
+      { id: 1, title: "學校日建立信任", subtitle: "三大核心任務與信任存摺" },
+      { id: 2, title: "開場", subtitle: "為什麼今天要談溝通？" },
+      { id: 3, title: "溝通發起點", subtitle: "主動聯繫 vs 被動處理" },
+      { id: 4, title: "三方拉扯關係", subtitle: "師、親、生的動態拼圖" },
+      { id: 5, title: "法規地圖", subtitle: "國中事件分類與通報義務" },
+      { id: 6, title: "溝通工具箱", subtitle: "輕事文字、重事電話、大事面談" },
+      { id: 7, title: "對話四層次", subtitle: "事實、立場、觀點、信仰" },
+      { id: 8, title: "案例實戰①", subtitle: "主動關心揭露真相 (O生與Y生)" },
+      { id: 9, title: "案例實戰②③", subtitle: "家長文字傳訊「要告霸凌」處置" },
+      { id: 10, title: "案例實戰④", subtitle: "J生事件：當溝通觸及信仰層" },
+      { id: 11, title: "AI 輔助界線", subtitle: "助手非代理人、個資與性平規範" },
+      { id: 12, title: "心態收束", subtitle: "共好循環與提早求援" },
+      { id: 13, title: "結語", subtitle: "溝通的本質：一起把孩子接住" }
+    ];
+
+    // Quiz Questions Data (10 High-impact questions)
+    const quizData = [
+      {
+        id: 1,
+        tag: "法規與通報時限",
+        question: "依據我國相關教育法規，當教師知悉「性平事件」（如性騷擾、性霸凌或違反專業倫理師生戀）或「校園霸凌事件」時，法定的通報時限為何？",
+        options: [
+          "知悉後 24 小時內完成通報",
+          "知悉後 48 小時內完成通報",
+          "待向雙方家長查證屬實後 72 小時內通報",
+          "先私下輔導 1 週，若無改善再通報"
+        ],
+        correct: 0,
+        explanation: "依《性別平等教育法》及《校園霸凌防制準則》，學校教職員工知悉事件後，應於「24 小時內」依法向主管機關進行通報。延遲通報或隱匿可能構成失職並面臨法規罰則。"
+      },
+      {
+        id: 2,
+        tag: "通報本質認知",
+        question: "關於「校安通報」的本質與心態，下列哪一項敘述最為正確？",
+        options: [
+          "通報代表老師班級經營失敗，應盡量大事化小避免通報",
+          "通報會立刻公開給全體家長，容易引發恐慌，需慎重私了",
+          "通報是教育系統內的紀錄與保護機制，有疑慮先通報組長主任，既保護孩子也保護老師",
+          "只要家長要求不要通報，老師基於親師和諧就可以不上報"
+        ],
+        correct: 2,
+        explanation: "口訣：「有疑慮，先通報學校組長、主任；通報是保護孩子，也是保護你自己。」校安通報 ≠ 對家長公開，而是教育系統內的保護與資源引入機制，切勿私了。"
+      },
+      {
+        id: 3,
+        tag: "溝通發起點思維",
+        question: "研習中提到「主動聯繫的成本，遠低於被動處理的代價」，其比喻意涵為何？",
+        options: [
+          "主動是急診室搶救，被動是做健康檢查",
+          "主動 = 預防醫學（平時打預防針）；被動 = 急診室（發炎爆發才搶救）",
+          "只要常在 LINE 聊天就算主動，不需要正式記錄",
+          "被動等待家長提問才是尊重家長作息"
+        ],
+        correct: 1,
+        explanation: "主動關心進步、補救與近況就像「預防醫學」，成本低且能累積信任存摺；被動等家長投訴或情緒爆發時才處理，就像進了「急診室」，代價與內耗極高。"
+      },
+      {
+        id: 4,
+        tag: "師親生拉扯與溝通目的",
+        question: "在「師、親、生」三方訊息拉扯中，學生往往扮演訊息的過濾器與變形者。因此親師溝通的核心目的為何？",
+        options: [
+          "一定要在第一時間揪出誰在說謊",
+          "證明老師的說法百分之百才是對的",
+          "溝通的目的不是「找到唯一真相」，而是「拼出事件的全貌」",
+          "讓家長承認自己的孩子有問題"
+        ],
+        correct: 2,
+        explanation: "老師看到的是上課現場，家長聽到的是回家後的話，學生常會避重就輕。因此溝通的目的不是誰輸誰贏或指責，而是彼此分享視角、「拼出全貌」。"
+      },
+      {
+        id: 5,
+        tag: "溝通工具箱選擇",
+        question: "研習中傳授的「溝通工具選擇口訣」為何？",
+        options: [
+          "所有事情一律傳 LINE 最方便省時",
+          "大事寫聯絡本、小事打電話、私事私下約",
+          "輕事用文字、重事用電話、大事一定面談",
+          "遇到家長質疑一律發存證信函處理"
+        ],
+        correct: 2,
+        explanation: "口訣：「輕事用文字、重事用電話、大事一定面談。」此外，LINE 截圖外流風險高需措辭中性；面談重大事件應邀集行政或輔導第三人在場。"
+      },
+      {
+        id: 6,
+        tag: "對話四層次辨析",
+        question: "家長在電話中激動地說：「我看那個同學根本就是『故意』針對我小孩的！」請問這句話屬於對話四層次中的哪一層？",
+        options: [
+          "事實（Fact）",
+          "立場（Position）",
+          "觀點（Opinion）",
+          "信仰（Belief）"
+        ],
+        correct: 2,
+        explanation: "「覺得對方是故意的」屬於個人的主觀詮釋與解讀，為「觀點（Opinion）」。事實應還原為可驗證的人事時地物，避免落入觀點爭辯。"
+      },
+      {
+        id: 7,
+        tag: "實戰應對情境",
+        question: "當家長在 LINE 傳訊：「若情況沒改善，我要告同學霸凌。」身為導師第一時間最適切的應對態度是？",
+        options: [
+          "立刻在 LINE 上長篇反駁家長過度小題大作",
+          "先接住自己的情緒，安撫家長並回報學務處討論程序，隨後致電說明處理流程與給予支持",
+          "不讀不回，直接把訊息截圖發到教師私聊群組抱怨",
+          "立刻打電話叫被投訴的學生去向該家長下跪道歉"
+        ],
+        correct: 1,
+        explanation: "5步處理程序：①情緒安撫 ➔ ②回報學務處啟動程序 ➔ ③客觀訪談記錄 ➔ ④致電說明流程給予支持 ➔ ⑤持續輔導與追蹤。第一時間先穩住自己情緒，切忌文字情緒對撞。"
+      },
+      {
+        id: 8,
+        tag: "AI 輔助界線與法規",
+        question: "在運用生成式 AI 輔助親師溝通時，下列哪項做法「嚴重違反」規範與法規？",
+        options: [
+          "請 AI 檢查草擬的訊息中是否帶有主觀情緒字眼",
+          "將學生的真實全名、個資或機密家庭隱私直接輸入公開 AI 提示詞中",
+          "使用 AI 將生硬的事件經過轉譯為口語溫和的引導問題清單",
+          "請 AI 產出軟硬兩種不同語氣的回覆草稿供教師參考"
+        ],
+        correct: 1,
+        explanation: "使用 AI 嚴禁輸入學生真實姓名與敏感個資，須遵守《個人資料保護法》與校園資安規範。同時 AI 是助手非代理人，最後發出的文字必須由教師親自把關！"
+      },
+      {
+        id: 9,
+        tag: "深層管教與心態面對",
+        question: "在案例④ J生事件中（學生認為「成績好就可以為所欲為」），當所有溝通技巧都無效時，給教師的深刻啟示是什麼？",
+        options: [
+          "只要加重懲罰力度就一定能導正信仰層",
+          "管教若未觸及孩子的深層價值觀，技巧只是表面；承認教師能力有限並尋求系統團隊支援，是專業成熟的表現",
+          "只要學生功課好，老師就可以放任不管",
+          "證明這名學生無可救藥，老師應直接放棄"
+        ],
+        correct: 1,
+        explanation: "深層信念（信仰層）很難一朝一夕改變。誠實面對「不是每個案例能立即見效」，承認教師個人能力有限，結合跨處室與專業輔導系統作戰，才是真正的專業成熟。"
+      },
+      {
+        id: 10,
+        tag: "溝通本質與求援",
+        question: "研習總結中強調溝通的本質是「我們一起把孩子接住」，當接不住時最重要的原則為何？",
+        options: [
+          "獨自硬撐到最後一刻，證明自己的教學熱忱",
+          "提早求援不是無能，而是專業！主動結合學務、輔導、資深前輩形成團隊作戰",
+          "全面迎合家長所有無理要求以求相安無事",
+          "要求學生自己承擔所有後果，學校不介入"
+        ],
+        correct: 1,
+        explanation: "「提早求援 ＞ 獨自硬撐」。學務處、輔導室、學年主任、心理師與個案會議是堅強的後盾，親師溝通是系統性的團隊作戰，不是英雄獨秀！"
+      }
+    ];
+
+    // State Variables
+    let currentSlide = 0;
+    let isFullView = false;
+    let userAnswers = {};
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      buildDirectory();
+      buildQuiz();
+      updateSlideView();
+      setupScrollListener();
+    });
+
+    // Switch Main Tabs (Slides vs Quiz)
+    function switchMainTab(tab) {
+      const slidesSec = document.getElementById('section-slides');
+      const quizSec = document.getElementById('section-quiz');
+      const slidesBtn = document.getElementById('nav-slides-btn');
+      const quizBtn = document.getElementById('nav-quiz-btn');
+      const progressContainer = document.getElementById('reading-progress-container');
+
+      if (tab === 'slides') {
+        slidesSec.classList.remove('hidden');
+        quizSec.classList.add('hidden');
+        slidesBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm';
+        quizBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900';
+        progressContainer.style.opacity = '1';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        slidesSec.classList.add('hidden');
+        quizSec.classList.remove('hidden');
+        quizBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm';
+        slidesBtn.className = 'px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900';
+        progressContainer.style.opacity = '0';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Toggle Slide-by-slide vs Full Long-feed View
+    function toggleViewMode() {
+      isFullView = !isFullView;
+      const btnText = document.getElementById('view-mode-text');
+      const btnIcon = document.getElementById('view-mode-icon');
+      const pagination = document.getElementById('slide-pagination');
+      const slideCards = document.querySelectorAll('.slide-card');
+
+      if (isFullView) {
+        btnText.innerText = "切換為「單張卡片翻頁」";
+        btnIcon.innerText = "🎴";
+        pagination.classList.add('hidden');
+        slideCards.forEach(card => card.classList.remove('hidden'));
+        document.getElementById('current-slide-indicator').innerText = "長卷瀏覽模式 (全 14 頁)";
+      } else {
+        btnText.innerText = "切換為「完整長卷瀏覽」";
+        btnIcon.innerText = "📑";
+        pagination.classList.remove('hidden');
+        updateSlideView();
+      }
+    }
+
+    // Change Current Slide
+    function changeSlide(direction) {
+      const total = slidesData.length;
+      currentSlide = Math.max(0, Math.min(total - 1, currentSlide + direction));
+      updateSlideView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Jump to specific slide
+    function jumpToSlide(index) {
+      currentSlide = index;
+      if (isFullView) {
+        toggleViewMode(); // switch back to card mode
+      }
+      updateSlideView();
+      closeDirectoryModal();
+      switchMainTab('slides');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Update Slide View Visibility & Indicators
+    function updateSlideView() {
+      if (isFullView) return;
+      
+      const slideCards = document.querySelectorAll('.slide-card');
+      slideCards.forEach((card, idx) => {
+        if (idx === currentSlide) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Update counters
+      const total = slidesData.length;
+      document.getElementById('current-slide-indicator').innerText = `Slide ${currentSlide} / ${total - 1}`;
+      document.getElementById('page-counter-text').innerText = `${currentSlide + 1} / ${total}`;
+
+      // Update Prev / Next buttons
+      document.getElementById('prev-slide-btn').disabled = (currentSlide === 0);
+      const nextBtn = document.getElementById('next-slide-btn');
+      if (currentSlide === total - 1) {
+        nextBtn.innerHTML = "🎯 去測驗 ▶";
+        nextBtn.onclick = () => switchMainTab('quiz');
+      } else {
+        nextBtn.innerHTML = "下一張 ▶";
+        nextBtn.onclick = () => changeSlide(1);
+      }
+
+      // Update Progress bar
+      const pct = ((currentSlide + 1) / total) * 100;
+      document.getElementById('progress-bar').style.width = pct + '%';
+    }
+
+    // Scroll progress in Full View
+    function setupScrollListener() {
+      window.addEventListener('scroll', () => {
+        if (!isFullView) return;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight <= 0) return;
+        const progress = (window.scrollY / totalHeight) * 100;
+        document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, progress)) + '%';
+      });
+    }
+
+    // Build Directory Modal List
+    function buildDirectory() {
+      const container = document.getElementById('dir-list-container');
+      container.innerHTML = slidesData.map((item, idx) => `
+        <button onclick="jumpToSlide(${idx})" class="w-full text-left p-3 rounded-xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/60 transition-all flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <span class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white flex items-center justify-center text-xs font-bold text-slate-600 transition-colors">
+              ${idx}
+            </span>
+            <div>
+              <p class="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-indigo-900">${item.title}</p>
+              <p class="text-[11px] text-slate-400 group-hover:text-indigo-600">${item.subtitle}</p>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400 group-hover:text-indigo-600 font-mono">➔</span>
+        </button>
+      `).join('');
+    }
+
+    function openDirectoryModal() {
+      document.getElementById('dir-modal').classList.remove('hidden');
+    }
+
+    function closeDirectoryModal() {
+      document.getElementById('dir-modal').classList.add('hidden');
+    }
+
+    // Build Interactive Quiz Cards
+    function buildQuiz() {
+      const container = document.getElementById('quiz-items-container');
+      container.innerHTML = quizData.map((q, qIndex) => `
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm transition-all" id="quiz-card-${qIndex}">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-lg">
+              第 ${qIndex + 1} 題 / ${quizData.length}
+            </span>
+            <span class="text-[11px] font-semibold text-slate-400">${q.tag}</span>
+          </div>
+          <h4 class="text-sm sm:text-base font-bold text-slate-900 mb-3.5 leading-snug">
+            ${q.question}
+          </h4>
+          <div class="space-y-2" id="options-group-${qIndex}">
+            ${q.options.map((opt, optIndex) => `
+              <button onclick="selectOption(${qIndex}, ${optIndex})" id="opt-${qIndex}-${optIndex}" class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition-all text-xs sm:text-sm font-medium text-slate-700 flex items-start gap-2.5 touch-btn">
+                <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 text-slate-500" id="circle-${qIndex}-${optIndex}">
+                  ${String.fromCharCode(65 + optIndex)}
+                </span>
+                <span class="flex-1">${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+          <!-- Feedback Area (Initially Hidden) -->
+          <div id="feedback-${qIndex}" class="hidden mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm transition-all"></div>
+        </div>
+      `).join('');
+    }
+
+    // Select and evaluate an option
+    function selectOption(qIndex, selectedOptIndex) {
+      if (userAnswers[qIndex] !== undefined) return; // prevent re-clicking
+
+      const q = quizData[qIndex];
+      userAnswers[qIndex] = selectedOptIndex;
+      const isCorrect = (selectedOptIndex === q.correct);
+
+      // Highlight options
+      for (let i = 0; i < q.options.length; i++) {
+        const btn = document.getElementById(`opt-${qIndex}-${i}`);
+        const circle = document.getElementById(`circle-${qIndex}-${i}`);
+        btn.disabled = true;
+
+        if (i === q.correct) {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold flex items-start gap-2.5";
+          circle.className = "w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
+          circle.innerHTML = "✓";
+        } else if (i === selectedOptIndex && !isCorrect) {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-medium flex items-start gap-2.5";
+          circle.className = "w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
+          circle.innerHTML = "✕";
+        } else {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border border-slate-100 bg-slate-50/50 text-slate-400 flex items-start gap-2.5 opacity-60";
+        }
+      }
+
+      // Show Feedback & Explanation
+      const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+      feedbackDiv.classList.remove('hidden');
+      if (isCorrect) {
+        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+        feedbackDiv.innerHTML = `
+          <div class="font-bold flex items-center gap-1.5 text-emerald-800 mb-1">
+            <span>🎉</span> 回答正確！
+          </div>
+          <p class="text-xs text-emerald-950 leading-relaxed">${q.explanation}</p>
+        `;
+      } else {
+        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-rose-50 border border-rose-200 text-rose-900";
+        feedbackDiv.innerHTML = `
+          <div class="font-bold flex items-center gap-1.5 text-rose-800 mb-1">
+            <span>💡</span> 解析說明（正確答案為 ${String.fromCharCode(65 + q.correct)}）
+          </div>
+          <p class="text-xs text-rose-950 leading-relaxed">${q.explanation}</p>
+        `;
+      }
+
+      // Check if all answered
+      checkQuizCompletion();
+    }
+
+    // Check if quiz is fully completed
+    function checkQuizCompletion() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const totalCount = quizData.length;
+      document.getElementById('quiz-progress-text').innerText = `已作答 ${answeredCount} / ${totalCount} 題`;
+
+      if (answeredCount === totalCount) {
+        let correctCount = 0;
+        quizData.forEach((q, idx) => {
+          if (userAnswers[idx] === q.correct) correctCount++;
+        });
+
+        const score = Math.round((correctCount / totalCount) * 100);
+        showQuizResult(score, correctCount, totalCount);
+      }
+    }
+
+    // Display Final Quiz Result
+    function showQuizResult(score, correctCount, totalCount) {
+      const resultCard = document.getElementById('quiz-result-card');
+      resultCard.classList.remove('hidden');
+      document.getElementById('result-score').innerText = `${score} 分`;
+
+      let icon = "🏆";
+      let title = "親師溝通大師！";
+      let feedback = "";
+
+      if (score === 100) {
+        icon = "🌟";
+        title = "滿分通關！親師溝通大師";
+        feedback = "太棒了！您對國中校園法規通報時限、對話四層次辨識、AI 應用安全界線及親師生應對心態皆具備非常清晰成熟的判斷力！";
+      } else if (score >= 80) {
+        icon = "🎖️";
+        title = "表現優異！專業親師導航者";
+        feedback = "非常出色！您已掌握親師溝通的核心心態與實戰工具，遇到複雜個案時記得秉持「提早求援、團隊作戰」的原則！";
+      } else if (score >= 60) {
+        icon = "💪";
+        title = "基礎扎實！持續精進實戰力";
+        feedback = "您已具備良好的溝通概念！建議點擊下方按鈕回頭複習「法規通報24小時地圖」與「對話四層次」，能讓現場應對更胸有成竹。";
+      } else {
+        icon = "🌱";
+        title = "研習起步走！多看案例累積經驗";
+        feedback = "別灰心！親師溝通是一門需要不斷練習與反思的藝術。建議隨時參考本手冊的法規口訣與AI輔助指引！";
+      }
+
+      document.getElementById('result-icon').innerText = icon;
+      document.getElementById('result-title').innerText = title;
+      document.getElementById('result-feedback').innerText = feedback;
+
+      // Scroll to result card
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Reset Quiz
+    function resetQuiz() {
+      userAnswers = {};
+      document.getElementById('quiz-result-card').classList.add('hidden');
+      document.getElementById('quiz-progress-text').innerText = `共 ${quizData.length} 題`;
+      buildQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
+
