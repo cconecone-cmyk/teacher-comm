@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <!-- 四個主分頁切換鈕 (分頁 1 放在第一個) -->
+      <!-- 四個主分頁切換鈕 (分頁 1 在第一個) -->
       <div class="flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-xl border border-slate-200/60 overflow-x-auto text-[11px] sm:text-xs">
         <button id="nav-prompt-btn" onclick="switchMainTab('prompt')" class="px-2 sm:px-2.5 py-1 font-bold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1">
           <span>🤖</span><span>提示詞機</span>
@@ -78,7 +78,7 @@
     </div>
 
     <!-- 閱讀進度條 -->
-    <div id="reading-progress-container" class="w-full bg-slate-100 h-1">
+    <div id="reading-progress-container" class="w-full bg-slate-100 h-1 opacity-0 transition-opacity">
       <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-teal-500 h-1 w-0 transition-all duration-300"></div>
     </div>
   </header>
@@ -86,7 +86,7 @@
   <!-- 主內容容器 -->
   <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-4 safe-bottom">
 
-    <!-- ==================== 分頁一（新增在第一個）：🤖 教育提示詞機器 ==================== -->
+    <!-- ==================== 分頁一（首頁）：🤖 教育提示詞機器 ==================== -->
     <section id="section-prompt" class="space-y-5">
       
       <!-- 標題 Banner -->
@@ -426,7 +426,7 @@
           </div>
           <div class="bg-indigo-50/80 border-l-4 border-indigo-500 p-3.5 rounded-r-2xl">
             <div class="text-xs font-bold text-indigo-900 mb-1">💡 關鍵思維</div>
-            <p class="text-xs sm:text-sm text-indigo-800 leading-relaxed font-medium">
+            <p class="text-xs sm:text-indigo-800 leading-relaxed font-medium">
               學校日不只是「單向報告會」，而是「建立信任存摺」的起點。開學第一步把期待講清楚，後續遇到問題時溝通阻力減半。
             </p>
           </div>
@@ -1024,7 +1024,1619 @@
 
   <!-- JavaScript 交互邏輯 -->
   <script>
-    // 程式邏輯已於前面各區塊定義完全整合
+    // 1. 簡報資料 (Slide 0 ~ Slide 13)
+    const slidesData = [
+  {
+    "id": 0,
+    "title": "封面",
+    "subtitle": "如何做好親師溝通"
+  },
+  {
+    "id": 1,
+    "title": "學校日建立信任",
+    "subtitle": "三大核心任務與信任存摺"
+  },
+  {
+    "id": 2,
+    "title": "開場",
+    "subtitle": "為什麼今天要談溝通？"
+  },
+  {
+    "id": 3,
+    "title": "溝通發起點",
+    "subtitle": "主動聯繫 vs 被動處理"
+  },
+  {
+    "id": 4,
+    "title": "三方拉扯關係",
+    "subtitle": "師、親、生的動態拼圖"
+  },
+  {
+    "id": 5,
+    "title": "法規地圖",
+    "subtitle": "國中事件分類與通報義務"
+  },
+  {
+    "id": 6,
+    "title": "溝通工具箱",
+    "subtitle": "輕事文字、重事電話、大事面談"
+  },
+  {
+    "id": 7,
+    "title": "對話四層次",
+    "subtitle": "事實、立場、觀點、信仰"
+  },
+  {
+    "id": 8,
+    "title": "案例實戰①",
+    "subtitle": "主動關心揭露真相 (O生與Y生)"
+  },
+  {
+    "id": 9,
+    "title": "案例實戰②③",
+    "subtitle": "家長文字傳訊「要告霸凌」處置"
+  },
+  {
+    "id": 10,
+    "title": "案例實戰④",
+    "subtitle": "J生事件：當溝通觸及信仰層"
+  },
+  {
+    "id": 11,
+    "title": "AI 輔助界線",
+    "subtitle": "助手非代理人、個資與性平規範"
+  },
+  {
+    "id": 12,
+    "title": "心態收束",
+    "subtitle": "共好循環與提早求援"
+  },
+  {
+    "id": 13,
+    "title": "結語",
+    "subtitle": "溝通的本質：一起把孩子接住"
+  }
+];
+
+    // 2. 50 題正式題庫
+    const fullQuizBank = [
+  {
+    "id": 1,
+    "tag": "法規・通報起算時點",
+    "question": "週五晚間 10 點，導師在班級群組看見家長反映孩子疑似遭同儕長期恐嚇勒索。關於 24 小時法定通報時效的起算時點，下列何者正確？",
+    "options": [
+      "下週一上午八點學校行政上班時起算",
+      "召開跨處室校園防制霸凌會議後起算",
+      "週五晚間十點導師知悉疑似情事時起算",
+      "向雙方當事人查證事實情節屬實起算"
+    ],
+    "correct": 2,
+    "explanation": "校園疑似霸凌、重大校安或保護事件之通報，應自教育人員或學校人員「知悉疑似情事」時即啟動，不得等待行政上班、會議成立或查證屬實後才起算。導師知悉後應立即回報校內權責單位，由學校依規定辦理校安通報及後續程序。"
+  },
+  {
+    "id": 2,
+    "tag": "法規・性平專業倫理",
+    "question": "國三學生在畢業前夕向兼任社團教練告白，教練明知其仍具學生身分，仍與其發展逾越師生專業倫理之親密交往關係。依現行《性別平等教育法》及相關規定，校方應如何依法處置？",
+    "options": [
+      "屬私人情感領域，學生畢業後不予追究責任",
+      "知悉二十四小時內通報並啟動性平處理程序",
+      "交由雙方家長與教練私下協議簽署切結和解",
+      "僅需由學務處約談該教練並給予口頭行政告誡"
+    ],
+    "correct": 1,
+    "explanation": "教職員工、外聘教練與學生之間具有教育、指導、管理或權力不對等關係。學校知悉疑似涉及校園性別事件或違反專業倫理情事時，應依法通報並交由性平機制處理，不得以私人感情、即將畢業或家長同意為由私下處理。"
+  },
+  {
+    "id": 3,
+    "tag": "法規・兒少保護通報義務",
+    "question": "學生向導師透露昨夜遭同住親屬不當體罰成傷，但哀求導師「千萬不要通報，否則回家會被打更慘」。導師當下應採取的合法處置為？",
+    "options": [
+      "依法二十四小時內通報並請社政介入評估安全",
+      "基於師生保密信賴關係，先私下進行家訪勸導",
+      "尊重學生意願暫緩通報，於校內持續密切觀察",
+      "僅於聯絡簿書面委婉提醒家長注意管教之分寸"
+    ],
+    "correct": 0,
+    "explanation": "教育人員為兒少保護法定責任通報人，依法通報屬公法強制義務，不能因學生請求或顧慮而免除。通報後由社工與相關單位評估安全保護計畫，避免學生返家後陷入更高風險。"
+  },
+  {
+    "id": 4,
+    "tag": "法規・通報與家長知情權",
+    "question": "導師依法完成疑似霸凌校安通報後，家長憤怒質疑：「通報等於把我家孩子當罪犯，為何沒先經我同意？」導師最適切的說明為？",
+    "options": [
+      "通報是依法啟動校內外保護資源的法定機制",
+      "通報僅是內部流程，家長無權過問學校細節",
+      "若家長強烈反對，導師可隨時向系統撤回案件",
+      "因對方家長強烈要求，學校才被迫通報主管機關"
+    ],
+    "correct": 0,
+    "explanation": "校安通報或疑似霸凌通報並非司法定罪，而是教育系統內的保護與處理機制。教師應向家長澄清，通報是為了引入輔導、行政與必要外部資源共同保護學生，而非預先認定孩子有罪。"
+  },
+  {
+    "id": 5,
+    "tag": "法規・網路自傷危機處理",
+    "question": "假日深夜學生在個人社群發布帶有強烈自我傷害意念的文字與危險物品照片。導師獲知後的第一處置優先序為何？",
+    "options": [
+      "在該則動態公開留言，呼籲全班同學協助關心",
+      "為避免驚動家長，先私下聯絡班級幹部前往協尋",
+      "通報校安與行政，並即刻聯繫家長確認人身安全",
+      "私訊該生開導安慰，等週一到校後再轉介輔導室"
+    ],
+    "correct": 2,
+    "explanation": "重大自傷危機屬緊急校安事件，必須同步啟動行政通報並第一時間確認學生人身安全。若無法即時確認安全，應依校內危機處理流程通報行政主管，必要時請家長、警方、消防救護或地方危機處遇資源協助。"
+  },
+  {
+    "id": 6,
+    "tag": "法規・輔導管教合法界線",
+    "question": "學生課堂屢次滑手機干擾秩序且拒絕配合管理。依《學校訂定教師輔導與管教學生辦法注意事項》及校內規範，教師何項處置合法且符合比例原則？",
+    "options": [
+      "強制搜查該生書包，並將手機扣留至學期末領回",
+      "命令該生整天站在走廊禁止進入教室參加段考",
+      "罰款一百元充當班費基金，藉以收到實質警惕效果",
+      "暫時保管手機並於合理時間歸還或通知家長領回"
+    ],
+    "correct": 3,
+    "explanation": "教師可依校內手機管理規定，暫時保管影響教學秩序之物品，但須符合比例原則、正當程序與保管責任，並依規定於合理時間歸還或通知監護人領回，不得永久沒收、任意搜查或以體罰方式處理。"
+  },
+  {
+    "id": 7,
+    "tag": "法規・隱匿通報之行政責任",
+    "question": "學校教職員若知悉性平或兒少保護事件，卻因擔心影響校譽而私下和解未通報，依法將面臨何種法律後果？",
+    "options": [
+      "只要當事人事後不追究，即可全數免除行政責任",
+      "僅需在全校校務會議上接受校長口頭行政告誡",
+      "面臨法定罰鍰處分，並依考核懲處程序處理",
+      "由家長會出面協調和解，即可抵銷法定通報義務"
+    ],
+    "correct": 2,
+    "explanation": "隱匿或延遲通報可能違反《性別平等教育法》、《兒童及少年福利與權益保障法》及相關通報規定。主管機關得依法裁罰，學校亦應依人員身分進行考核、懲處或契約處理，不得以私下和解取代法定義務。"
+  },
+  {
+    "id": 8,
+    "tag": "法規・霸凌與一般同儕衝突區辨",
+    "question": "兩位平時要好的同學在球場因爭球發生推擠互罵，雙方均無權力不對等且為偶發事件。依準則本案應如何定性與處置？",
+    "options": [
+      "屬一般校規偏差衝突，依校內常規程序正向輔導",
+      "因涉及校園暴力行為，必須強制移送少年法庭審理",
+      "因有肢體接觸推擠，應直接依法判定為肢體霸凌案",
+      "無論成因輕重，一律強制成立防制霸凌調查小組"
+    ],
+    "correct": 0,
+    "explanation": "若經初步了解，事件屬偶發、雙方地位相近、未呈現持續性或權力不對等，較接近一般同儕衝突或校規偏差事件。但若後續出現反覆、壓迫、恐嚇、排擠或身心傷害事證，仍應依疑似霸凌程序處理。"
+  },
+  {
+    "id": 9,
+    "tag": "法規・調查期間之保密義務",
+    "question": "性平調查程序啟動後，受害方家長要求導師提供行為人學生的完整姓名、地址與家長電話以利私下求償。導師應如何依法應對？",
+    "options": [
+      "為展現同理心，私下抄錄對方家長之聯絡電話提供",
+      "直接將雙方家長加入同一個通訊群組進行線上協調",
+      "要求家長簽署保密切結書後，即可全數提供相關個資",
+      "基於法定保密義務予以婉拒，並引導依合法程序申請"
+    ],
+    "correct": 3,
+    "explanation": "性平調查全程受《性別平等教育法》及《個人資料保護法》相關規範約束，學校人員不得私自洩漏當事人個資。若家長有程序參與、申請資訊或求償需求，應引導其透過學校權責單位、性平程序或合法管道辦理。"
+  },
+  {
+    "id": 10,
+    "tag": "法規・親職失能轉介機制",
+    "question": "單親家長長期失聯、不給予生活費且任由國中孩子深夜遊蕩，導師多次聯繫無果。此時最適切的處置途徑為？",
+    "options": [
+      "直接在班級網頁張貼尋人啟事公布家長真實姓名",
+      "由導師自掏腰包長期收養學生，以保護家庭隱私",
+      "以學生未按時就學出缺席異常為由，直接予以退學",
+      "通報兒少保護並轉介社政與輔導網絡跨界介入"
+    ],
+    "correct": 3,
+    "explanation": "親職功能嚴重不全、疏忽照顧或使兒少陷入安全風險，屬兒少保護與高關懷範疇。教師應依法通報並啟動社政、輔導室、學務、少輔會或其他跨專業網絡支援，而非由導師個人單獨承擔。"
+  },
+  {
+    "id": 11,
+    "tag": "工具・溝通管道分級應用",
+    "question": "學生在校與同學發生口角且情緒崩潰痛哭，放學前情緒尚未平復。導師當晚最適當的親師聯繫管道為？",
+    "options": [
+      "在班級公開家長群組發布訊息提醒家長關心孩子",
+      "僅在聯絡簿寫下一行字句「今日在校情緒欠佳」",
+      "致電家長說明經過並安撫，通話後補記文字摘要",
+      "直接寄發正式存證信函要求家長負起管教責任"
+    ],
+    "correct": 2,
+    "explanation": "涉及強烈情緒、突發衝突或安全關切時，宜優先使用電話傳遞溫度並即時掌握家庭端狀況。通話後補記文字摘要，有助於確認共識並保存輔導紀錄。"
+  },
+  {
+    "id": 12,
+    "tag": "工具・通訊軟體文字風險",
+    "question": "面對家長在 LINE 上的強烈質疑，導師回覆時應掌握何種關鍵原則以防範截圖外流與斷章取義風險？",
+    "options": [
+      "多使用驚嘆號與感性字眼，積極展現個人教學熱忱",
+      "陳述客觀事實與處置流程，避免主觀推論與個人評價",
+      "為求親切熱絡，在對話中詳細評論其他涉案同學家教",
+      "一律改以多則語音訊息回覆，避免留下任何文字紀錄"
+    ],
+    "correct": 1,
+    "explanation": "通訊軟體截圖成本極低，文字應秉持客觀、中性、具體、基於事實與制度流程，不做人身評價、主觀揣測或未經確認之定性。"
+  },
+  {
+    "id": 13,
+    "tag": "工具・非工作時間界線建立",
+    "question": "家長經常於平日凌晨 1 點傳訊詢問作業細節並要求立即回覆。導師建立健康專業邊界的最得體做法為？",
+    "options": [
+      "設定官方帳號自動回覆，於次日上班時間主動聯絡",
+      "直接退出群組並封鎖家長，隔日在班上公開斥責該生",
+      "半夜立刻秒回訊息，藉以建立負責盡職的熱忱形象",
+      "向全班宣布自即日起全面取消所有家庭作業以示抗議"
+    ],
+    "correct": 0,
+    "explanation": "設定非工作時間自動回覆，並於上班時間主動積極處理，既能維護教師身心健康，也能建立清晰、穩定、可預期的親師溝通默契。"
+  },
+  {
+    "id": 14,
+    "tag": "工具・重大衝突面談防護",
+    "question": "家長因不滿處置，揚言帶民意代表到校與導師「當面對質」。導師在安排會談時，下列何項準備最為關鍵？",
+    "options": [
+      "報請處室主管列席，於正式場地會談並完整紀錄",
+      "堅持在無人教室與對方單獨閉門談判展現個人魄力",
+      "拒絕家長入校並將所有管教責任全數推給任課教師",
+      "私下聯絡班級其他熟識家長到場助陣包圍抗議家長"
+    ],
+    "correct": 0,
+    "explanation": "遇高風險或重大親師面談，教師應避免單獨閉門處理，宜報請行政主管、輔導人員或相關處室列席，於正式場地進行，並留下會議紀錄。如需錄音錄影，宜事前告知並依校內規範辦理。"
+  },
+  {
+    "id": 15,
+    "tag": "工具・聯絡簿之法律效力與文字",
+    "question": "聯絡簿兼具親師聯繫與輔導紀錄功能。下列哪一種導師留言方式最符合專業與法律規範？",
+    "options": [
+      "「該生頑劣不堪且屢勸不聽，在校行為已無可救藥」",
+      "「請家長立刻帶孩子去精神科就醫以免危害班級安全」",
+      "「孩子今天又在裝病請假，請家長不要再盲目縱容」",
+      "「今日課堂提醒常規兩次，請家長共同督促就寢作息」"
+    ],
+    "correct": 3,
+    "explanation": "聯絡簿應客觀記載具體次數、行為事實與合作建議，避免使用未經專業診斷之標籤化、羞辱性、人身攻擊或主觀臆測字句。"
+  },
+  {
+    "id": 16,
+    "tag": "工具・正式公務 Email 撰寫規範",
+    "question": "當導師需以 Email 向家長正式說明複雜事件調查進度時，下列哪項格式與內容規範最為適當？",
+    "options": [
+      "主旨明確、客觀條列時序處置，必要時副本處室存查",
+      "不設郵件主旨，內文使用大量網路流行語以拉近距離",
+      "將所有涉案學生的全名與違規紀錄一次寄給全體家長",
+      "在信末附帶個人情緒宣洩字眼，並要求家長公開道歉"
+    ],
+    "correct": 0,
+    "explanation": "正式行政說明信應具備清晰主旨、客觀時間軸、具體處置進度，並依校內授權副本相關處室留存，以利後續查考與一致回應。"
+  },
+  {
+    "id": 17,
+    "tag": "工具・電話溝通的情緒降溫技術",
+    "question": "家長在通話中極度激動且持續打斷發言。導師在電話溝通中的第一步應採取何種應對？",
+    "options": [
+      "先專注傾聽並確認情緒，待其降溫後再對焦事實",
+      "提高說話音量蓋過對方聲音，以強勢壓制其怒氣",
+      "無預警直接掛斷電話，藉以避免承受言語暴力攻擊",
+      "立刻在通話中全盤承諾照辦對方提出的所有無理要求"
+    ],
+    "correct": 0,
+    "explanation": "電話處理情緒可採「傾聽不打斷、同理接納情緒、降溫後核對事實」的順序。先處理情緒，再處理事情，較能降低衝突升級。"
+  },
+  {
+    "id": 18,
+    "tag": "工具・家長私設群組之應對",
+    "question": "班上部分家長私自建立非官方 LINE 群組並在其中批評某科任老師教學不力。導師獲知後最適切的處置為？",
+    "options": [
+      "潛入群組截圖並在全校教職員大會公開公審該批家長",
+      "主動向行政回報，並於官方管道宣導正規意見反映管道",
+      "直接加入群組與家長筆戰，藉以替該科任老師嚴厲辯護",
+      "完全當作不知情，任由群組耳語發酵升級為拒學罷課行動"
+    ],
+    "correct": 1,
+    "explanation": "面對家長私設群組或耳語，導師不宜私自掀起筆戰或公開對立，應回報行政並透過學校正式管道宣導意見反映機制，引導家長理性對焦具體事實。"
+  },
+  {
+    "id": 19,
+    "tag": "層次・事實（Fact）精準辨識",
+    "question": "下列四句親師對話中，哪一句「完全符合客觀事實（Fact）」層次？",
+    "options": [
+      "「小凱今天在早自習態度非常傲慢且故意挑釁任課老師」",
+      "「小凱每次都是看準老師不在教室時才敢公然違規講話」",
+      "「小凱在七點五十分早自習鐘響後進入教室並繳交作業」",
+      "「小凱這種偏差行為顯然是家庭教養功能出了嚴重問題」"
+    ],
+    "correct": 2,
+    "explanation": "事實層次須具備客觀、具體、可被第三方驗證的特徵，並避免人格評價、動機推測、家庭歸因或情緒性形容。"
+  },
+  {
+    "id": 20,
+    "tag": "層次・觀點（Opinion）陷阱拆解",
+    "question": "家長對老師說：「我家孩子最近成績下滑，一定是因為你把他換到後面座位被壞同學帶壞的！」這段話主要屬於對話四層次中的哪一層？",
+    "options": [
+      "事實層次（Fact）",
+      "立場層次（Position）",
+      "觀點層次（Opinion）",
+      "信仰層次（Belief）"
+    ],
+    "correct": 2,
+    "explanation": "「因為換座位而被帶壞」是家長的主觀歸因與詮釋，並非已被客觀驗證的因果關係，因此主要屬於個人觀點層次。"
+  },
+  {
+    "id": 21,
+    "tag": "層次・立場（Position）之同理與堅守",
+    "question": "家長抗議：「我繳學費送孩子來學校，老師本來就有義務一對一盯著他寫作業！」此時導師如何從「立場」進行專業回應？",
+    "options": [
+      "先同理家長希望課業跟上的心情，再說明班級整體教學原則",
+      "直言那是家庭教育責任，請家長自行在家督促孩子完成作業",
+      "為避免爭端，承諾往後每堂課優先個別指導該生所有作業練習",
+      "建議家長直接向校長室申請特教助理員入班進行一對一輔導"
+    ],
+    "correct": 0,
+    "explanation": "立場層次的專業回應，是先承接對方角色中的合理關切，再溫和堅定地說明教師在班級整體教學、學生公平與可行資源上的專業界線。"
+  },
+  {
+    "id": 22,
+    "tag": "層次・信仰（Belief）之碰撞禁忌",
+    "question": "某家長抱持「唯有體罰才能教出成材孩子，老師不打就是失職」的深層信念。導師在初次對話中最適切的策略為？",
+    "options": [
+      "當場嚴厲批判對方教養哲學嚴重落後且違反現代教育法規",
+      "不正面激化信念對立，聚焦於校內現行輔導措施與法規界線",
+      "完全順從家長體罰要求，在校內對該生實施同等體罰措施",
+      "拒絕與該位家長進行任何後續溝通並直接通報家庭暴力案"
+    ],
+    "correct": 1,
+    "explanation": "信仰層涉及個人的深層世界觀，初次對話切忌直接否定硬碰，應先建立關係，並以客觀法規與校內作法作為安全界線。但若後續出現兒少受虐、嚴重體罰成傷或安全風險具體事證，仍須依法通報兒少保護。"
+  },
+  {
+    "id": 23,
+    "tag": "覺察・生理反應與自律神經",
+    "question": "當家長在電話中突然拍桌咆哮時，導師察覺自己呼吸急促、肌肉緊繃、腦袋一片空白。此時第一優先處置為？",
+    "options": [
+      "立刻提高說話聲量壓制對方以維持教師個人威嚴",
+      "當場在通話中委屈哭泣讓對方產生深層罪惡感",
+      "覺察身體緊繃，深呼吸調節自律神經以維持冷靜",
+      "立刻全盤承諾接受對方在電話中的所有指控要求"
+    ],
+    "correct": 2,
+    "explanation": "身心覺察的第一步是看見自己的生理反應。先透過呼吸調節與短暫停頓恢復冷靜，方能維持專業理智進行後續對話。"
+  },
+  {
+    "id": 24,
+    "tag": "覺察・心理被攻擊感轉化",
+    "question": "家長怒斥：「你這麼年輕根本不會當導師！」導師內心湧現強烈的自我懷疑與受辱感。此時心理對話轉化何者最適當？",
+    "options": [
+      "「對方在惡意攻擊我的人格，我必須立刻反擊證明個人實力」",
+      "「我確實太過差勁無能，這份教職工作根本完全不適合我」",
+      "「等下我就去向全班同學抱怨這名無理家長以宣洩個人委屈」",
+      "「對方此刻處於焦慮高峰，言語反映其不安而非我的專業價值」"
+    ],
+    "correct": 3,
+    "explanation": "心理覺察的核心在於將對方的攻擊性言語與自我價值脫鉤。教師需看見家長言語背後的焦慮或投射，避免落入情緒防衛與反擊循環。"
+  },
+  {
+    "id": 25,
+    "tag": "技術・將觀點還原為事實",
+    "question": "學生告狀：「老師，大華剛剛故意用狠毒的眼神瞪我恐嚇我！」導師引導學生回歸「事實」的提問句型為？",
+    "options": [
+      "詢問大華為什麼總是用不友善眼神看人",
+      "具體詢問當時的時間地點與大華實際言行",
+      "直言大華平時就是行為偏差的違規學生",
+      "反問告狀學生是否做了虧心事才感到害怕"
+    ],
+    "correct": 1,
+    "explanation": "引導還原事實應使用具體、中立的開放式提問，例如時間、地點、人物、實際說了什麼、做了什麼，避免在問題中預設動機或加入主觀評價。"
+  },
+  {
+    "id": 26,
+    "tag": "技術・同理心與同意之區隔",
+    "question": "在親師溝通中，「同理家長的情緒」與「同意家長的主張」有何本質區別？",
+    "options": [
+      "兩者本質完全相同，同理即代表校方承認行政疏失",
+      "唯有全盤同意家長主張，才能建立起真正的同理信任",
+      "同理是接納其感受與焦慮，但不等於全盤接受無理要求",
+      "同理純屬談判手段，主要目的是安撫家長簽署同意書"
+    ],
+    "correct": 2,
+    "explanation": "專業同理是接住對方的情緒狀態，例如「我聽得出來您非常心疼孩子」，但仍須堅守校規底線、客觀事實與合法程序，並非毫無原則地妥協。"
+  },
+  {
+    "id": 27,
+    "tag": "技術・非暴力溝通四要素",
+    "question": "導師欲依「觀察、感受、需要、請求」結構向家長反映學生課堂常規，下列哪項表述最精準？",
+    "options": [
+      "「你兒子天天課堂擺爛，讓教學現場很崩潰，請家長今晚務必自己想辦法解決」",
+      "「如果家長再不配合管教，我就直接記警告處分，大家照校規走著瞧不必多說」",
+      "「本週課堂提醒小傑3次，我擔心影響學習，希望能維護專注，請協助檢查筆記」",
+      "「我覺得小傑根本完全不想認真讀書，令人非常失望，請家長明天自行帶回家」"
+    ],
+    "correct": 2,
+    "explanation": "非暴力溝通包含：客觀不帶評價的觀察、真誠的感受、清楚的核心需要、具體可執行的請求。C 能兼顧事實、感受、需要與合作請求。"
+  },
+  {
+    "id": 28,
+    "tag": "技術・應對防衛型家長的破冰",
+    "question": "家長接起電話便語帶防備地說：「老師你每次打來就是要告狀對不對？」導師最適切的開場回應為？",
+    "options": [
+      "「如果貴子弟在校表現正常良好，我何必浪費下班時間特地打電話來」",
+      "「媽媽別誤會，我是特別想跟您分享小宇今天主動收作業的貼心表現」",
+      "「既然您對老師態度如此惡劣防備，那我們明天直接約在學務處面談」",
+      "「教育局規定每週必須完成電訪紀錄，我也是按公務規定行事請配合」"
+    ],
+    "correct": 1,
+    "explanation": "面對防衛心強的家長，主動分享正向進步能累積信任存摺，打破「老師打來必是告狀」的惡性預期，為後續合作創造空間。"
+  },
+  {
+    "id": 29,
+    "tag": "系統・訊息變形之心理機制",
+    "question": "國中生在校受懲處後回家常向家長誇大情節。從發展心理學與系統觀點分析，此現象的核心主因為？",
+    "options": [
+      "青少年大腦發育異常導致病態說謊行為",
+      "出於自我防衛並維持家庭認同與自尊",
+      "受同儕指使故意誇大藉以陷害學校師長",
+      "顯示該生已具備明顯反社會性格偏差傾向"
+    ],
+    "correct": 1,
+    "explanation": "青少年在面臨懲處、羞愧或責任壓力時，常因自我防衛而過濾自身行為、放大他人過錯，以維持家庭認同與自尊。教師應以客觀紀錄與多方查證還原全貌。"
+  },
+  {
+    "id": 30,
+    "tag": "系統・三方拉扯下的中立立場",
+    "question": "A 生與 B 生發生衝突，雙方家長各自在聯絡簿指控對方霸凌並要求懲處對方。導師身處拉扯中心，首要原則為？",
+    "options": [
+      "先相信先向學校告狀的家長以平息怒火",
+      "將兩本聯絡簿拍照傳給雙方家長互相對質",
+      "認定兩位學生都在說謊並同時處以大過懲處",
+      "保持客觀中立，分別訪談並拼湊事件完整全貌"
+    ],
+    "correct": 3,
+    "explanation": "三方拉扯時，教師切忌選邊站、互傳訊息或落入二元對立，應秉持客觀專業，透過個別訪談、佐證資料與校內程序還原事件全貌。"
+  },
+  {
+    "id": 31,
+    "tag": "系統・學校日建立信任存摺",
+    "question": "開學初「學校日」若要有效累積日後的「信任存摺」，導師在班級經營報告中應聚焦於？",
+    "options": [
+      "逐字朗讀各學科評量規準與繁瑣處罰條款細則",
+      "列出往年難纏學生的案例以警告家長不要違規",
+      "向家長訴苦教師薪資與工作繁重以爭取其同情",
+      "闡述正向教育願景、清楚說明親師合作模式與管道"
+    ],
+    "correct": 3,
+    "explanation": "學校日的核心功能在於展現導師專業理念、清楚溝通班級經營原則與合作管道，為後續突發狀況預先儲蓄信任資本。"
+  },
+  {
+    "id": 32,
+    "tag": "系統・預防醫學與急診室代價",
+    "question": "某導師平時每兩週均會主動向特殊狀況學生家長分享微小進步。此策略在系統動力學上的長期效益為？",
+    "options": [
+      "大幅增加平時工作負擔，且對日後突發親師衝突毫無實質預防效益",
+      "容易讓家長誤以為孩子在校表現完美，因而徹底放鬆家庭管教責任",
+      "持續累積信任存摺，當後續發生重大違規時能大幅降低溝助阻力",
+      "容易被家長質疑導師過於軟弱無能，反而喪失專業管教權威與界線"
+    ],
+    "correct": 2,
+    "explanation": "主動正向聯繫如同預防醫學，能持續累積親師信任存摺。當後續出現重大違規或危機事件時，較能避免家長立即進入防衛、否認或攻擊狀態。"
+  },
+  {
+    "id": 33,
+    "tag": "系統・教育合夥人對話導向",
+    "question": "當學生長期欠交作業時，下列哪種親師對話最能體現「教育合夥人」的共同賦能精神？",
+    "options": [
+      "「你們當家長到底有沒有在看聯絡簿？小孩被教成這樣都是你們放縱害的」",
+      "「反正我身為導師已經盡力了，他段考考零分也是你們家庭教育自作自受」",
+      "「我們目標是幫孩子建立自律，想請教他在家卡點，我們一起設計策略」",
+      "「我已經通知學務處，下週起直接留校罰寫到晚上8點，家長不必再過問」"
+    ],
+    "correct": 2,
+    "explanation": "合夥人心態是親師站在同一陣線，將問題視為共同研究與協助的對象，而非將責任互相推諉給對方。"
+  },
+  {
+    "id": 34,
+    "tag": "系統・同儕排擠之班級動力介入",
+    "question": "班上出現幾位核心學生帶頭孤立某位特殊生的現象。導師在班級系統層面最適切的介入策略為？",
+    "options": [
+      "在全班同學面前當眾嚴厲斥責帶頭同學並記大過",
+      "命令該特殊生自行深刻反省為何在班上會討人厭",
+      "將該特殊生座位直接隔離移至教室最後方的角落",
+      "透過小組合作課程引導同理並建立同儕支持圈"
+    ],
+    "correct": 3,
+    "explanation": "處理排擠問題需運用班級團體動力，透過正向合作架構、同理教育與同儕支持圈進行結構性轉化。若排擠已具持續性、權力不對等或造成身心傷害，應同步依疑似霸凌程序、特教支持與輔導機制處理。"
+  },
+  {
+    "id": 35,
+    "tag": "系統・隔代教養與多元家庭溝通",
+    "question": "面對由年邁祖父母隔代撫養、對數位通訊不熟悉的學生家庭，導師應採取何種溝通管道？",
+    "options": [
+      "堅持一律使用通訊軟體官方帳號發布所有行政通知",
+      "要求學生自行打工購買智慧型手機給祖父母學習使用",
+      "因溝通困難直接放棄與該弱勢家庭建立任何親師聯繫",
+      "配合其資訊習慣，以紙本聯絡簿為主、電話關心為輔"
+    ],
+    "correct": 3,
+    "explanation": "親師溝通應因應多元家庭型態與數位落差彈性調整工具，以對方能接收、能理解、能回應的方式維持系統連結。"
+  },
+  {
+    "id": 36,
+    "tag": "系統・家長過度干預班務之界線",
+    "question": "熱心家長頻繁要求導師調整座位、指定幹部人選並干涉任課進度。導師最適切的應對原則為？",
+    "options": [
+      "全盤照辦其所有要求以維持與家長會委員之良好社交關係",
+      "直接在班級官方群組公開發文批判該家長嚴重干涉校內校務",
+      "私下表面答應其要求，但故意在課堂教學中刻意冷落該學生",
+      "感謝其熱心關切，溫和堅定地說明專業考量與班級公平原則"
+    ],
+    "correct": 3,
+    "explanation": "面對過度干預，導師應肯定其關心初衷，但仍須堅守教學專業自主與班級公平底線，並清楚說明整體考量。"
+  },
+  {
+    "id": 37,
+    "tag": "AI・個人資料去識別化標準",
+    "question": "導師欲使用生成式 AI 協助草擬學生偏差行為輔導紀錄時，下列何項操作「完全符合」資安規範？",
+    "options": [
+      "輸入「二年三班王小明（身分證A123）昨夜涉偷竊」",
+      "將真實姓名替換為代號，並移除可識別個資",
+      "上傳包含學生正面清楚照片之醫療診斷證明書讓AI判讀",
+      "直接將含有全班學籍資料之電子試算表檔案餵給公開AI"
+    ],
+    "correct": 1,
+    "explanation": "使用公開生成式 AI 平台時，應移除姓名、班級座號、身分證字號、照片、地址、聯絡方式、特殊病史、家庭背景及其他可交叉辨識特定個人之資訊。去識別化不只是改名，而是避免資料可被合理回推到特定學生。"
+  },
+  {
+    "id": 38,
+    "tag": "AI・助手定位與法律責任歸屬",
+    "question": "若教師直接複製貼上 AI 生成的親師回函，內容出現偏離事實的捏造情節導致家長提告，法律責任由誰承擔？",
+    "options": [
+      "簽署發送該信件之教師與學校必須承擔專業與法律責任",
+      "由開發該生成式AI模型之科技公司承擔完全法律責任",
+      "AI 系統具備免責宣告條款，故涉案雙方均無須承擔責任",
+      "由學校資訊設備管理組長承擔軟體審查不周之行政過失"
+    ],
+    "correct": 0,
+    "explanation": "AI 僅為輔助工具，不具法律主體資格。凡經教師署名、代表職務或實際發送之文書，仍由教師本人與學校依其職務行為及管理責任承擔相應專業與法律責任。"
+  },
+  {
+    "id": 39,
+    "tag": "AI・情緒轉譯與草稿潤飾應用",
+    "question": "導師收到家長極具攻擊性的訊息後心浮氣躁。此時利用 AI 輔助最正確的 Prompt 指令方向為？",
+    "options": [
+      "「請幫我寫一段措辭最為兇狠嚴厲的話罵回去，讓對方徹底閉嘴不敢再投訴」",
+      "「請幫我偽造一份課堂輔導處罰紀錄，以證明所有衝突完全都是學生的過錯」",
+      "「請過濾情緒字眼、提取家長核心訴求，並以溫和中性專業語氣草擬回覆」",
+      "「請根據我輸入的學生違規文字，直接開立該學生患有精神疾病之診斷報告」"
+    ],
+    "correct": 2,
+    "explanation": "AI 在親師溝通中最具價值的應用為情緒緩衝與文字轉譯，協助教師抽離主觀怒氣、辨識核心訴求，並修飾為專業、中性、可保存的文字草稿。"
+  },
+  {
+    "id": 40,
+    "tag": "AI・禁止代理之法律程序",
+    "question": "下列哪一項校園公務工作「絕對禁止」直接交由 AI 完全代理決策與發送？",
+    "options": [
+      "將學校日報告流程整理為條列式提醒事項",
+      "正式性平調查之事實認定、責任判斷與處置建議",
+      "設計課堂分組合作討論之階梯式引導提問",
+      "將生硬的校規條文轉化為口語化常規手冊"
+    ],
+    "correct": 1,
+    "explanation": "涉及法定調查、身分權益、責任判斷或後續處置建議之程序，必須由法定調查小組、性平會或權責委員會依證據與程序親自審議。AI 可作為文字整理輔助，但不得代理事實認定、責任判斷或正式決策。"
+  },
+  {
+    "id": 41,
+    "tag": "AI・「最後一句話必須是你的」核心意旨",
+    "question": "研習強調「AI 幫你想得更全，但最後一句話必須是你的」。這句話對教師教學實踐的真正提醒是？",
+    "options": [
+      "教師親自審視脈絡注入現場教育溫度並負起責任",
+      "AI 產出的草稿必定有錯，平時只能當作反面教材",
+      "發給家長的訊息文末必須強制加蓋教師私人印章",
+      "AI 寫完草稿後隨便修改一個贅字即可完全免除責任"
+    ],
+    "correct": 0,
+    "explanation": "AI 能提供周全視角與文字草稿，但現場的真實人際溫度、學生脈絡、家長特質、倫理判斷與法律責任，仍須由教師親自審視並負責。"
+  },
+  {
+    "id": 42,
+    "tag": "AI・學生晤談問題清單輔助設計",
+    "question": "在處理同儕言語衝突時，導師請 AI 產出「非指責性、引導反思的晤談提問稿」，此舉的主要教育價值在於？",
+    "options": [
+      "逼迫學生在最短時間內承認違規事實以利記過懲處",
+      "讓教師完全不用開口，直接讓學生看著電腦螢幕作答",
+      "提供階梯式開放問句，降低防衛並引導自我覺察",
+      "完全取代輔導室諮商心理師日後所有的專業晤談功能"
+    ],
+    "correct": 2,
+    "explanation": "AI 能協助設計階梯式、開放式、非指責性的晤談提問，幫助教師在有限時間內，以同理且中立的架構引導學生表達、釐清與反思。"
+  },
+  {
+    "id": 43,
+    "tag": "AI・文字紀錄之法律風險",
+    "question": "性平、校安或親師爭議處理中，通訊紀錄均可能被提出作為調查資料。使用 AI 生成親師回覆時應特別注意何種法律風險？",
+    "options": [
+      "未經校對含失實陳述，可能成為不利書面證據",
+      "AI 文字過於流暢會被主管機關判定為作弊",
+      "使用 AI 回覆家長一律構成偽造公文書罪責",
+      "AI 產出的文字在法庭上完全不具證據能力"
+    ],
+    "correct": 0,
+    "explanation": "親師通訊、Email、LINE 截圖、會議紀錄等，均可能在性平、校安、申訴或訴訟程序中被提出。AI 草稿若含錯誤事實、不當承諾或預斷性定性，教師一旦發送，即可能造成程序與法律風險。"
+  },
+  {
+    "id": 44,
+    "tag": "心態・管教觸及信仰層之成熟轉念",
+    "question": "面對深信「反正我成績好，違規老師也不能拿我怎樣」的學生，常規管教屢次失效。成熟教師應抱持何種心態？",
+    "options": [
+      "承認個人單獨處理有限，結合行政輔導與家庭資源持續引導",
+      "認定自己教學能力徹底失敗，並因而產生嚴重的職業倦怠與無力感",
+      "在全班學生面前與該名違規學生大聲咆哮對決，以維護教師個人尊嚴",
+      "對該生徹底放任不管，並在段考平時成績評量上故意給予不及格報復"
+    ],
+    "correct": 0,
+    "explanation": "深層價值觀難以一蹴可幾。成熟教師不把管教困境視為個人輸贏，而是承認單獨處理的有限性，並主動結合行政、輔導、家庭與必要外部資源，進行長期系統性引導。"
+  },
+  {
+    "id": 45,
+    "tag": "心態・成績換特權文化之省思",
+    "question": "家長向導師施壓：「我孩子模考全校第一，他上課睡覺或不打掃請老師睜一隻眼閉一隻眼。」導師應如何堅持專業原則？",
+    "options": [
+      "向全班宣布以後段考前三名者享有免打掃之班級特權",
+      "堅守班級常規公平底線，說明品格團體責任同等重要",
+      "為了學校升學整體績效考量，選擇全面順從家長要求",
+      "直接將該名學生強行趕出教室並禁止其參加升學考試"
+    ],
+    "correct": 1,
+    "explanation": "「成績換特權」會嚴重侵蝕班級公平信念與常規底線。導師應溫和堅定地說明，學業表現、品格養成與團體責任同等重要。"
+  },
+  {
+    "id": 46,
+    "tag": "心態・心態收束四部曲應用",
+    "question": "在經歷一場重大親師風暴並完成法定處置後，導師仍反覆陷入「我是不是個失敗的老師」之反芻焦慮中。此時最需落實的步驟是？",
+    "options": [
+      "接受現狀（接受它）",
+      "面對問題（面對它）",
+      "落實處置（處理它）",
+      "抽離放下（放下它）"
+    ],
+    "correct": 3,
+    "explanation": "在接受現狀、面對問題、落實處理皆已完成後，教師必須學習抽離放下，停止無謂自責與精神內耗，回歸生活平衡並保留繼續前行的能量。"
+  },
+  {
+    "id": 47,
+    "tag": "心態・共好循環與內耗循環之分水嶺",
+    "question": "親師互動若要走向「共好（良性循環）」而非「內耗（惡化循環）」，其關鍵分水嶺在於？",
+    "options": [
+      "每次對話中老師是否都能徹底辯贏對方",
+      "能否將目標對焦於協助孩子並建立合作信任",
+      "家長是否願意全額贊助班級各項活動經費",
+      "雙方是否能完全不發生任何教育理念分歧"
+    ],
+    "correct": 1,
+    "explanation": "共好循環的基礎是親師確立共同目標，也就是一起協助孩子。內耗循環則是將彼此視為敵手，陷入責任推諉與情緒攻防。"
+  },
+  {
+    "id": 48,
+    "tag": "心態・提早求援的專業定義",
+    "question": "研習特別強調「提早求援不是無能，而是高度專業的展現」。其背後的教育哲學為？",
+    "options": [
+      "教育是跨專業的系統團隊作戰，非英雄式的個人獨秀",
+      "把麻煩事全部推給行政處室處理，以求教師個人自保",
+      "及早求援是為了在學期末教師考績會上爭取同情評分",
+      "代表導師可以完全不必負擔任何班級常規管教的責任"
+    ],
+    "correct": 0,
+    "explanation": "現代校園問題錯綜複雜，主動連結學務、輔導、特教、社工、醫療或少年輔導等專業資源，是發揮體系保護力的成熟專業決策。"
+  },
+  {
+    "id": 49,
+    "tag": "心態・面對惡意投訴時的心理韌性",
+    "question": "若導師依法處置卻仍遭無理家長向民意代表或教育局惡意黑函投訴，此時最適當的應對心態為？",
+    "options": [
+      "感到心力交瘁，立刻簽署自願離職書離開教職以求解脫",
+      "依循客觀輔導紀錄，主動向行政報告並尋求校方法律諮詢",
+      "透過私人關係聯絡外部勢力向該投訴家長施加心理壓力",
+      "在班級公開該家長投訴信內容，藉由群體輿論發洩不滿"
+    ],
+    "correct": 1,
+    "explanation": "面對惡意投訴，完整客觀的行政與輔導紀錄是最佳保護。教師應主動向行政報告、保存資料、交由正式窗口回應，必要時尋求校方法律諮詢、教師會或相關專業支援。"
+  },
+  {
+    "id": 50,
+    "tag": "心態・溝通的終極本質",
+    "question": "研習結語指出「溝通的本質不是我贏你輸，而是我們一起把孩子接住」。這句話給予新進教師最重要的座右銘為？",
+    "options": [
+      "在每一次親師衝突中，必須不惜代價爭取最後辯論勝利",
+      "只要為了迎合家長滿意度，教師可以隨時放棄教育原則",
+      "學生若不服從常規管教，就應盡早放棄以節省教育資源",
+      "放下對立勝負執念，相信系統攜手成為孩子安全防護網"
+    ],
+    "correct": 3,
+    "explanation": "教育溝通的核心是孩子的福祉。放下輸贏執念，結合家庭、學校與必要支持系統，在孩子面臨困境時共同伸出雙手承接，是親師溝通的最高境界。"
+  }
+];
+
+    // 3. 提示詞機 (Tab 1) 資料與邏輯
+    const promptPresets = {
+      lesson_plan: {
+        persona: "臺北市國中資深生物科教師兼 108 課綱領域輔導員",
+        recipients: "國一新生（先備知識為國小自然，具備個別學習差異）",
+        aim: "設計一份 45 分鐘的『生態系與大安森林公園常見鳥類探究』單元素養導向教案，並產出可直接列印的 A4 學習單草稿。",
+        theme: "符合108課綱核心素養，注重生活情境與具體表徵鷹架（CRA）",
+        structure: "包含：引起動機(5分)、發展活動(35分)、總結評量(5分)，並附帶條列式學習單"
+      },
+      differentiated_exam: {
+        persona: "臺北市國中理化科出題教師與會考命題研究小組成員",
+        recipients: "國二全體學生（涵蓋需學習扶助學生與會考衝刺精熟學生）",
+        aim: "根據所提供之理化計算觀念，生成 3 題『觀念相同但更換生活情境與數值』的平行會考模擬類題，並產出『基礎版』與『挑戰版』雙層難度。",
+        theme: "條理清晰、嚴謹客觀、具備可操作性且無冗贅詞",
+        structure: "包含：題目描述、評量素養指標、詳細解題步驟與參考答案解析"
+      },
+      parent_comm: {
+        persona: "經驗豐富、具備高同理心與 Satir 一致性溝通技巧的臺北市國中導師",
+        recipients: "平時忙碌、因孩子課堂狀況或常規問題而感到焦慮防衛的國中生家長",
+        aim: "將一段直白的學生違規提醒或催繳通知文字，潤飾為具備溫度、關懷與同理心的親師合作對話，化解對立感並建立教育合夥人關係。",
+        theme: "溫暖同理、促進親師合作感，採用正向成長型思維語言",
+        structure: "採用「先肯定孩子優點 → 溫馨提醒具體事項 → 邀請親師攜手合作」之三段式架構"
+      },
+      classroom_mgt: {
+        persona: "溫暖專業、擅長班級經營與正向常規引導的臺北市國中導師",
+        recipients: "國一至國二青春期國中生（需建立手機自律、專注與小組合作習慣）",
+        aim: "設計一份適合佈置於教室的『班級合作 4 大公約』、一份『SEL 青春期情緒簽到表』，以及一組『破冰小天使互相鼓勵任務卡』。",
+        theme: "活潑親切、趣味互動且具備正向激勵效果",
+        structure: "以 Markdown 表格呈現，並依時間軸與類別條列"
+      },
+      vibe_coding: {
+        persona: "精通 HTML5/TailwindCSS 與教育科技互動設計的前端工程專家兼中學教師",
+        recipients: "國中課堂全體學生（透過電子白板或大屏幕進行全班投影即時互動）",
+        aim: "撰寫一個單一檔案、可直接用瀏覽器開啟的 HTML5 互動網頁，功能為『班級抽籤與獎勵大輪盤』，具備名單輸入框、旋轉動畫與音效慶祝效果。",
+        theme: "活潑趣味・正向激勵（適合班級經營）",
+        structure: "輸出完整可執行的單頁 HTML/CSS/JS 網頁程式碼，內嵌可愛UI與音效互動"
+      },
+      custom: {
+        persona: "臺北市國中專業教師",
+        recipients: "國中學生與家長",
+        aim: "請具體描述您的任務目標...",
+        theme: "條理清晰、嚴謹客觀、具備可操作性且無冗贅詞",
+        structure: "以 Markdown 表格呈現，並依時間軸與類別條列"
+      }
+    };
+
+    function applyPreset(key) {
+      const p = promptPresets[key];
+      if (!p) return;
+      document.getElementById('prompt-persona').value = p.persona;
+      document.getElementById('prompt-recipients').value = p.recipients;
+      document.getElementById('prompt-aim').value = p.aim;
+      document.getElementById('prompt-theme').value = p.theme;
+      document.getElementById('prompt-structure').value = p.structure;
+      buildFinalPrompt();
+    }
+
+    function buildFinalPrompt() {
+      const persona = document.getElementById('prompt-persona').value.trim();
+      const recipients = document.getElementById('prompt-recipients').value.trim();
+      const aim = document.getElementById('prompt-aim').value.trim();
+      const theme = document.getElementById('prompt-theme').value;
+      const structure = document.getElementById('prompt-structure').value;
+
+      const cPrivacy = document.getElementById('const-privacy').checked;
+      const cVerbs = document.getElementById('const-verbs').checked;
+      const cLength = document.getElementById('const-length').checked;
+      const cCite = document.getElementById('const-cite').checked;
+
+      let constraints = [];
+      if (cPrivacy) constraints.push("1. 嚴格去識別化：嚴禁包含任何真實學生姓名、身分證字號或特定可識別個人之隱私資料。");
+      if (cVerbs) constraints.push("2. 行為動詞規範：評量與目標請使用客觀、可觀察測量的行為動詞（如『能指出』、『能計算』），避免使用『理解/熟悉』等模糊心理詞。");
+      if (cLength) constraints.push("3. 簡潔無冗贅：去除空泛客套話與大道理，直切教學實踐操作核心，降低模型幻覺。");
+      if (cCite) constraints.push("4. 課綱與解析對齊：內容需緊扣臺灣教育部 108 課綱領域核心素養，出題時務必附上詳細步驟與答案。");
+
+      const promptText = `【角色設定 (Persona)】
+你是一位「${persona}」。
+
+【學習對象／受眾 (Recipients)】
+本次任務的對象為「${recipients}」。
+
+【核心任務與教學目標 (Aim)】
+請協助我完成以下具體任務：
+${aim}
+
+【風格與語氣 (Theme)】
+請採用「${theme}」的專業風格。
+
+【輸出架構與格式 (Structure)】
+產出內容請嚴格遵循以下架構：
+${structure}
+
+【邊界約束與規範 (CLEAR Constraints)】
+${constraints.join('\n')}
+
+請以繁體中文直接輸出符合上述所有條件的高品質內容。`;
+
+      document.getElementById('final-prompt-output').value = promptText;
+    }
+
+    function copyGeneratedPrompt() {
+      const textarea = document.getElementById('final-prompt-output');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const btnText = document.getElementById('copy-btn-text');
+        btnText.innerText = "✓ 已成功複製！";
+        setTimeout(() => {
+          btnText.innerText = "一鍵複製指令";
+        }, 2000);
+      });
+    }
+
+    // 4. 四大色系情緒卡片 (48 詞)
+    const emotionCategories = [
+      {
+        category: "😨 恐懼類 (青色)",
+        color: "cyan",
+        words: [
+          "忐忑", "擔憂", "懷疑", "不安全感", "驚嚇", "緊張",
+          "焦慮", "脆弱", "震駭", "恐慌", "畏懼", "恐懼不安"
+        ]
+      },
+      {
+        category: "😊 喜悅類 (黃色)",
+        color: "amber",
+        words: [
+          "愉悅", "解脫", "自信", "感激", "希望", "興趣",
+          "自豪", "愛", "振奮", "興奮", "狂喜", "敬畏"
+        ]
+      },
+      {
+        category: "😠 憤怒類 (粉紅)",
+        color: "rose",
+        words: [
+          "惱怒", "煩躁", "羨慕", "嫉妒", "挫折", "敵意",
+          "厭惡", "憤慨", "挑釁", "憎恨", "輕蔑", "狂怒"
+        ]
+      },
+      {
+        category: "😢 悲傷類 (紫色)",
+        color: "purple",
+        words: [
+          "沉思", "內疚", "同情", "失望", "沮喪", "懊悔",
+          "受傷", "無助", "憂鬱", "羞恥", "哀慟", "絕望"
+        ]
+      }
+    ];
+
+    const bodyPartsList = ["胸口悶脹", "喉嚨發緊", "肩膀緊繃", "胃部翻攪", "頭部脹痛", "手心發涼/冒汗", "呼吸短淺", "全身無力"];
+
+    const satirstancesDef = [
+      {
+        key: "placating",
+        label: "討好型",
+        icon: "🙇‍♂️",
+        desc: "迎合他人、過度和善、忽略自我需求，內心常感委屈與受傷"
+      },
+      {
+        key: "blaming",
+        label: "指責型",
+        icon: "🫵",
+        desc: "強硬批評、指責他人，內在可能隱藏害怕失控的焦慮與脆弱"
+      },
+      {
+        key: "super_reasonable",
+        label: "超理智型",
+        icon: "🧐",
+        desc: "過度客觀分析、忽略情感需求，以理性武裝防衛內在的孤單"
+      },
+      {
+        key: "irrelevant",
+        label: "打岔型",
+        icon: "🤪",
+        desc: "以說笑、轉移話題逃避壓力，內在可能缺乏自信與確定感"
+      },
+      {
+        key: "congruent",
+        label: "一致型",
+        icon: "🤝",
+        desc: "真實表達自我，同時關注對方與情境，真誠且自我負責"
+      }
+    ];
+
+    const quickScenarioIdeas = [
+      "與家長電話溝通或收到質疑訊息時",
+      "學生課堂當眾頂撞時",
+      "被行政臨時交辦緊急高壓個案時",
+      "工作被主管或督學指責時",
+      "和家人或伴侶討論家事分工時"
+    ];
+
+    let currentSlide = 0;
+    let isFullView = false;
+    let quizMode = 'random10';
+    let activeQuizList = [];
+    let userAnswers = {};
+
+    let userIntegratedScenarios = [
+      {
+        id: 1,
+        title: "與家長電話溝通或收到質疑訊息時",
+        selectedEmotions: ["焦慮", "委屈"],
+        selectedBodyParts: ["胸口悶脹"],
+        selectedStances: ["super_reasonable"]
+      },
+      {
+        id: 2,
+        title: "學生在課堂當眾頂撞或拒絕配合管教時",
+        selectedEmotions: ["挫折", "惱怒"],
+        selectedBodyParts: ["肩膀緊繃"],
+        selectedStances: ["blaming"]
+      },
+      {
+        id: 3,
+        title: "與家人、伴侶討論家事或教養分歧時",
+        selectedEmotions: ["煩躁"],
+        selectedBodyParts: [],
+        selectedStances: ["placating"]
+      }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildFinalPrompt();
+      buildDirectory();
+      initQuizList();
+      buildQuiz();
+      renderIntegratedScenarios();
+      updateSlideView();
+      setupScrollListener();
+    });
+
+    // 主分頁切換
+    function switchMainTab(tab) {
+      const promptSec = document.getElementById('section-prompt');
+      const slidesSec = document.getElementById('section-slides');
+      const quizSec = document.getElementById('section-quiz');
+      const exploreSec = document.getElementById('section-explore');
+
+      const promptBtn = document.getElementById('nav-prompt-btn');
+      const slidesBtn = document.getElementById('nav-slides-btn');
+      const quizBtn = document.getElementById('nav-quiz-btn');
+      const exploreBtn = document.getElementById('nav-explore-btn');
+      const progressContainer = document.getElementById('reading-progress-container');
+
+      promptSec.classList.add('hidden');
+      slidesSec.classList.add('hidden');
+      quizSec.classList.add('hidden');
+      exploreSec.classList.add('hidden');
+
+      const inactiveClass = "px-2 sm:px-2.5 py-1 font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1";
+      const activeClass = "px-2 sm:px-2.5 py-1 font-bold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1";
+
+      promptBtn.className = inactiveClass;
+      slidesBtn.className = inactiveClass;
+      quizBtn.className = inactiveClass;
+      exploreBtn.className = inactiveClass;
+
+      if (tab === 'prompt') {
+        promptSec.classList.remove('hidden');
+        promptBtn.className = activeClass;
+        progressContainer.style.opacity = '0';
+      } else if (tab === 'slides') {
+        slidesSec.classList.remove('hidden');
+        slidesBtn.className = activeClass;
+        progressContainer.style.opacity = '1';
+        updateSlideView();
+      } else if (tab === 'quiz') {
+        quizSec.classList.remove('hidden');
+        quizBtn.className = activeClass;
+        progressContainer.style.opacity = '0';
+      } else if (tab === 'explore') {
+        exploreSec.classList.remove('hidden');
+        exploreBtn.className = activeClass;
+        progressContainer.style.opacity = '0';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==================== 講義閱讀邏輯 ====================
+    function toggleViewMode() {
+      isFullView = !isFullView;
+      const btnText = document.getElementById('view-mode-text');
+      const btnIcon = document.getElementById('view-mode-icon');
+      const pagination = document.getElementById('slide-pagination');
+      const slideCards = document.querySelectorAll('.slide-card');
+
+      if (isFullView) {
+        btnText.innerText = "切換為「單頁卡片」";
+        btnIcon.innerText = "🎴";
+        pagination.classList.add('hidden');
+        slideCards.forEach(card => card.classList.remove('hidden'));
+        document.getElementById('current-slide-indicator').innerText = "長卷模式 (全 14 頁)";
+      } else {
+        btnText.innerText = "切換為「長卷瀏覽」";
+        btnIcon.innerText = "📑";
+        pagination.classList.remove('hidden');
+        updateSlideView();
+      }
+    }
+
+    function changeSlide(direction) {
+      const total = slidesData.length;
+      currentSlide = Math.max(0, Math.min(total - 1, currentSlide + direction));
+      updateSlideView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function jumpToSlide(index) {
+      currentSlide = index;
+      if (isFullView) toggleViewMode();
+      updateSlideView();
+      closeDirectoryModal();
+      switchMainTab('slides');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateSlideView() {
+      if (isFullView) return;
+      const slideCards = document.querySelectorAll('.slide-card');
+      slideCards.forEach((card, idx) => {
+        if (idx === currentSlide) card.classList.remove('hidden');
+        else card.classList.add('hidden');
+      });
+
+      const total = slidesData.length;
+      document.getElementById('current-slide-indicator').innerText = `Slide ${currentSlide} / ${total - 1}`;
+      document.getElementById('page-counter-text').innerText = `${currentSlide + 1} / ${total}`;
+      document.getElementById('prev-slide-btn').disabled = (currentSlide === 0);
+
+      const nextBtn = document.getElementById('next-slide-btn');
+      if (currentSlide === total - 1) {
+        nextBtn.innerHTML = "🎯 去測驗 ▶";
+        nextBtn.onclick = () => switchMainTab('quiz');
+      } else {
+        nextBtn.innerHTML = "下一張 ▶";
+        nextBtn.onclick = () => changeSlide(1);
+      }
+
+      const pct = ((currentSlide + 1) / total) * 100;
+      document.getElementById('progress-bar').style.width = pct + '%';
+    }
+
+    function setupScrollListener() {
+      window.addEventListener('scroll', () => {
+        if (!isFullView) return;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight <= 0) return;
+        const progress = (window.scrollY / totalHeight) * 100;
+        document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, progress)) + '%';
+      });
+    }
+
+    function buildDirectory() {
+      const container = document.getElementById('dir-list-container');
+      container.innerHTML = slidesData.map((item, idx) => `
+        <button onclick="jumpToSlide(${idx})" class="w-full text-left p-3 rounded-xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/60 transition-all flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <span class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white flex items-center justify-center text-xs font-bold text-slate-600 transition-colors">
+              ${idx}
+            </span>
+            <div>
+              <p class="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-indigo-900">${item.title}</p>
+              <p class="text-[11px] text-slate-400 group-hover:text-indigo-600">${item.subtitle}</p>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400 group-hover:text-indigo-600 font-mono">➔</span>
+        </button>
+      `).join('');
+    }
+
+    function openDirectoryModal() { document.getElementById('dir-modal').classList.remove('hidden'); }
+    function closeDirectoryModal() { document.getElementById('dir-modal').classList.add('hidden'); }
+
+    // ==================== 測驗邏輯 (50 題) ====================
+    function setQuizMode(mode) {
+      quizMode = mode;
+      const randBtn = document.getElementById('mode-random-btn');
+      const allBtn = document.getElementById('mode-all-btn');
+
+      if (mode === 'random10') {
+        randBtn.className = 'px-3 py-1.5 rounded-xl font-bold transition-all bg-white text-indigo-900 shadow-sm';
+        allBtn.className = 'px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all';
+      } else {
+        allBtn.className = 'px-3 py-1.5 rounded-xl font-bold transition-all bg-white text-indigo-900 shadow-sm';
+        randBtn.className = 'px-3 py-1.5 rounded-xl font-medium text-indigo-200 hover:bg-white/10 transition-all';
+      }
+      reshuffleAndRestart();
+    }
+
+    function initQuizList() {
+      if (quizMode === 'random10') {
+        const shuffled = [...fullQuizBank].sort(() => 0.5 - Math.random());
+        activeQuizList = shuffled.slice(0, 10);
+      } else {
+        activeQuizList = [...fullQuizBank];
+      }
+    }
+
+    function reshuffleAndRestart() {
+      userAnswers = {};
+      document.getElementById('quiz-result-card').classList.add('hidden');
+      initQuizList();
+      buildQuiz();
+      document.getElementById('quiz-progress-text').innerText = `已抽選 ${activeQuizList.length} 題（題庫共 50 題）`;
+      window.scrollTo({ top: document.getElementById('section-quiz').offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function buildQuiz() {
+      const container = document.getElementById('quiz-items-container');
+      container.innerHTML = activeQuizList.map((q, qIndex) => `
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm transition-all" id="quiz-card-${qIndex}">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-lg">
+              第 ${qIndex + 1} 題 / 共 ${activeQuizList.length} 題
+            </span>
+            <span class="text-[11px] font-semibold text-slate-400">${q.tag}</span>
+          </div>
+          <h4 class="text-sm sm:text-base font-bold text-slate-900 mb-3.5 leading-relaxed">${q.question}</h4>
+          <div class="space-y-2">
+            ${q.options.map((opt, optIndex) => `
+              <button onclick="selectOption(${qIndex}, ${optIndex})" id="opt-${qIndex}-${optIndex}" class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition-all text-xs sm:text-sm font-medium text-slate-700 flex items-start gap-2.5 touch-btn">
+                <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 text-slate-500" id="circle-${qIndex}-${optIndex}">
+                  ${String.fromCharCode(65 + optIndex)}
+                </span>
+                <span class="flex-1 leading-snug">${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div id="feedback-${qIndex}" class="hidden mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm"></div>
+        </div>
+      `).join('');
+    }
+
+    function selectOption(qIndex, selectedOptIndex) {
+      if (userAnswers[qIndex] !== undefined) return;
+      const q = activeQuizList[qIndex];
+      userAnswers[qIndex] = selectedOptIndex;
+      const isCorrect = (selectedOptIndex === q.correct);
+
+      for (let i = 0; i < q.options.length; i++) {
+        const btn = document.getElementById(`opt-${qIndex}-${i}`);
+        const circle = document.getElementById(`circle-${qIndex}-${i}`);
+        btn.disabled = true;
+
+        if (i === q.correct) {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold flex items-start gap-2.5";
+          circle.className = "w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
+          circle.innerHTML = "✓";
+        } else if (i === selectedOptIndex && !isCorrect) {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-medium flex items-start gap-2.5";
+          circle.className = "w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
+          circle.innerHTML = "✕";
+        } else {
+          btn.className = "w-full text-left p-3.5 rounded-2xl border border-slate-100 bg-slate-50/50 text-slate-400 flex items-start gap-2.5 opacity-60";
+        }
+      }
+
+      const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+      feedbackDiv.classList.remove('hidden');
+      if (isCorrect) {
+        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+        feedbackDiv.innerHTML = `<div class="font-bold flex items-center gap-1 text-emerald-800 mb-1"><span>🎉</span> 回答正確！</div><p class="text-xs text-emerald-950 leading-relaxed">${q.explanation}</p>`;
+      } else {
+        feedbackDiv.className = "mt-3.5 p-3.5 rounded-2xl text-xs sm:text-sm bg-rose-50 border border-rose-200 text-rose-900";
+        feedbackDiv.innerHTML = `<div class="font-bold flex items-center gap-1 text-rose-800 mb-1"><span>💡</span> 解析說明（正確答案為 ${String.fromCharCode(65 + q.correct)}）</div><p class="text-xs text-rose-950 leading-relaxed">${q.explanation}</p>`;
+      }
+
+      const answeredCount = Object.keys(userAnswers).length;
+      const totalCount = activeQuizList.length;
+      document.getElementById('quiz-progress-text').innerText = `已作答 ${answeredCount} / ${totalCount} 題`;
+
+      if (answeredCount === totalCount) {
+        let correctCount = 0;
+        activeQuizList.forEach((item, idx) => {
+          if (userAnswers[idx] === item.correct) correctCount++;
+        });
+        const score = Math.round((correctCount / totalCount) * 100);
+        showQuizResult(score, correctCount, totalCount);
+      }
+    }
+
+    function showQuizResult(score, correctCount, totalCount) {
+      const resultCard = document.getElementById('quiz-result-card');
+      resultCard.classList.remove('hidden');
+      document.getElementById('result-score').innerText = `${score} 分`;
+
+      let icon = "🏆";
+      let title = "親師溝通大師！";
+      let feedback = "";
+
+      if (score === 100) {
+        icon = "🌟";
+        title = "滿分通關！親師溝通大師";
+        feedback = `太棒了！您在本次 ${totalCount} 題進階實戰測驗中全對！您對國中校園法規通報時限、對話四層次辨識、AI 應用安全界線及親師生應對心態皆具備非常清晰成熟的判斷力！`;
+      } else if (score >= 80) {
+        icon = "🎖️";
+        title = "表現優異！專業親師導航者";
+        feedback = `非常出色！您答對了 ${correctCount} / ${totalCount} 題。您已充分掌握親師溝通的核心心態與實戰工具，遇到複雜個案時記得秉持「提早求援、團隊作戰」的原則！`;
+      } else if (score >= 60) {
+        icon = "💪";
+        title = "基礎扎實！持續精進實戰力";
+        feedback = `您答對了 ${correctCount} / ${totalCount} 題。已具備良好的溝通概念！建議回頭複習「法規通報24小時地圖」與「對話四層次」，能讓現場應對更胸有成竹。`;
+      } else {
+        icon = "🌱";
+        title = "研習起步走！多看案例累積經驗";
+        feedback = `您答對了 ${correctCount} / ${totalCount} 題。別灰心！親師溝通是一門需要不斷練習與反思的藝術。建議隨時點擊「換一組題目」多加練習！`;
+      }
+
+      document.getElementById('result-icon').innerText = icon;
+      document.getElementById('result-title').innerText = title;
+      document.getElementById('result-feedback').innerText = feedback;
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ==================== 覺察探索邏輯 ====================
+    function switchExploreStep(step) {
+      const inputStep = document.getElementById('step-input-container');
+      const reportStep = document.getElementById('step-report-container');
+
+      const btnInput = document.getElementById('exp-tab-input-btn');
+      const btnReport = document.getElementById('exp-tab-report-btn');
+
+      const activeClass = "flex-1 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1";
+      const inactiveClass = "flex-1 py-2 rounded-xl transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1";
+
+      inputStep.classList.add('hidden');
+      reportStep.classList.add('hidden');
+
+      btnInput.className = inactiveClass;
+      btnReport.className = inactiveClass;
+
+      if (step === 'input') {
+        inputStep.classList.remove('hidden');
+        btnInput.className = activeClass;
+      } else if (step === 'report') {
+        reportStep.classList.remove('hidden');
+        btnReport.className = activeClass;
+      }
+      window.scrollTo({ top: document.getElementById('section-explore').offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function renderIntegratedScenarios() {
+      const container = document.getElementById('integrated-scenarios-container');
+      container.innerHTML = userIntegratedScenarios.map((sc, scIdx) => `
+        <div class="p-4 sm:p-5 bg-slate-50 rounded-3xl border border-slate-200 space-y-4 shadow-sm" id="sc-card-${sc.id}">
+          
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/70">
+            <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
+              壓力情境 ${scIdx + 1}
+            </span>
+            ${userIntegratedScenarios.length > 1 ? `
+              <button onclick="removeScenarioCard(${sc.id})" class="text-xs text-rose-500 hover:text-rose-700 font-semibold px-2 py-0.5 rounded-md hover:bg-rose-50">
+                ✕ 刪除此情境
+              </button>
+            ` : ''}
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">
+              ✏️ 具體情境描述（自由填寫）：
+            </label>
+            <input 
+              type="text" 
+              value="${sc.title}" 
+              oninput="updateScTitle(${sc.id}, this.value)"
+              placeholder="例如：昨天和家長通話溝通缺交作業時、被主管責備時..."
+              class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm text-slate-800 transition-all outline-none"
+            />
+            <div class="flex flex-wrap items-center gap-1 text-[11px] mt-1.5">
+              <span class="text-slate-400 font-medium mr-0.5">💡 快速範例：</span>
+              ${quickScenarioIdeas.map(idea => `
+                <button onclick="setQuickIdea(${sc.id}, '${idea}')" class="px-2 py-0.5 bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 border border-slate-200 rounded-md transition-colors text-[10px]">
+                  ${idea}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-800 flex items-center gap-1">
+                <span>🎴</span><span>在此情境下，您的「內在真實情緒感受」是什麼？（可複選）</span>
+              </span>
+              <span class="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-full">
+                已選 ${sc.selectedEmotions ? sc.selectedEmotions.length : 0} 個
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${emotionCategories.map(cat => `
+                <div class="p-2.5 bg-slate-50/70 rounded-xl border border-slate-100">
+                  <div class="text-[11px] font-bold text-slate-700 mb-1.5">${cat.category}</div>
+                  <div class="flex flex-wrap gap-1">
+                    ${cat.words.map(w => {
+                      const isEmoSelected = sc.selectedEmotions && sc.selectedEmotions.includes(w);
+                      return `
+                        <button 
+                          onclick="toggleScEmotion(${sc.id}, '${w}')"
+                          class="px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all touch-btn ${
+                            isEmoSelected 
+                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm font-bold' 
+                              : 'bg-white text-slate-700 border-slate-200 hover:border-indigo-300'
+                          }"
+                        >
+                          ${w}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="pt-2 border-t border-slate-100">
+              <div class="text-[11px] font-bold text-slate-600 mb-1 flex items-center gap-1">
+                <span>🧘</span><span>身體哪個部位緊繃？（可複選）</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                ${bodyPartsList.map(bp => {
+                  const isBpSelected = sc.selectedBodyParts && sc.selectedBodyParts.includes(bp);
+                  return `
+                    <button 
+                      onclick="toggleScBodyPart(${sc.id}, '${bp}')"
+                      class="px-2 py-0.5 rounded-md text-[10px] border transition-all touch-btn ${
+                        isBpSelected 
+                          ? 'bg-teal-600 text-white border-teal-600 font-bold' 
+                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                      }"
+                    >
+                      ${bp}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 space-y-2.5">
+            <div class="text-xs font-bold text-slate-800 flex items-center justify-between">
+              <span>🎭 針對此情境，您「外在可能出現」的反應姿態（可複選）：</span>
+            </div>
+            
+            <div class="space-y-1.5">
+              ${satirstancesDef.map(st => {
+                const isStChecked = sc.selectedStances && sc.selectedStances.includes(st.key);
+                return `
+                  <div 
+                    onclick="toggleScStance(${sc.id}, '${st.key}')"
+                    class="p-2.5 rounded-xl border transition-all cursor-pointer touch-btn ${
+                      isStChecked 
+                        ? 'border-2 border-indigo-600 bg-indigo-50/80 shadow-sm' 
+                        : 'border-slate-200 bg-slate-50/60 hover:bg-white hover:border-indigo-300'
+                    }"
+                  >
+                    <div class="flex items-start gap-2">
+                      <div class="w-4 h-4 rounded mt-0.5 border flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                        isStChecked 
+                          ? 'bg-indigo-600 border-indigo-600 text-white' 
+                          : 'border-slate-300 bg-white text-transparent'
+                      }">
+                        ✓
+                      </div>
+                      <div class="flex-1">
+                        <span class="text-xs font-bold text-slate-900">${st.icon} ${st.label}</span>
+                        <span class="text-[11px] text-slate-600 ml-1 leading-snug">${st.desc}</span>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    function updateScTitle(scId, val) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (sc) sc.title = val;
+    }
+
+    function setQuickIdea(scId, idea) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (sc) {
+        sc.title = idea;
+        renderIntegratedScenarios();
+      }
+    }
+
+    function toggleScEmotion(scId, word) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (!sc) return;
+      if (!sc.selectedEmotions) sc.selectedEmotions = [];
+      const idx = sc.selectedEmotions.indexOf(word);
+      if (idx > -1) sc.selectedEmotions.splice(idx, 1);
+      else sc.selectedEmotions.push(word);
+      renderIntegratedScenarios();
+    }
+
+    function toggleScBodyPart(scId, bp) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (!sc) return;
+      if (!sc.selectedBodyParts) sc.selectedBodyParts = [];
+      const idx = sc.selectedBodyParts.indexOf(bp);
+      if (idx > -1) sc.selectedBodyParts.splice(idx, 1);
+      else sc.selectedBodyParts.push(bp);
+      renderIntegratedScenarios();
+    }
+
+    function toggleScStance(scId, stanceKey) {
+      const sc = userIntegratedScenarios.find(s => s.id === scId);
+      if (!sc) return;
+      if (!sc.selectedStances) sc.selectedStances = [];
+      const idx = sc.selectedStances.indexOf(stanceKey);
+      if (idx > -1) sc.selectedStances.splice(idx, 1);
+      else sc.selectedStances.push(stanceKey);
+      renderIntegratedScenarios();
+    }
+
+    function addCustomScenarioCard() {
+      const newId = Date.now();
+      userIntegratedScenarios.push({
+        id: newId,
+        title: "",
+        selectedEmotions: [],
+        selectedBodyParts: [],
+        selectedStances: []
+      });
+      renderIntegratedScenarios();
+      setTimeout(() => {
+        const newCard = document.getElementById(`sc-card-${newId}`);
+        if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    function removeScenarioCard(scId) {
+      if (userIntegratedScenarios.length <= 1) return;
+      userIntegratedScenarios = userIntegratedScenarios.filter(s => s.id !== scId);
+      renderIntegratedScenarios();
+    }
+
+    function calculateAndShowReport() {
+      const breakdownEl = document.getElementById('report-scenarios-breakdown');
+      breakdownEl.innerHTML = userIntegratedScenarios.map((sc, idx) => {
+        const titleText = sc.title.trim() || `情境 ${idx + 1}（未命名）`;
+        const emoList = sc.selectedEmotions && sc.selectedEmotions.length > 0 ? sc.selectedEmotions : ["平靜安穩"];
+        const bpList = sc.selectedBodyParts && sc.selectedBodyParts.length > 0 ? sc.selectedBodyParts.join('、') : "無特別緊繃";
+        const stanceLabels = (sc.selectedStances || []).map(stKey => {
+          const def = satirstancesDef.find(d => d.key === stKey);
+          return def ? `${def.icon} ${def.label}` : stKey;
+        });
+
+        return `
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5 pb-1.5 border-b border-slate-200">
+              <span class="w-5 h-5 rounded bg-indigo-600 text-white flex items-center justify-center text-[10px]">${idx + 1}</span>
+              <span class="text-sm">${titleText}</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+              <div class="p-2.5 bg-indigo-50/70 rounded-xl border border-indigo-100 space-y-1">
+                <span class="text-[11px] font-bold text-indigo-900 flex items-center gap-1">
+                  <span>🎴</span> 內在情緒感受：
+                </span>
+                <div class="flex flex-wrap gap-1">
+                  ${emoList.map(e => `<span class="px-2 py-0.5 bg-indigo-600 text-white rounded text-[10px] font-medium">${e}</span>`).join('')}
+                </div>
+                <div class="text-[10px] text-indigo-700 pt-0.5">
+                  <strong>緊繃部位：</strong>${bpList}
+                </div>
+              </div>
+
+              <div class="p-2.5 bg-amber-50/70 rounded-xl border border-amber-100 space-y-1">
+                <span class="text-[11px] font-bold text-amber-900 flex items-center gap-1">
+                  <span>🎭</span> 外在應對姿態：
+                </span>
+                <div class="flex flex-wrap gap-1">
+                  ${stanceLabels.length > 0 
+                    ? stanceLabels.map(l => `<span class="px-2 py-0.5 bg-amber-600 text-white rounded text-[10px] font-bold">${l}</span>`).join('')
+                    : '<span class="text-slate-400 italic text-[10px]">未勾選姿態</span>'}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const counts = {
+        placating: 0,
+        blaming: 0,
+        super_reasonable: 0,
+        irrelevant: 0,
+        congruent: 0
+      };
+
+      let totalSelected = 0;
+      userIntegratedScenarios.forEach(sc => {
+        (sc.selectedStances || []).forEach(st => {
+          if (counts[st] !== undefined) {
+            counts[st]++;
+            totalSelected++;
+          }
+        });
+      });
+
+      const stanceMeta = [
+        { key: "placating", name: "🙇‍♂️ 討好型", color: "from-blue-500 to-indigo-500" },
+        { key: "blaming", name: "🫵 指責型", color: "from-rose-500 to-amber-500" },
+        { key: "super_reasonable", name: "🧐 超理智型", color: "from-purple-500 to-indigo-600" },
+        { key: "irrelevant", name: "🤪 打岔型", color: "from-teal-500 to-emerald-500" },
+        { key: "congruent", name: "🤝 一致型", color: "from-emerald-500 to-teal-600" }
+      ];
+
+      const barsWrapper = document.getElementById('stance-bars-wrapper');
+      barsWrapper.innerHTML = stanceMeta.map(st => {
+        const cnt = counts[st.key];
+        const pct = totalSelected > 0 ? Math.round((cnt / totalSelected) * 100) : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold text-slate-700">
+              <span>${st.name}</span>
+              <span class="font-mono text-indigo-600 font-bold">${cnt} 次 (${pct}%)</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div class="h-2 rounded-full bg-gradient-to-r ${st.color} transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const treasuresEl = document.getElementById('report-treasures-content');
+      let treasureHtml = "";
+      if (counts.placating > 0) {
+        treasureHtml += `<p>● <strong>討好背後的寶藏：</strong>您具備極高的<strong>「慈悲、同理與照顧他人」</strong>的能力，非常在意人際和諧。轉化關鍵在於「把自己加進來」，同時照顧自己的感受與底線。</p>`;
+      }
+      if (counts.blaming > 0) {
+        treasureHtml += `<p>● <strong>指責背後的寶藏：</strong>您具備強大的<strong>「力量、界線感與推動改變的勇氣」</strong>。轉化關鍵在於「溫和堅定」，用同理包裹原則，不讓力量變成傷人的刺。</p>`;
+      }
+      if (counts.super_reasonable > 0) {
+        treasureHtml += `<p>● <strong>超理智背後的寶藏：</strong>您具備出色的<strong>「冷靜條理、邏輯分析與規則架構」</strong>能力。轉化關鍵在於「先接住情緒溫度，再拿出條理法規」。</p>`;
+      }
+      if (counts.irrelevant > 0) {
+        treasureHtml += `<p>● <strong>打岔背後的寶藏：</strong>您具備靈活的<strong>「幽默感、創造力與化解緊張氣氛」</strong>的彈性。轉化關鍵在於「緩和氣氛後，仍有勇氣回頭直面核心問題」。</p>`;
+      }
+      if (counts.congruent > 0 || totalSelected === 0) {
+        treasureHtml += `<p>● <strong>一致型的實踐：</strong>能在衝突中同時看見<strong>「自己的界線、對方的焦慮、現場的法規」</strong>，真誠表達，是親師合作最穩固的基石。</p>`;
+      }
+      treasuresEl.innerHTML = treasureHtml;
+
+      switchExploreStep('report');
+    }
+
+    function copyCompassSummary() {
+      const scListText = userIntegratedScenarios.map((sc, i) => {
+        const title = sc.title.trim() || `情境 ${i+1}`;
+        const emos = (sc.selectedEmotions || []).join('、') || '平靜';
+        const stLabels = (sc.selectedStances || []).map(k => {
+          const def = satirstancesDef.find(d => d.key === k);
+          return def ? def.label : k;
+        }).join('、').find(d => d.key === k);
+          return def ? def.label : k;
+        }).join('、') || '無';
+        return `  ${i+1}. 【${title}】\n     - 內在情緒：${emos}\n     - 外在姿態：${stLabels}`;
+      }).join('\n');
+
+      const text = `【親師冰山自我覺察小卡】\n${scListText}\n● 核心座右銘：接納情緒，看見寶藏，溫和堅定邁向一致型溝通！`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("已成功複製自我覺察小卡內容！");
+      });
+    }
+
+    function resetExplore() {
+      userIntegratedScenarios = [
+        {
+          id: 1,
+          title: "與家長電話溝通或收到質疑訊息時",
+          selectedEmotions: [],
+          selectedBodyParts: [],
+          selectedStances: []
+        }
+      ];
+      renderIntegratedScenarios();
+      switchExploreStep('input');
+    }
   </script>
 </body>
 </html>
