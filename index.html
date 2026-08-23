@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>國中教師 AI 提示詞機＆親師溝通研習手冊</title>
+  <title>如何做好親師溝通與 AI 教育提示詞機</title>
   <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,14 +42,6 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     .touch-btn:active { transform: scale(0.97); }
     .prompt-box { font-family: "JetBrains Mono", "Noto Sans TC", monospace; }
-    
-    /* 絕對可靠的分頁顯示機制 */
-    .tab-section {
-      display: none !important;
-    }}
-    .tab-section.active {
-      display: block !important;
-    }}
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
@@ -62,24 +54,24 @@
           師
         </div>
         <div class="hidden sm:block">
-          <h1 class="text-[10px] text-slate-500 font-medium leading-none">教師增能</h1>
-          <p class="text-xs font-bold text-slate-900 leading-tight">AI＆親師手冊</p>
+          <h1 class="text-[10px] text-slate-500 font-medium leading-none">研習手冊</h1>
+          <p class="text-xs font-bold text-slate-900 leading-tight">親師溝通＆AI</p>
         </div>
       </div>
 
-      <!-- 四個主分頁切換鈕 (分頁 1 提示詞機在第一個) -->
+      <!-- 四個主分頁切換鈕 (分頁 1 提示詞機在第一個，完全採用 8/22 原始可靠樣式) -->
       <div class="flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-xl border border-slate-200/60 overflow-x-auto text-[11px] sm:text-xs">
-        <button id="nav-prompt-btn" onclick="switchMainTab('prompt')" class="px-2 sm:px-2.5 py-1 font-bold rounded-lg transition-all bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1">
+        <button id="nav-prompt-btn" onclick="switchMainTab('prompt')" class="px-2.5 sm:px-3 py-1.5 font-bold rounded-xl transition-all duration-200 bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1">
           <span>🤖</span><span>提示詞機</span>
         </button>
-        <button id="nav-slides-btn" onclick="switchMainTab('slides')" class="px-2 sm:px-2.5 py-1 font-medium rounded-lg transition-all text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
+        <button id="nav-slides-btn" onclick="switchMainTab('slides')" class="px-2.5 sm:px-3 py-1.5 font-medium rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
           <span>📖</span><span>講義</span>
         </button>
-        <button id="nav-quiz-btn" onclick="switchMainTab('quiz')" class="px-2 sm:px-2.5 py-1 font-medium rounded-lg transition-all text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
+        <button id="nav-quiz-btn" onclick="switchMainTab('quiz')" class="px-2.5 sm:px-3 py-1.5 font-medium rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
           <span>✍️</span><span>測驗</span>
-          <span class="px-1 py-0.2 text-[9px] bg-amber-100 text-amber-700 font-bold rounded-full">50題</span>
+          <span class="px-1.5 py-0.2 text-[9px] bg-amber-100 text-amber-700 font-bold rounded-full">50題</span>
         </button>
-        <button id="nav-explore-btn" onclick="switchMainTab('explore')" class="px-2 sm:px-2.5 py-1 font-medium rounded-lg transition-all text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
+        <button id="nav-explore-btn" onclick="switchMainTab('explore')" class="px-2.5 sm:px-3 py-1.5 font-medium rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1">
           <span>🎭</span><span>覺察探索</span>
         </button>
       </div>
@@ -94,72 +86,66 @@
   <!-- 主內容容器 -->
   <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-4 safe-bottom">
 
-    <!-- ==================== 分頁一（首頁）：🤖 提示詞機（簡潔版） ==================== -->
-    <section id="section-prompt" class="tab-section active space-y-4">
+    <!-- ==================== 分頁一（首頁）：🤖 提示詞機（簡潔出詞＋大字重點調味） ==================== -->
+    <section id="section-prompt" class="space-y-4">
       
-      <!-- 頂部小 Banner -->
-      <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-2xl p-4 sm:p-5 shadow-md">
-        <div class="flex items-center justify-between mb-1">
-          <span class="px-2 py-0.5 bg-indigo-500/30 text-indigo-200 rounded-full text-[10px] font-semibold border border-indigo-400/30">
-            🤖 臺灣國中專用
-          </span>
-          <span class="text-[10px] text-indigo-300 font-mono">黃金指令公式</span>
+      <!-- 頂部精簡說明 -->
+      <div class="bg-indigo-900 text-white rounded-2xl p-4 shadow-sm flex items-center justify-between">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold">🤖 教師 AI 提示詞生成機</h2>
+          <p class="text-xs text-indigo-200 mt-0.5">點選情境 ➔ 快速微調 ➔ 一鍵複製發送！</p>
         </div>
-        <h2 class="text-lg sm:text-xl font-bold mb-0.5">教師 AI 提示詞生成機</h2>
-        <p class="text-xs text-indigo-200 leading-relaxed">
-          點選情境 ➔ 微調需求 ➔ 一鍵複製貼到 ChatGPT / Copilot / Gemini！
-        </p>
+        <span class="px-2.5 py-1 bg-indigo-700/80 rounded-lg text-xs font-bold text-indigo-100">臺灣國中版</span>
       </div>
 
-      <!-- 常用情境快捷選擇 (簡明 6 按鈕) -->
+      <!-- 快捷情境按鈕 (點擊立刻生成，極速出詞) -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2">
         <div class="text-xs font-bold text-slate-800 flex items-center gap-1">
-          <span>⚡</span><span>第一步：點選教學或行政情境</span>
+          <span>⚡</span><span>第一步：選擇教學情境（點擊快速代入）</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          <button onclick="applyPreset('lesson_plan')" class="p-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-indigo-900">📚 備課教案與學習單</div>
-            <div class="text-[10px] text-indigo-600 mt-0.5">引起動機・A4學習單</div>
+          <button onclick="applyPreset('lesson_plan')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-indigo-900">📚 教案與學習單</div>
+            <div class="text-[10px] text-indigo-600 mt-0.5">動機・CRA鷹架・學習單</div>
           </button>
 
-          <button onclick="applyPreset('differentiated_exam')" class="p-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-indigo-900">📝 會考平行類題出題</div>
-            <div class="text-[10px] text-indigo-600 mt-0.5">換生活情境・附詳解</div>
+          <button onclick="applyPreset('differentiated_exam')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-indigo-900">📝 會考平行類題</div>
+            <div class="text-[10px] text-indigo-600 mt-0.5">生活情境・附步驟詳解</div>
           </button>
 
-          <button onclick="applyPreset('parent_comm')" class="p-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-indigo-900">💬 親師溫暖通知潤飾</div>
-            <div class="text-[10px] text-indigo-600 mt-0.5">先肯定後提醒・去火藥味</div>
+          <button onclick="applyPreset('parent_comm')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-indigo-900">💬 親師溫暖通知</div>
+            <div class="text-[10px] text-indigo-600 mt-0.5">先肯定後提醒・去對立</div>
           </button>
 
-          <button onclick="applyPreset('classroom_mgt')" class="p-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-indigo-900">🏫 班規公約與情緒卡</div>
+          <button onclick="applyPreset('classroom_mgt')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-indigo-900">🏫 班規公約與小卡</div>
             <div class="text-[10px] text-indigo-600 mt-0.5">正向語言・破冰任務</div>
           </button>
 
-          <button onclick="applyPreset('vibe_coding')" class="p-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-indigo-900">🎮 免寫程式互動教具</div>
+          <button onclick="applyPreset('vibe_coding')" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-indigo-900">🎮 免寫程式互動網頁</div>
             <div class="text-[10px] text-indigo-600 mt-0.5">抽籤輪盤・閃卡遊戲</div>
           </button>
 
-          <button onclick="applyPreset('custom')" class="p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left transition-all touch-btn">
-            <div class="text-xs font-bold text-slate-800">🧩 自由輸入模式</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">自訂任何教學任務</div>
+          <button onclick="applyPreset('custom')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left transition-all touch-btn">
+            <div class="text-xs sm:text-sm font-bold text-slate-800">🧩 自由自訂</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">輸入任何教學任務</div>
           </button>
         </div>
       </div>
 
-      <!-- 快速微調表單 (簡化 4 欄位) -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
-        <div class="text-xs font-bold text-slate-800 flex items-center justify-between pb-1 border-b border-slate-100">
-          <span>⚙️ 第二步：微調關鍵細節</span>
-          <span class="text-[10px] text-slate-400 font-mono">角色・對象・任務・語氣</span>
+      <!-- 微調要素 (簡潔直觀) -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5 text-xs">
+        <div class="font-bold text-slate-800 flex items-center justify-between pb-1 border-b border-slate-100">
+          <span>⚙️ 第二步：微調內容（可直接修改）</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <div>
-            <label class="font-bold text-slate-700 block mb-0.5">👤 1. 角色設定</label>
+            <label class="font-bold text-slate-700 block mb-0.5">👤 角色：</label>
             <input 
               type="text" 
               id="prompt-persona" 
@@ -170,18 +156,18 @@
           </div>
 
           <div>
-            <label class="font-bold text-slate-700 block mb-0.5">🎒 2. 學生／受眾</label>
+            <label class="font-bold text-slate-700 block mb-0.5">🎒 對象：</label>
             <input 
               type="text" 
               id="prompt-recipients" 
-              value="國二學生及家長" 
+              value="國二學生與家長" 
               oninput="buildFinalPrompt()"
               class="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-800 outline-none focus:border-indigo-500 focus:bg-white"
             />
           </div>
 
           <div class="sm:col-span-2">
-            <label class="font-bold text-slate-700 block mb-0.5">🎯 3. 具體任務</label>
+            <label class="font-bold text-slate-700 block mb-0.5">🎯 具體任務：</label>
             <textarea 
               id="prompt-aim" 
               rows="2" 
@@ -190,8 +176,8 @@
             >設計一份 45 分鐘的教學活動，並產出 3 題引導式學習單問答題。</textarea>
           </div>
 
-          <div>
-            <label class="font-bold text-slate-700 block mb-0.5">🎨 4. 語氣與風格</label>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-0.5">🎨 語氣與格式：</label>
             <select 
               id="prompt-theme" 
               onchange="buildFinalPrompt()"
@@ -203,35 +189,19 @@
               <option value="活潑親切、趣味互動且具備正向激勵效果">活潑趣味・正向激勵（班級經營）</option>
             </select>
           </div>
-
-          <div>
-            <label class="font-bold text-slate-700 block mb-0.5">📐 5. 輸出格式</label>
-            <select 
-              id="prompt-structure" 
-              onchange="buildFinalPrompt()"
-              class="w-full px-2 py-1.5 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-800 outline-none focus:border-indigo-500 focus:bg-white"
-            >
-              <option value="包含：引起動機(5分)、發展活動(35分)、總結評量(5分)，附條列學習單">教案格式 (動機/活動/評量 + 學習單)</option>
-              <option value="包含：題目、評量指標、詳細解題步驟與答案解析">試題格式 (題目 + 概念指標 + 詳解)</option>
-              <option value="採用「先肯定孩子優點 → 溫馨提醒事項 → 邀請親師合作」三段式">親師通知 (先肯定→溫馨提醒→邀請合作)</option>
-              <option value="以 Markdown 表格呈現，並條列重點">Markdown 表格 / 條列式清單</option>
-              <option value="輸出完整可執行的單頁 HTML/CSS/JS 網頁程式碼">單頁 HTML 互動網頁程式碼</option>
-            </select>
-          </div>
         </div>
-
       </div>
 
-      <!-- 即時生成與一鍵複製區 -->
-      <div class="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 shadow-lg space-y-2.5">
+      <!-- 即時產出的 Prompt 框與複製按鈕 -->
+      <div class="bg-slate-900 text-white rounded-2xl p-4 shadow-lg space-y-2.5">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-indigo-200 flex items-center gap-1.5">
+          <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>生成的專業 Prompt（點擊即可複製）</span>
+            <span>生成的指令（點擊右側按鈕複製）</span>
           </span>
           <button 
             onclick="copyGeneratedPrompt()" 
-            class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition-all touch-btn flex items-center gap-1"
+            class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow transition-all touch-btn flex items-center gap-1"
           >
             <span>📋</span><span id="copy-btn-text">一鍵複製指令</span>
           </button>
@@ -241,35 +211,64 @@
           id="final-prompt-output" 
           rows="6" 
           readonly 
-          class="w-full p-3 bg-slate-950/80 rounded-xl border border-slate-700 text-indigo-100 text-xs font-mono leading-relaxed outline-none select-all prompt-box"
+          class="w-full p-3 bg-slate-950/90 rounded-xl border border-slate-700 text-indigo-100 text-xs sm:text-sm font-mono leading-relaxed outline-none select-all prompt-box"
         ></textarea>
       </div>
 
-      <!-- 對話調味小撇步 (簡短 4 點) -->
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2">
-        <div class="text-xs font-bold text-slate-800 flex items-center gap-1">
-          <span>🧂</span><span>初稿不滿意？對話微調 4 句型：</span>
+      <!-- 調味部分：字大、重點大標、大字排版 -->
+      <div class="bg-amber-50/90 border-2 border-amber-200 rounded-2xl p-4 sm:p-5 space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-amber-200">
+          <h3 class="text-sm sm:text-base font-extrabold text-amber-950 flex items-center gap-1.5">
+            <span>🧂</span><span>初稿不滿意？對話調味 4 妙招（大字重點）</span>
+          </h3>
+          <span class="text-xs text-amber-700 font-bold">主廚微調湯頭</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-600">
-          <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
-            <strong>1. 微調口味：</strong>「語氣太嚴肅了，請改得更溫馨，150字內。」
+
+        <div class="space-y-2.5 text-slate-800">
+          
+          <div class="p-3 bg-white rounded-xl border border-amber-200 shadow-sm">
+            <div class="text-sm sm:text-base font-extrabold text-indigo-900 flex items-center gap-1.5 mb-1">
+              <span>1️⃣</span><span>【調整口味】指定明確語氣與字數</span>
+            </div>
+            <p class="text-xs sm:text-sm font-mono bg-slate-50 p-2 rounded-lg text-slate-700 border border-slate-200 font-medium">
+              👉 「這段語氣太生硬了，請改得更溫暖親切，並縮短在 150 字以內。」
+            </p>
           </div>
-          <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
-            <strong>2. 給它範本：</strong>「參考我去年的通知格式（貼上），幫我改寫。」
+
+          <div class="p-3 bg-white rounded-xl border border-amber-200 shadow-sm">
+            <div class="text-sm sm:text-base font-extrabold text-teal-900 flex items-center gap-1.5 mb-1">
+              <span>2️⃣</span><span>【提供範本】給去年的格式讓 AI 照著學</span>
+            </div>
+            <p class="text-xs sm:text-sm font-mono bg-slate-50 p-2 rounded-lg text-slate-700 border border-slate-200 font-medium">
+              👉 「這是我去年的通知單（貼上範本），請參考這種親切格式幫我改寫。」
+            </p>
           </div>
-          <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
-            <strong>3. 換位測試：</strong>「如果你是忙碌家長，看完會覺得哪裡不清楚？」
+
+          <div class="p-3 bg-white rounded-xl border border-amber-200 shadow-sm">
+            <div class="text-sm sm:text-base font-extrabold text-amber-900 flex items-center gap-1.5 mb-1">
+              <span>3️⃣</span><span>【換位測試】請 AI 扮演家長找出盲點</span>
+            </div>
+            <p class="text-xs sm:text-sm font-mono bg-slate-50 p-2 rounded-lg text-slate-700 border border-slate-200 font-medium">
+              👉 「如果你是一位平時很忙碌的家長，看完這封通知會覺得哪裡不清楚？」
+            </p>
           </div>
-          <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
-            <strong>4. 反向提問：</strong>「產出前，請先問我 3 個關鍵的班級教學問題。」
+
+          <div class="p-3 bg-white rounded-xl border border-amber-200 shadow-sm">
+            <div class="text-sm sm:text-base font-extrabold text-purple-900 flex items-center gap-1.5 mb-1">
+              <span>4️⃣</span><span>【反向提問】請 AI 先向老師提出問題再出稿</span>
+            </div>
+            <p class="text-xs sm:text-sm font-mono bg-slate-50 p-2 rounded-lg text-slate-700 border border-slate-200 font-medium">
+              👉 「在產出最終教案前，請先向我提出 3 個最關鍵的班級情境問題。」
+            </p>
           </div>
+
         </div>
       </div>
 
     </section>
 
     <!-- ==================== 區塊二：講義閱讀 (Slide 0 ~ Slide 13) ==================== -->
-    <section id="section-slides" class="tab-section space-y-4">
+    <section id="section-slides" class="hidden space-y-4">
       <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-2xl border border-slate-200/70 shadow-sm text-xs text-slate-600">
         <div class="flex items-center space-x-2">
           <span class="font-bold text-slate-700" id="current-slide-indicator">Slide 0 / 13</span>
@@ -336,7 +335,7 @@
           </div>
           <div class="bg-indigo-50/80 border-l-4 border-indigo-500 p-3.5 rounded-r-2xl">
             <div class="text-xs font-bold text-indigo-900 mb-1">💡 關鍵思維</div>
-            <p class="text-xs sm:text-sm text-indigo-800 leading-relaxed font-medium">
+            <p class="text-xs sm:text-indigo-800 leading-relaxed font-medium">
               學校日不只是「單向報告會」，而是「建立信任存摺」的起點。開學第一步把期待講清楚，後續遇到問題時溝通阻力減半。
             </p>
           </div>
@@ -735,7 +734,7 @@
     </section>
 
     <!-- ==================== 區塊三：隨堂測驗 (50題題庫) ==================== -->
-    <section id="section-quiz" class="tab-section space-y-4">
+    <section id="section-quiz" class="hidden space-y-4">
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-lg">
         <div class="flex items-center justify-between mb-2">
           <span class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-semibold border border-indigo-400/30">
@@ -790,7 +789,7 @@
     </section>
 
     <!-- ==================== 區塊四：覺察探索 (情緒卡置入情境) ==================== -->
-    <section id="section-explore" class="tab-section space-y-5">
+    <section id="section-explore" class="hidden space-y-5">
       
       <!-- 標題 Banner -->
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-lg">
@@ -932,9 +931,56 @@
     </div>
   </div>
 
-  <!-- JavaScript 交互邏輯 -->
+  <!-- JavaScript 交互邏輯 (置頂全域函數，保證 100% 可被按鈕呼叫) -->
   <script>
-    // 1. 簡報資料 (Slide 0 ~ Slide 13)
+    // ==================== 0. 全域切換分頁函數 (完全採用 8/22 原始可靠機制) ====================
+    function switchMainTab(tab) {
+      const promptSec = document.getElementById('section-prompt');
+      const slidesSec = document.getElementById('section-slides');
+      const quizSec = document.getElementById('section-quiz');
+      const exploreSec = document.getElementById('section-explore');
+
+      const promptBtn = document.getElementById('nav-prompt-btn');
+      const slidesBtn = document.getElementById('nav-slides-btn');
+      const quizBtn = document.getElementById('nav-quiz-btn');
+      const exploreBtn = document.getElementById('nav-explore-btn');
+      const progressContainer = document.getElementById('reading-progress-container');
+
+      if (promptSec) promptSec.classList.add('hidden');
+      if (slidesSec) slidesSec.classList.add('hidden');
+      if (quizSec) quizSec.classList.add('hidden');
+      if (exploreSec) exploreSec.classList.add('hidden');
+
+      const inactiveClass = "px-2.5 sm:px-3 py-1.5 font-medium rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1";
+      const activeClass = "px-2.5 sm:px-3 py-1.5 font-bold rounded-xl transition-all duration-200 bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1";
+
+      if (promptBtn) promptBtn.className = inactiveClass;
+      if (slidesBtn) slidesBtn.className = inactiveClass;
+      if (quizBtn) quizBtn.className = inactiveClass;
+      if (exploreBtn) exploreBtn.className = inactiveClass;
+
+      if (tab === 'prompt') {
+        if (promptSec) promptSec.classList.remove('hidden');
+        if (promptBtn) promptBtn.className = activeClass;
+        if (progressContainer) progressContainer.style.opacity = '0';
+      } else if (tab === 'slides') {
+        if (slidesSec) slidesSec.classList.remove('hidden');
+        if (slidesBtn) slidesBtn.className = activeClass;
+        if (progressContainer) progressContainer.style.opacity = '1';
+        updateSlideView();
+      } else if (tab === 'quiz') {
+        if (quizSec) quizSec.classList.remove('hidden');
+        if (quizBtn) quizBtn.className = activeClass;
+        if (progressContainer) progressContainer.style.opacity = '0';
+      } else if (tab === 'explore') {
+        if (exploreSec) exploreSec.classList.remove('hidden');
+        if (exploreBtn) exploreBtn.className = activeClass;
+        if (progressContainer) progressContainer.style.opacity = '0';
+      }
+      try { window.scrollTo(0, 0); } catch (e) {}
+    }
+
+    // ==================== 1. 簡報資料 (Slide 0 ~ Slide 13) ====================
     const slidesData = [
   {
     "id": 0,
@@ -1008,7 +1054,7 @@
   }
 ];
 
-    // 2. 50 題正式題庫
+    // ==================== 2. 50 題正式題庫 ====================
     const fullQuizBank = [
   {
     "id": 1,
@@ -1585,7 +1631,7 @@
   {
     "id": 45,
     "tag": "心態・成績換特權文化之省思",
-    "question": "家長向導師施壓：「我孩子模考全校第一，他上課睡覺或不打掃請老師睜一隻眼閉一隻眼。」導師應如何堅持專業原則？",
+    "question": "家長向導師施壓：「我孩子模考全校第一，他上課睡救或不打掃請老師睜一隻眼閉一隻眼。」導師應如何堅持專業原則？",
     "options": [
       "向全班宣布以後段考前三名者享有免打掃之班級特權",
       "堅守班級常規公平底線，說明品格團體責任同等重要",
@@ -1662,49 +1708,43 @@
   }
 ];
 
-    // 3. 提示詞機 (Tab 1) 預設情境
+    // ==================== 3. 提示詞機 (Tab 1) 資料與邏輯 ====================
     const promptPresets = {
       lesson_plan: {
         persona: "臺北市國中資深教師兼領域輔導員",
-        recipients: "國中學生（先備知識正常，具備個別學習差異）",
+        recipients: "國中學生（具備個別學習差異）",
         aim: "設計一份 45 分鐘的素養導向單元教案（含引起動機、發展活動、評量），並產出可直接列印的 A4 學習單問答題。",
-        theme: "符合108課綱核心素養，注重生活情境與具體表徵鷹架",
-        structure: "包含：引起動機(5分)、發展活動(35分)、總結評量(5分)，附條列學習單"
+        theme: "符合108課綱核心素養，注重生活情境與具體表徵鷹架"
       },
       differentiated_exam: {
         persona: "臺北市國中出題教師與會考命題研究小組成員",
         recipients: "國中全體學生（涵蓋需學習扶助學生與會考精熟學生）",
-        aim: "根據所提供之觀念，生成 3 題『觀念相同但變換生活情境與數值』的平行模擬類題，並產出『基礎版』與『挑戰版』雙層難度。",
-        theme: "條理清晰、嚴謹客觀、具備可操作性且無贅詞",
-        structure: "包含：題目、評量指標、詳細解題步驟與答案解析"
+        aim: "根據所提供之觀念，生成 3 題『觀念相同但變換生活情境與數值』的平行模擬類題，並產出『基礎版』與『挑戰版』雙層難度，附詳細解題步驟。",
+        theme: "條理清晰、嚴謹客觀、具備可操作性且無贅詞"
       },
       parent_comm: {
         persona: "經驗豐富、具備高同理心與 Satir 一致性溝通技巧的國中導師",
         recipients: "平時忙碌、因孩子課堂狀況或常規問題而感到焦慮防衛的家長",
         aim: "將一段直白的學生違規提醒或催繳通知文字，潤飾為具備溫度、關懷與同理心的親師合作對話，化解對立感並建立教育合夥人關係。",
-        theme: "溫暖同理、促進親師合作感，正向成長型語氣",
-        structure: "採用「先肯定孩子優點 → 溫馨提醒事項 → 邀請親師合作」三段式"
+        theme: "溫暖同理、促進親師合作感，正向成長型語氣"
       },
       classroom_mgt: {
         persona: "溫暖專業、擅長班級經營與正向常規引導的國中導師",
         recipients: "青春期國中生（需建立手機自律、專注與小組合作習慣）",
         aim: "設計一份適合佈置於教室的『班級合作 4 大公約』、一份『SEL 青春期情緒簽到表』，以及一組『破冰小天使互相鼓勵任務卡』。",
-        theme: "活潑親切、趣味互動且具備正向激勵效果",
-        structure: "以 Markdown 表格呈現，並條列重點"
+        theme: "活潑親切、趣味互動且具備正向激勵效果"
       },
       vibe_coding: {
         persona: "精通 HTML5 與教育科技互動設計的前端專家兼中學教師",
         recipients: "國中課堂全體學生（透過電子白板或大屏幕進行全班投影即時互動）",
         aim: "撰寫一個單一檔案、可直接用瀏覽器開啟的 HTML5 互動網頁，功能為『班級抽籤與獎勵大輪盤』，具備名單輸入框、旋轉動畫與音效慶祝效果。",
-        theme: "活潑親切、趣味互動且具備正向激勵效果",
-        structure: "輸出完整可執行的單頁 HTML/CSS/JS 網頁程式碼"
+        theme: "活潑親切、趣味互動且具備正向激勵效果"
       },
       custom: {
         persona: "臺北市國中專業教師",
         recipients: "國中學生與家長",
         aim: "請具體描述您的任務目標...",
-        theme: "條理清晰、嚴謹客觀、具備可操作性且無贅詞",
-        structure: "Markdown 表格 / 條列式清單"
+        theme: "條理清晰、嚴謹客觀、具備可操作性且無贅詞"
       }
     };
 
@@ -1715,55 +1755,46 @@
       document.getElementById('prompt-recipients').value = p.recipients;
       document.getElementById('prompt-aim').value = p.aim;
       document.getElementById('prompt-theme').value = p.theme;
-      document.getElementById('prompt-structure').value = p.structure;
       buildFinalPrompt();
     }
 
     function buildFinalPrompt() {
-      const persona = document.getElementById('prompt-persona').value.trim();
-      const recipients = document.getElementById('prompt-recipients').value.trim();
-      const aim = document.getElementById('prompt-aim').value.trim();
-      const theme = document.getElementById('prompt-theme').value;
-      const structure = document.getElementById('prompt-structure').value;
+      const persona = (document.getElementById('prompt-persona')?.value || '國中教師').trim();
+      const recipients = (document.getElementById('prompt-recipients')?.value || '學生與家長').trim();
+      const aim = (document.getElementById('prompt-aim')?.value || '設計教學活動').trim();
+      const theme = document.getElementById('prompt-theme')?.value || '溫暖專業';
 
-      const promptText = `【角色設定】
-你是一位「${persona}」。
-
-【對象／受眾】
-本次任務對象為「${recipients}」。
-
+      const promptText = `【角色設定】你是一位「${persona}」。
+【學習對象】本次對象為「${recipients}」。
 【具體任務】
 ${aim}
 
-【語氣風格】
-請採用「${theme}」的專業風格。
+【風格要求】採用「${theme}」風格。
+【重要守則】
+1. 嚴格去識別化：嚴禁包含任何真實學生姓名或隱私資料。
+2. 評量與目標請使用客觀、可觀察測量的具體行為動詞。
+3. 簡潔精準，直接輸出高品質教學或行政內容。
 
-【輸出架構】
-${structure}
+請以繁體中文直接輸出。`;
 
-【重要要求】
-1. 嚴格遵守個資保護：嚴禁包含任何真實學生姓名或可識別個人之隱私資料。
-2. 評量與目標請使用客觀、可觀察測量的具體行為動詞，避免模糊詞彙。
-3. 簡潔無冗贅，直切教學與行政操作核心。
-
-請以繁體中文直接輸出高品質內容。`;
-
-      document.getElementById('final-prompt-output').value = promptText;
+      const out = document.getElementById('final-prompt-output');
+      if (out) out.value = promptText;
     }
 
     function copyGeneratedPrompt() {
       const textarea = document.getElementById('final-prompt-output');
+      if (!textarea) return;
       textarea.select();
       navigator.clipboard.writeText(textarea.value).then(() => {
         const btnText = document.getElementById('copy-btn-text');
-        btnText.innerText = "✓ 已複製！";
+        if (btnText) btnText.innerText = "✓ 已成功複製！";
         setTimeout(() => {
-          btnText.innerText = "一鍵複製指令";
+          if (btnText) btnText.innerText = "一鍵複製指令";
         }, 2000);
       });
     }
 
-    // 4. 四大色系情緒卡片 (48 詞)
+    // ==================== 4. 四大色系情緒卡片 (48 詞) ====================
     const emotionCategories = [
       {
         category: "😨 恐懼類 (青色)",
@@ -1872,56 +1903,16 @@ ${structure}
       }
     ];
 
+    // 初始化呼叫
     window.addEventListener('DOMContentLoaded', () => {
-      buildFinalPrompt();
-      buildDirectory();
-      initQuizList();
-      buildQuiz();
-      renderIntegratedScenarios();
-      updateSlideView();
-      setupScrollListener();
+      try { buildFinalPrompt(); } catch (e) { console.error(e); }
+      try { buildDirectory(); } catch (e) { console.error(e); }
+      try { initQuizList(); } catch (e) { console.error(e); }
+      try { buildQuiz(); } catch (e) { console.error(e); }
+      try { renderIntegratedScenarios(); } catch (e) { console.error(e); }
+      try { updateSlideView(); } catch (e) { console.error(e); }
+      try { setupScrollListener(); } catch (e) { console.error(e); }
     });
-
-    // 主分頁切換 (百分之百可靠的切換邏輯)
-    function switchMainTab(tab) {
-      const allSections = document.querySelectorAll('.tab-section');
-      allSections.forEach(sec => {
-        sec.classList.remove('active');
-        sec.style.display = 'none';
-      });
-
-      const btnNames = ['prompt', 'slides', 'quiz', 'explore'];
-      btnNames.forEach(name => {
-        const btn = document.getElementById('nav-' + name + '-btn');
-        if (btn) {
-          btn.className = "px-2 sm:px-2.5 py-1 font-medium rounded-lg transition-all text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-1";
-        }
-      });
-
-      const targetSec = document.getElementById('section-' + tab);
-      const targetBtn = document.getElementById('nav-' + tab + '-btn');
-
-      if (targetSec) {
-        targetSec.classList.add('active');
-        targetSec.style.display = 'block';
-      }
-      if (targetBtn) {
-        targetBtn.className = "px-2 sm:px-2.5 py-1 font-bold rounded-lg transition-all bg-white text-indigo-600 shadow-sm shrink-0 flex items-center gap-1";
-      }
-
-      const progressContainer = document.getElementById('reading-progress-container');
-      if (progressContainer) {
-        progressContainer.style.opacity = (tab === 'slides') ? '1' : '0';
-      }
-
-      if (tab === 'slides') {
-        updateSlideView();
-      }
-
-      try {
-        window.scrollTo(0, 0);
-      } catch (e) {}
-    }
 
     // ==================== 講義閱讀邏輯 ====================
     function toggleViewMode() {
@@ -1932,14 +1923,15 @@ ${structure}
       const slideCards = document.querySelectorAll('.slide-card');
 
       if (isFullView) {
-        btnText.innerText = "切換為「單頁卡片」";
-        btnIcon.innerText = "🎴";
+        if (btnText) btnText.innerText = "切換為「單頁卡片」";
+        if (btnIcon) btnIcon.innerText = "🎴";
         if (pagination) pagination.classList.add('hidden');
         slideCards.forEach(card => card.classList.remove('hidden'));
-        document.getElementById('current-slide-indicator').innerText = "長卷模式 (全 14 頁)";
+        const ind = document.getElementById('current-slide-indicator');
+        if (ind) ind.innerText = "長卷模式 (全 14 頁)";
       } else {
-        btnText.innerText = "切換為「長卷瀏覽」";
-        btnIcon.innerText = "📑";
+        if (btnText) btnText.innerText = "切換為「長卷瀏覽」";
+        if (btnIcon) btnIcon.innerText = "📑";
         if (pagination) pagination.classList.remove('hidden');
         updateSlideView();
       }
@@ -2478,6 +2470,7 @@ ${structure}
         { key: "placating", name: "🙇‍♂️ 討好型", color: "from-blue-500 to-indigo-500" },
         { key: "blaming", name: "🫵 指責型", color: "from-rose-500 to-amber-500" },
         { key: "super_reasonable", name: "🧐 超理智型", color: "from-purple-500 to-indigo-600" },
+        { key: "irrelevant", name: "🤪 打岔型", color: "from-teal-5000 to-indigo-600" },
         { key: "irrelevant", name: "🤪 打岔型", color: "from-teal-500 to-emerald-500" },
         { key: "congruent", name: "🤝 一致型", color: "from-emerald-500 to-teal-600" }
       ];
@@ -2558,3 +2551,11 @@ ${structure}
   </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print("Finished generating perfect 8/22 compatible index.html!")
+EOF
+python3 generate_perfect_822.py
